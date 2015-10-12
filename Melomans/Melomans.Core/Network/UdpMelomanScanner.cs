@@ -10,7 +10,12 @@ namespace Melomans.Core.Network
 {
 	public class UdpMelomanScanner : IMelomansScanner
 	{
+		readonly static Guid ScanMessage = Guid.Parse("56B87012-CD02-4F57-9FC9-7907B75D4D47");
+
+		private static readonly Guid UserInfoMessage = Guid.Parse("A551F1DB-F5C6-4C3E-97E7-89E333EFED20");
+
 		private readonly INetworkSettngs _settngs;
+		private readonly ISession _session;
 		private UdpSocketMulticastClient _client;
 		private readonly DataContractJsonSerializer _serializer;
 		private readonly IList<Token> _tokens;
@@ -38,9 +43,10 @@ namespace Melomans.Core.Network
 			}
 		}
 
-		public UdpMelomanScanner(INetworkSettngs settngs)
+		public UdpMelomanScanner(INetworkSettngs settngs, ISession session)
 		{
 			_settngs = settngs;
+			_session = session;
 			_serializer = new DataContractJsonSerializer(typeof(Meloman));
 			_tokens = new List<Token>();
 		
@@ -72,16 +78,26 @@ namespace Melomans.Core.Network
 				_client.TTL = 10;
 				_client.MessageReceived += MessageReceived;
 				await _client.JoinMulticastGroupAsync(_settngs.MulticastAddress, _settngs.MulticastPort);
-				
 			}
+			await _client.SendMulticastAsync(ScanMessage.ToByteArray());
 		}
 
 		private void MessageReceived(object sender, UdpSocketMessageReceivedEventArgs e)
 		{
-			var meloman = ((Meloman) _serializer.ReadObject(new MemoryStream(e.ByteData)));
-			foreach (var token in _tokens)
+			var memoryStream = new MemoryStream(e.ByteData);
+			var buffer = new byte[16];
+			memoryStream.Read(buffer, 0, 16);
+			var guid = new Guid(buffer);
+			if (UserInfoMessage == guid)
 			{
-				token.Send(meloman);
+				var meloman = ((Meloman) _serializer.ReadObject(memoryStream));
+				foreach (var token in _tokens)
+				{
+					token.Send(meloman);
+				}
+			}else if (guid == ScanMessage)
+			{
+
 			}
 		}
 	}
