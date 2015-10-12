@@ -37,6 +37,9 @@
   <ItemGroup>
     <Compile Include="Models\Meloman.cs" />
     <Compile Include="Network\IMelomansScanner.cs" />
+    <Compile Include="Network\IMessage.cs" />
+    <Compile Include="Network\INetTask.cs" />
+    <Compile Include="Network\INetworkEventAgriggator.cs" />
     <Compile Include="Network\INetworkSettngs.cs" />
     <Compile Include="Network\UdpMelomanScanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
