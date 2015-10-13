@@ -36,6 +36,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Models\Meloman.cs" />
+    <Compile Include="Network\AccessCroups.cs" />
+    <Compile Include="Network\AccessAttribute.cs" />
     <Compile Include="Network\IMelomansScanner.cs" />
     <Compile Include="Network\IMessage.cs" />
     <Compile Include="Network\INetTask.cs" />
