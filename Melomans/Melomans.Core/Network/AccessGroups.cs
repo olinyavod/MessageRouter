@@ -4,7 +4,7 @@ namespace Melomans.Core.Network
 {
 	/// <summary>Группы функций</summary>
 	[DataContract]
-	public enum AccessCroups
+	public enum AccessGroups
 	{
 		/// <summary>Системный функции</summary>
 		[EnumMember]

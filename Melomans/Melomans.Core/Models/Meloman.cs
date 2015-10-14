@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Melomans.Core.Network;
 
 namespace Melomans.Core.Models
 {
@@ -30,11 +31,11 @@ namespace Melomans.Core.Models
 
 		/// <summary>Разришения пользователя которые он дал другим пользователям</summary>
 		[DataMember]
-		IEnumerable<Guid> InnerPermissins { get; set; }
+		IEnumerable<AccessGroups> InnerPermissins { get; set; }
 
 		/// <summary>Разрешения назначеные пользователю пользователем устройства</summary>
 		[IgnoreDataMember]
-		public IList<Guid> OuterPermissions { get; set; }
+		public IList<AccessGroups> OuterPermissions { get; set; }
 
 		/// <summary>Сколько времени назад отпользователя происходило действие (если это значение боьше 10 секунд то пользователь не всети)</summary>
 		[IgnoreDataMember]

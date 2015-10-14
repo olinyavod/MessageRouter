@@ -35,18 +35,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Message\EchoMessage.cs" />
+    <Compile Include="Message\HelloMessage.cs" />
+    <Compile Include="Message\IMessage.cs" />
     <Compile Include="Models\Meloman.cs" />
-    <Compile Include="Network\AccessCroups.cs" />
-    <Compile Include="Network\AccessAttribute.cs" />
+    <Compile Include="Network\AccessGroups.cs" />
+    <Compile Include="Network\MessageAttribute.cs" />
     <Compile Include="Network\IMelomansScanner.cs" />
-    <Compile Include="Network\IMessage.cs" />
     <Compile Include="Network\IMessageSerializer.cs" />
-    <Compile Include="Network\INetTask.cs" />
+    <Compile Include="Network\INetworkTask.cs" />
     <Compile Include="Network\INetworkEventAgriggator.cs" />
     <Compile Include="Network\INetworkSettngs.cs" />
+    <Compile Include="Network\INetworkTaskFactory.cs" />
     <Compile Include="Network\ISession.cs" />
     <Compile Include="Network\JsonMessageSerializer.cs" />
     <Compile Include="Network\UdpMelomanScanner.cs" />
+    <Compile Include="Network\UdpMulticastSenderTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
