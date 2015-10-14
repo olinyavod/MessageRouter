@@ -38,6 +38,7 @@
     <Compile Include="Message\EchoMessage.cs" />
     <Compile Include="Message\HelloMessage.cs" />
     <Compile Include="Message\IMessage.cs" />
+    <Compile Include="Message\IStremingMessage.cs" />
     <Compile Include="Models\Meloman.cs" />
     <Compile Include="Network\AccessGroups.cs" />
     <Compile Include="Network\MessageAttribute.cs" />
@@ -49,6 +50,8 @@
     <Compile Include="Network\INetworkTaskFactory.cs" />
     <Compile Include="Network\ISession.cs" />
     <Compile Include="Network\JsonMessageSerializer.cs" />
+    <Compile Include="Network\NetworkState.cs" />
+    <Compile Include="Network\TcpAddressTask.cs" />
     <Compile Include="Network\UdpMelomanScanner.cs" />
     <Compile Include="Network\UdpMulticastSenderTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

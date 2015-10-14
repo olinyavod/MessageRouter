@@ -5,5 +5,7 @@
 		string MulticastAddress { get; }
 
 		int MulticastPort { get; }
+
+		int BufferSize { get; }
 	}
 }
