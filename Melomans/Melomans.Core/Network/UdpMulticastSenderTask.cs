@@ -51,12 +51,15 @@ namespace Melomans.Core.Network
 			return this;
 		}
 
+
+
 		public async void Run()
 		{
 			MemoryStream stream = null;
 			try
 			{
-				stream = new MemoryStream(typeof(TMessage).GetTypeInfo().GUID.ToByteArray());
+
+				stream = new MemoryStream();
 				await _serializer.WriteMessage(_message, stream);
 				await _client.SendMulticastAsync(stream.ToArray());
 				if (_onComplite != null)

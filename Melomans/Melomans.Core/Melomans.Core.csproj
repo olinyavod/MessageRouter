@@ -38,7 +38,10 @@
     <Compile Include="Message\EchoMessage.cs" />
     <Compile Include="Message\HelloMessage.cs" />
     <Compile Include="Message\IMessage.cs" />
+    <Compile Include="Message\IMessageService.cs" />
     <Compile Include="Message\IStremingMessage.cs" />
+    <Compile Include="Message\MessageDefinition.cs" />
+    <Compile Include="Message\MessageService.cs" />
     <Compile Include="Models\Meloman.cs" />
     <Compile Include="Network\AccessGroups.cs" />
     <Compile Include="Network\MessageAttribute.cs" />

@@ -7,6 +7,8 @@ namespace Melomans.Core.Network
 	{
 		public AccessGroups Group { get; private set; }
 
+		public string MessageId { get; set; }
+
 		public MessageAttribute(AccessGroups group)
 		{
 			Group = @group;
