@@ -4,7 +4,7 @@ using Melomans.Core.Network;
 
 namespace Melomans.Core.Message
 {
-	public class MessageService : IMessageService, IMessageService
+	public class MessageService : IMessageService
 	{
 		public MessageDefinition GetDefinition(Type type)
 		{

@@ -1,6 +1,7 @@
 ﻿using Melomans.Core.Models;
 using System;
 using Melomans.Core.Message;
+using System.IO;
 
 namespace Melomans.Core.Network
 {
@@ -11,11 +12,19 @@ namespace Melomans.Core.Network
 
 		Meloman For { get; }
 
+		INetworkTask<TMessage> OnStart(Action<TMessage> onStart);
+
+		INetworkTask<TMessage> OnCancelled(Action<TMessage> onCancelled);
+			
 		INetworkTask<TMessage> OnException(Action<Exception> onCatch);
 
-		INetworkTask<TMessage> OnComplite(Action<TMessage> onComplite);
+		INetworkTask<TMessage> OnSuccess(Action<TMessage> onSuccess);
 
-		INetworkTask<TMessage> OnReport(Action<int> onReport);
+		INetworkTask<TMessage> GetStream(Func<TMessage, Stream> getStream);
+			
+		INetworkTask<TMessage> OnFinally(Action<TMessage> onFinally);
+
+		INetworkTask<TMessage> OnReport(Action<ProgressInfo<TMessage>> onReport);
 
 		void Cancel();
 

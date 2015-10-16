@@ -15,6 +15,6 @@ namespace Melomans.Core.Network
 		Error,
 
 		[EnumMember]
-		SendingCancelled;
+		SendingCancelled
 	}
 }

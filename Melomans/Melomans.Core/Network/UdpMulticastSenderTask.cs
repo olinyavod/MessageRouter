@@ -2,80 +2,75 @@
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
+using System.Threading;
 using Melomans.Core.Models;
 using Melomans.Core.Message;
 using Sockets.Plugin.Abstractions;
 
 namespace Melomans.Core.Network
 {
-	class UdpMulticastSenderTask<TMessage> : INetworkTask<TMessage>
+	public class UdpMulticastSenderTask<TMessage> : NetworkTaskBase<TMessage>
 		where TMessage:class, IMessage
 	{
 		private readonly TMessage _message;
 		private readonly IMessageSerializer _serializer;
+		private readonly IMessageService _messageService;
 		private readonly IUdpSocketMulticastClient _client;
-		private Action<TMessage> _onComplite;
-		private Action<Exception> _onCatch;
 
-		public UdpMulticastSenderTask(TMessage message, IMessageSerializer serializer, IUdpSocketMulticastClient client)
+		public UdpMulticastSenderTask(TMessage message, 
+			IMessageSerializer serializer,
+			IMessageService messageService,
+			IUdpSocketMulticastClient client)
 		{
 			_message = message;
 			_serializer = serializer;
+			_messageService = messageService;
 			_client = client;
 		}
 
-		public Meloman For
-		{
-			get { return null; }
-		}
-
-		public void Cancel()
-		{
-			
-		}
-
-		public INetworkTask<TMessage> OnComplite(Action<TMessage> onComplite)
-		{
-			_onComplite = onComplite;
-			return this;
-		}
-
-		public INetworkTask<TMessage> OnException(Action<Exception> onCatch)
-		{
-			_onCatch = onCatch;
-			return this;
-		}
-
-		public INetworkTask<TMessage> OnReport(Action<int> onReport)
-		{
-			return this;
-		}
+		public override Meloman For { get { throw new NotSupportedException(); } }
 
 
-
-		public async void Run()
+		protected async override void Run(CancellationToken cancellationToken)
 		{
 			MemoryStream stream = null;
 			try
 			{
-
-				stream = new MemoryStream();
-				await _serializer.WriteMessage(_message, stream);
+				var definition = _messageService.GetDefinition<TMessage>();
+				var bytes = Encoding.UTF8.GetBytes(definition.MessageId);
+				stream = new MemoryStream(BitConverter.GetBytes((ulong) bytes.Length));
+				await stream.WriteAsync(bytes, 0, bytes.Length);
+				await _serializer.WriteMessage(Message, stream);
 				await _client.SendMulticastAsync(stream.ToArray());
-				if (_onComplite != null)
-					_onComplite(_message);
-			}
-			catch (Exception ex)
-			{
-				if (_onCatch != null)
-					_onCatch(ex);
+				RaiseSuccess(Message);
 			}
 			finally
 			{
 				if (stream != null)
 					stream.Dispose();
 			}
-			
+
+		}
+
+		public override void Cancel()
+		{
+			throw new NotSupportedException();
+		}
+
+		public override INetworkTask<TMessage> GetStream(Func<TMessage, Stream> getStream)
+		{
+			throw new NotSupportedException();
+		}
+
+		public override INetworkTask<TMessage> OnReport(Action<ProgressInfo<TMessage>> onReport)
+		{
+			throw new NotSupportedException();
+		}
+
+		protected override TMessage Message
+		{
+			get { return _message; }
 		}
 	}
 }

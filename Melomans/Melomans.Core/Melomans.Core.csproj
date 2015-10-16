@@ -54,6 +54,8 @@
     <Compile Include="Network\ISession.cs" />
     <Compile Include="Network\JsonMessageSerializer.cs" />
     <Compile Include="Network\NetworkState.cs" />
+    <Compile Include="Network\NetworkTaskBase.cs" />
+    <Compile Include="Network\ProgressInfo.cs" />
     <Compile Include="Network\TcpAddressTask.cs" />
     <Compile Include="Network\UdpMelomanScanner.cs" />
     <Compile Include="Network\UdpMulticastSenderTask.cs" />

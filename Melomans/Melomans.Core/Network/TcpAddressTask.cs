@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.ServiceModel.Security;
 using System.Text;
@@ -14,123 +15,115 @@ using Sockets.Plugin.Abstractions;
 
 namespace Melomans.Core.Network
 {
-	public class TcpAddressTask<TMessage> : INetworkTask<TMessage>
+	public class TcpAddressTask<TMessage> : NetworkTaskBase<TMessage>, INetworkTask<TMessage>
 		where TMessage:class, IMessage
 	{
 		private readonly Meloman _meloman;
 		private readonly TMessage _message;
 		private readonly IMessageSerializer _serializer;
+		private readonly IMessageService _messageService;
 		private readonly INetworkSettngs _settngs;
-		private Action<TMessage> _onComplite;
-		private Action<Exception> _onCatch;
-		private Action<int> _onReport;
-		private readonly CancellationTokenSource _cancellationTokenSource;
 
 		public TcpAddressTask(Meloman meloman, 
 			TMessage message,
 			IMessageSerializer serializer,
+			IMessageService messageService,
 			INetworkSettngs settngs)
 		{
 			_meloman = meloman;
 			_message = message;
 			_serializer = serializer;
+			_messageService = messageService;
 			_settngs = settngs;
-			_cancellationTokenSource = new CancellationTokenSource();
+
 		}
 
-		public Meloman For
+		public override Meloman For
 		{
 			get { return _meloman; }
 		}
 
-		public void Cancel()
+		private async Task<bool> GetResponse(Stream readStream, CancellationToken cancellationToken)
 		{
-			_cancellationTokenSource.Cancel();
-		}
-
-		public INetworkTask<TMessage> OnComplite(Action<TMessage> onComplite)
-		{
-			_onComplite = onComplite;
-			return this;
-		}
-
-		public INetworkTask<TMessage> OnException(Action<Exception> onCatch)
-		{
-			_onCatch = onCatch;
-			return this;
-		}
-
-		public INetworkTask<TMessage> OnReport(Action<int> onReport)
-		{
-			_onReport = onReport;
-			return this;
-		}
-
-		private async Task<bool> GetResponse(Stream readStream)
-		{
-			var buffer = new byte[1024];
-			var readedCount = await readStream.ReadAsync(buffer, 0, buffer.Length, _cancellationTokenSource.Token);
-			if (_cancellationTokenSource.IsCancellationRequested)
+			MemoryStream memoryBuffer = null;
+			try
 			{
-				_onComplite(_message);
-				return false;
+				var buffer = new byte[1024];
+				memoryBuffer = new MemoryStream();
+				int readedCount = 0;
+				do
+				{
+					readedCount = await readStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+					await memoryBuffer.WriteAsync(buffer, 0, readedCount);
+				} while (readedCount > 0);
+				if (IsCancellationRequested)
+					throw new OperationCanceledException();
+
+				NetworkState responseCode;
+				if (!Enum.TryParse(Encoding.UTF8.GetString(memoryBuffer.ToArray(), 0, (int) memoryBuffer.Length), out responseCode))
+					throw new InvalidDataException();
+
+				switch (responseCode)
+				{
+					case NetworkState.AccessDenied:
+						throw new SecurityAccessDeniedException(string.Format("Access denied for type message {0}", typeof (TMessage)));
+					case NetworkState.Error:
+						throw new IOException();
+				}
+				return true;
 			}
-
-			NetworkState responseCode;
-			if (!Enum.TryParse(Encoding.UTF8.GetString(buffer, 0, readedCount), out responseCode))
-				throw new InvalidDataException();
-
-			switch (responseCode)
+			finally
 			{
-				case NetworkState.AccessDenied:
-					throw new SecurityAccessDeniedException(string.Format("Access denied for type message {0}", typeof(TMessage)));
-				case NetworkState.Error:
-					throw new IOException();
+				if(memoryBuffer != null)
+					memoryBuffer.Dispose();
 			}
-			return true;
 		}
 
-		public async void Run()
+		protected async override void Run(CancellationToken cancellationToken)
 		{
 			TcpSocketClient client = null;
 			try
 			{
-				client = new TcpSocketClient();
+				if (!_messageService.CanSend(For.Id, typeof (TMessage)))
+					throw new SecurityAccessDeniedException(string.Format("Access denied for type message {0}", typeof (TMessage)));
+                client = new TcpSocketClient();
 				await client.ConnectAsync(_meloman.IpAddress, _meloman.Port);
-				var buffer = typeof (TMessage).GetTypeInfo().GUID.ToByteArray();
-				client.WriteStream.Write(buffer, 0, buffer.Length);
-				await client.WriteStream.FlushAsync(_cancellationTokenSource.Token);
-				if(!await GetResponse(client.ReadStream))
+				var definition = _messageService.GetDefinition<TMessage>();
+				var bufferName = Encoding.UTF8.GetBytes(definition.MessageId);
+				var buffer = BitConverter.GetBytes((ulong) bufferName.Length);
+				await client.WriteStream.WriteAsync(buffer, 0, buffer.Length);
+				await client.WriteStream.WriteAsync(bufferName, 0, bufferName.Length);
+				await client.WriteStream.FlushAsync(cancellationToken);
+				if(!await GetResponse(client.ReadStream, cancellationToken))
 					return;
-				if (_cancellationTokenSource.IsCancellationRequested)
-				{
-					_onComplite(_message);
-					return;
-				}
+				if (IsCancellationRequested)
+					throw new OperationCanceledException();
 				
 				await _serializer.WriteMessage(_message, client.WriteStream);
-				if (_cancellationTokenSource.IsCancellationRequested)
-				{
-					_onComplite(_message);
+				if (IsCancellationRequested)
+					throw new OperationCanceledException();
+				
+				await client.WriteStream.FlushAsync(cancellationToken);
+				if(!await GetResponse(client.ReadStream, cancellationToken))
 					return;
-				}
-				await client.WriteStream.FlushAsync(_cancellationTokenSource.Token);
-				if(!await GetResponse(client.ReadStream))
-					return;
-				var streaming = _message as IStreamingMessage;
+				var streaming = Message as IStreamingMessage;
 				if (streaming != null)
 				{
-					
+					var readedCount = 0;
+					ulong readed = 0;
+					buffer = new byte[2048];
+					do
+					{
+						readedCount = await streaming.Stream.ReadAsync(buffer, 0, buffer.Length);
+						await client.WriteStream.WriteAsync(buffer, 0, readedCount, cancellationToken);
+						await client.WriteStream.FlushAsync(cancellationToken);
+						if(IsCancellationRequested)
+							throw new OperationCanceledException();
+						readed += (ulong) readedCount;
+						RaiseReport(new ProgressInfo<TMessage>(_message, streaming.StreamLength, readed));
+					} while (readedCount > 0);
 				}
-				if (_onComplite != null)
-					_onComplite(_message);
-
-
-			}
-			catch (Exception ex)
-			{
-				if (_onCatch != null)
-					_onCatch(ex);
+				RaiseSuccess(Message);
 			}
 			finally
 			{
@@ -138,6 +131,11 @@ namespace Melomans.Core.Network
 				if(client != null)
 					client.Dispose();
 			}
+		}
+
+		protected override TMessage Message
+		{
+			get { return _message; }
 		}
 	}
 }
