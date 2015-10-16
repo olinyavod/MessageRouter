@@ -44,6 +44,7 @@
     <Compile Include="Message\MessageService.cs" />
     <Compile Include="Models\Meloman.cs" />
     <Compile Include="Network\AccessGroups.cs" />
+    <Compile Include="Network\IMessageSubscrubtion.cs" />
     <Compile Include="Network\MessageAttribute.cs" />
     <Compile Include="Network\IMelomansScanner.cs" />
     <Compile Include="Network\IMessageSerializer.cs" />
@@ -53,8 +54,10 @@
     <Compile Include="Network\INetworkTaskFactory.cs" />
     <Compile Include="Network\ISession.cs" />
     <Compile Include="Network\JsonMessageSerializer.cs" />
+    <Compile Include="Network\NetworkMessagesRouter.cs" />
     <Compile Include="Network\NetworkState.cs" />
     <Compile Include="Network\NetworkTaskBase.cs" />
+    <Compile Include="Network\NetworkTaskFactory.cs" />
     <Compile Include="Network\ProgressInfo.cs" />
     <Compile Include="Network\TcpAddressTask.cs" />
     <Compile Include="Network\UdpMelomanScanner.cs" />

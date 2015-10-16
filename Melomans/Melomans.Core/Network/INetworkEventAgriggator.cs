@@ -7,6 +7,8 @@ namespace Melomans.Core.Network
 {
 	public interface INetworkEventAgriggator : IDisposable
 	{
+		void Initialize();
+
 		INetworkTask<TMessage> Publish<TMessage>(TMessage message)
 			where TMessage : class, IMessage;
 		
