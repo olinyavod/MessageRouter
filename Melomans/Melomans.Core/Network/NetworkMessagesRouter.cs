@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using Melomans.Core.Message;
 using Melomans.Core.Models;
 using Sockets.Plugin;
 using Sockets.Plugin.Abstractions;
+using System.Threading.Tasks;
 
 namespace Melomans.Core.Network
 {
@@ -33,14 +36,43 @@ namespace Melomans.Core.Network
 
 		}
 
-		private void MessageReceived(object sender, UdpSocketMessageReceivedEventArgs e)
+		private async void MessageReceived(object sender, UdpSocketMessageReceivedEventArgs e)
 		{
-			throw new NotImplementedException();
+			MemoryStream stream = null;
+			try
+			{
+				stream = new MemoryStream(e.ByteData);
+				var value = await GetSubscrubtion(e.RemoteAddress, stream);
+				if (value != null)
+				{
+					value.ReceivedMessage(stream);
+				}
+
+			}
+			finally
+			{
+				if(stream != null)
+					stream.Dispose();
+			}
+		}
+
+		async Task<IMessageSubscrubtion> GetSubscrubtion(string senderAddress, Stream stream)
+		{
+			var buffer = new byte[8];
+			var readeCount = await stream.ReadAsync(buffer, 0, buffer.Length);
+			var sizeKey = BitConverter.ToUInt64(buffer, 0);
+			buffer = new byte[sizeKey];
+			readeCount = await stream.ReadAsync(buffer, 0, buffer.Length);
+			var key = Encoding.UTF8.GetString(buffer, 0, readeCount);
+			IMessageSubscrubtion value;
+			if (_messageSubscrubtions.TryGetValue(key, value: out value))
+				return value;
+			return null;
 		}
 
 		private void ConnectionReceived(object sender, TcpSocketListenerConnectEventArgs e)
 		{
-			throw new NotImplementedException();
+			var value = GetSubscrubtion(e.SocketClient.RemoteAddress, e.SocketClient.ReadStream);
 		}
 
 		public void Initialize()
