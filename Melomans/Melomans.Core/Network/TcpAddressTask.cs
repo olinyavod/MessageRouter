@@ -89,10 +89,8 @@ namespace Melomans.Core.Network
                 client = new TcpSocketClient();
 				await client.ConnectAsync(_meloman.IpAddress, _meloman.Port);
 				var definition = _messageService.GetDefinition<TMessage>();
-				var bufferName = Encoding.UTF8.GetBytes(definition.MessageId);
-				var buffer = BitConverter.GetBytes((ulong) bufferName.Length);
+				var buffer = BitConverter.GetBytes(_messageService.CreateMessageHash(definition));
 				await client.WriteStream.WriteAsync(buffer, 0, buffer.Length);
-				await client.WriteStream.WriteAsync(bufferName, 0, bufferName.Length);
 				await client.WriteStream.FlushAsync(cancellationToken);
 				if(!await GetResponse(client.ReadStream, cancellationToken))
 					return;
@@ -111,6 +109,7 @@ namespace Melomans.Core.Network
 				{
 					var readedCount = 0;
 					ulong readed = 0;
+					RaiseReport(new ProgressInfo<TMessage>(_message, streaming.StreamLength, readed));
 					buffer = new byte[2048];
 					do
 					{

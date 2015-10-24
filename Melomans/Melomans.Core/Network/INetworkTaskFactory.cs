@@ -13,10 +13,7 @@ namespace Melomans.Core.Network
 		INetworkTask<TMessage> CreateAddressTask<TMessage>(Meloman meloman, TMessage message)
 			where TMessage : class, IMessage;
 
-		INetworkTask<TMessage> CreateMulticastReaderTask<TMessage>() 
-			where TMessage : class, IMessage;
-
-		INetworkTask<TMessage> CreateAddressReaderTask<TMessage>()
-			where TMessage : class, IMessage;
+		INetworkTask<TMessage> CreateReceivedTask<TMessage>(Meloman meloman, IRemoteClient client)
+			where TMessage: class, IMessage;
 	}
 }

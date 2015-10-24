@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Message\DisconnectMessage.cs" />
     <Compile Include="Message\EchoMessage.cs" />
     <Compile Include="Message\HelloMessage.cs" />
     <Compile Include="Message\IMessage.cs" />
@@ -44,7 +45,8 @@
     <Compile Include="Message\MessageService.cs" />
     <Compile Include="Models\Meloman.cs" />
     <Compile Include="Network\AccessGroups.cs" />
-    <Compile Include="Network\IMessageSubscrubtion.cs" />
+    <Compile Include="Network\IMessageSubscription.cs" />
+    <Compile Include="Network\IRemoteClient.cs" />
     <Compile Include="Network\MessageAttribute.cs" />
     <Compile Include="Network\IMelomansScanner.cs" />
     <Compile Include="Network\IMessageSerializer.cs" />
@@ -54,13 +56,16 @@
     <Compile Include="Network\INetworkTaskFactory.cs" />
     <Compile Include="Network\ISession.cs" />
     <Compile Include="Network\JsonMessageSerializer.cs" />
+    <Compile Include="Network\MessageReceiveTask.cs" />
+    <Compile Include="Network\MessageSubscription.cs" />
+    <Compile Include="Network\MulticastRemoteClient.cs" />
     <Compile Include="Network\NetworkMessagesRouter.cs" />
     <Compile Include="Network\NetworkState.cs" />
     <Compile Include="Network\NetworkTaskBase.cs" />
     <Compile Include="Network\NetworkTaskFactory.cs" />
     <Compile Include="Network\ProgressInfo.cs" />
     <Compile Include="Network\TcpAddressTask.cs" />
-    <Compile Include="Network\UdpMelomanScanner.cs" />
+    <Compile Include="Network\TcpRemoteClient.cs" />
     <Compile Include="Network\UdpMulticastSenderTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

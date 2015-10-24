@@ -16,7 +16,7 @@ namespace Melomans.Core.Network
 		private readonly INetworkSettngs _networkSettngs;
 		private readonly IMessageService _messageService;
 		private readonly INetworkTaskFactory _taskFactory;
-		private readonly IDictionary<string, IMessageSubscrubtion> _messageSubscrubtions;
+		private readonly IDictionary<long, IMessageSubscription> _messageSubscrubtions;
 		private readonly UdpSocketMulticastClient _multicastClient;
 		private readonly TcpSocketListener _listener;
 
@@ -28,7 +28,7 @@ namespace Melomans.Core.Network
 			_networkSettngs = networkSettngs;
 			_messageService = messageService;
 			_taskFactory = taskFactory;
-			_messageSubscrubtions = new ConcurrentDictionary<string, IMessageSubscrubtion>();
+			_messageSubscrubtions = new ConcurrentDictionary<long, IMessageSubscription>();
 			_multicastClient = new UdpSocketMulticastClient();
 			_multicastClient.MessageReceived += MessageReceived;
 			_listener = new TcpSocketListener(networkSettngs.BufferSize);
@@ -45,7 +45,7 @@ namespace Melomans.Core.Network
 				var value = await GetSubscrubtion(e.RemoteAddress, stream);
 				if (value != null)
 				{
-					value.ReceivedMessage(stream);
+					value.ReceivedMessage(null, new MulticastRemoteClient(stream));
 				}
 
 			}
@@ -56,24 +56,35 @@ namespace Melomans.Core.Network
 			}
 		}
 
-		async Task<IMessageSubscrubtion> GetSubscrubtion(string senderAddress, Stream stream)
+		async Task<IMessageSubscription> GetSubscrubtion(string senderAddress, Stream stream)
 		{
 			var buffer = new byte[8];
-			
 			var readeCount = await stream.ReadAsync(buffer, 0, buffer.Length);
-			var sizeKey = BitConverter.ToUInt64(buffer, 0);
-			buffer = new byte[sizeKey];
-			readeCount = await stream.ReadAsync(buffer, 0, buffer.Length);
-			var key = Encoding.UTF8.GetString(buffer, 0, readeCount);
-			IMessageSubscrubtion value;
-			if (_messageSubscrubtions.TryGetValue(key, value: out value))
+			var key = BitConverter.ToInt64(buffer, 0);
+			IMessageSubscription value;
+			if (_messageSubscrubtions.TryGetValue(key, out value))
 				return value;
 			return null;
 		}
 
-		private void ConnectionReceived(object sender, TcpSocketListenerConnectEventArgs e)
+		private async void ConnectionReceived(object sender, TcpSocketListenerConnectEventArgs e)
 		{
-			var value = GetSubscrubtion(e.SocketClient.RemoteAddress, e.SocketClient.ReadStream);
+			var value = await GetSubscrubtion(e.SocketClient.RemoteAddress, e.SocketClient.ReadStream);
+			if (value != null)
+			{
+				var buffer = Encoding.UTF8.GetBytes(NetworkState.Ok.ToString());
+				await e.SocketClient.WriteStream.WriteAsync(buffer, 0, buffer.Length);
+				await e.SocketClient.WriteStream.FlushAsync();
+				value.ReceivedMessage(null, new TcpRemoteClient(e.SocketClient));
+			}
+			else
+			{
+				var buffer = Encoding.UTF8.GetBytes(NetworkState.AccessDenied.ToString());
+				await e.SocketClient.WriteStream.WriteAsync(buffer, 0, buffer.Length);
+				await e.SocketClient.WriteStream.FlushAsync();
+				await e.SocketClient.DisconnectAsync();
+				e.SocketClient.Dispose();
+			}
 		}
 
 		public void Initialize()
@@ -96,9 +107,14 @@ namespace Melomans.Core.Network
 				yield return _taskFactory.CreateAddressTask(meloman, message);
 		}
 
-		public IDisposable Subscribe<TMessage>(Action<INetworkTask<TMessage>> action) where TMessage : class, IMessage
+		public IDisposable Subscribe<TMessage>(Action<INetworkTask<TMessage>> action) 
+			where TMessage : class, IMessage
 		{
-			throw new NotImplementedException();
+			var definition = _messageService.GetDefinition<TMessage>();
+			var id = _messageService.CreateMessageHash(definition);
+			var result = new MessageSubscription<TMessage>(id, definition, _taskFactory, action, _messageSubscrubtions);
+			_messageSubscrubtions.Add(id, result);
+			return result;
 		}
 
 		#region IDisposable Support

@@ -21,26 +21,20 @@ namespace Melomans.Core.Network
 			_networkSettngs = networkSettngs;
 		}
 
-		public INetworkTask<TMessage> CreateAddressReaderTask<TMessage>()
-			where TMessage : class, IMessage
-		{
-			throw new NotImplementedException();
-		}
-
 		public INetworkTask<TMessage> CreateAddressTask<TMessage>(Meloman meloman, TMessage message)
 			where TMessage : class, IMessage
 		{
 			return new TcpAddressTask<TMessage>(meloman, message, _messageSerializer, _messageService, _networkSettngs);
 		}
 
-		public INetworkTask<TMessage> CreateMulticastReaderTask<TMessage>() where TMessage : class, IMessage
-		{
-			throw new NotImplementedException();
-		}
-
 		public INetworkTask<TMessage> CreateMulticastTask<TMessage>(TMessage message, UdpSocketMulticastClient client) where TMessage : class, IMessage
 		{
 			return new UdpMulticastSenderTask<TMessage>(message, _messageSerializer, _messageService, client);
+		}
+
+		public INetworkTask<TMessage> CreateReceivedTask<TMessage>(Meloman meloman, IRemoteClient client) where TMessage : class, IMessage
+		{
+			return new MessageReceiveTask<TMessage>(meloman, client, _messageSerializer);
 		}
 	}
 }

@@ -38,9 +38,7 @@ namespace Melomans.Core.Network
 			try
 			{
 				var definition = _messageService.GetDefinition<TMessage>();
-				var bytes = Encoding.UTF8.GetBytes(definition.MessageId);
-				stream = new MemoryStream(BitConverter.GetBytes((ulong) bytes.Length));
-				await stream.WriteAsync(bytes, 0, bytes.Length);
+				stream = new MemoryStream(BitConverter.GetBytes(_messageService.CreateMessageHash(definition)));
 				await _serializer.WriteMessage(Message, stream);
 				await _client.SendMulticastAsync(stream.ToArray());
 				RaiseSuccess(Message);
