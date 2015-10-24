@@ -59,6 +59,7 @@ namespace Melomans.Core.Network
 		async Task<IMessageSubscrubtion> GetSubscrubtion(string senderAddress, Stream stream)
 		{
 			var buffer = new byte[8];
+			
 			var readeCount = await stream.ReadAsync(buffer, 0, buffer.Length);
 			var sizeKey = BitConverter.ToUInt64(buffer, 0);
 			buffer = new byte[sizeKey];

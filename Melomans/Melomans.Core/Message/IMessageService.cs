@@ -12,5 +12,8 @@ namespace Melomans.Core.Message
 		bool CanSend(string userId, Type type);
 
 		bool CanReceive(string userId, Type type);
+
+		long CreateMessageHash(MessageDefinition messageDefinition);
+
 	}
 }
