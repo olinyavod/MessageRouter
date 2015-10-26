@@ -123,10 +123,11 @@ namespace Melomans.Core.Network
 					} while (readedCount > 0);
 				}
 				RaiseSuccess(Message);
+				await client.DisconnectAsync();
 			}
 			finally
 			{
-				await client.DisconnectAsync();
+				
 				if(client != null)
 					client.Dispose();
 			}

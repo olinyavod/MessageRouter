@@ -61,12 +61,12 @@ namespace Melomans.Core.Network
 					} while (readedCount > 0);
 				}
 				RaiseSuccess(Message);
+				await _client.DisconnectAsync();
 			}
 			finally
 			{
 				if(stream != null)
 					stream.Dispose();
-				await _client.DisconnectAsync();
 				_client.Dispose();
 			}
 

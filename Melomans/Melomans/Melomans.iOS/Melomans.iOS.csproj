@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>eed05182-8a7a-494e-8282-c2cd03b3abc0</ProjectGuid>
+    <ProjectGuid>{EED05182-8A7A-494E-8282-C2CD03B3ABC0}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Melomans.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
