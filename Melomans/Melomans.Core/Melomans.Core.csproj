@@ -49,7 +49,6 @@
     <Compile Include="Network\IMessageSubscription.cs" />
     <Compile Include="Network\IRemoteClient.cs" />
     <Compile Include="Network\MessageAttribute.cs" />
-    <Compile Include="Network\IMelomansScanner.cs" />
     <Compile Include="Network\IMessageSerializer.cs" />
     <Compile Include="Network\INetworkTask.cs" />
     <Compile Include="Network\INetworkEventAgriggator.cs" />

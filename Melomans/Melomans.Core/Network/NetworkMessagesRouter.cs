@@ -87,7 +87,13 @@ namespace Melomans.Core.Network
 			}
 		}
 
-		public void Initialize()
+		public async void Stop()
+		{
+			await _multicastClient.DisconnectAsync();
+			await _listener.StopListeningAsync();
+		}
+
+		public void Start()
 		{
 			_listener.StartListeningAsync(_networkSettngs.ListenPort);
 			_multicastClient.TTL = _networkSettngs.TTL;
