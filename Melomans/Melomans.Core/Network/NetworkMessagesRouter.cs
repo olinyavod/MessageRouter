@@ -16,7 +16,7 @@ namespace Melomans.Core.Network
 		private readonly INetworkSettngs _networkSettngs;
 		private readonly IMessageService _messageService;
 		private readonly INetworkTaskFactory _taskFactory;
-		private readonly IDictionary<long, IMessageSubscription> _messageSubscrubtions;
+		private readonly ConcurrentDictionary<long, IMessageSubscription> _messageSubscrubtions;
 		private readonly UdpSocketMulticastClient _multicastClient;
 		private readonly TcpSocketListener _listener;
 
@@ -107,14 +107,13 @@ namespace Melomans.Core.Network
 				yield return _taskFactory.CreateAddressTask(meloman, message);
 		}
 
-		public IDisposable Subscribe<TMessage>(Action<INetworkTask<TMessage>> action) 
+		public IMessageeceiverConfig<TMessage> Subscribe<TMessage>() 
 			where TMessage : class, IMessage
 		{
 			var definition = _messageService.GetDefinition<TMessage>();
 			var id = _messageService.CreateMessageHash(definition);
-			var result = new MessageSubscription<TMessage>(id, definition, _taskFactory, action, _messageSubscrubtions);
-			_messageSubscrubtions.Add(id, result);
-			return result;
+			var result = (MessageSubscription<TMessage>)_messageSubscrubtions.GetOrAdd(id, key => new MessageSubscription<TMessage>(key, definition, _taskFactory, _messageSubscrubtions));
+			return result.New();
 		}
 
 		#region IDisposable Support
