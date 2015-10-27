@@ -7,11 +7,12 @@ using Foundation;
 
 namespace Melomans.iOS
 {
-	[Register ("ViewController")]
-	partial class ViewController
+	[Register ("SecondViewController")]
+	partial class SecondViewController
 	{
 		void ReleaseDesignerOutlets ()
 		{
 		}
 	}
 }
+

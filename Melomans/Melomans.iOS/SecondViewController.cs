@@ -4,15 +4,15 @@ using UIKit;
 
 namespace Melomans.iOS
 {
-	public partial class ViewController : UIViewController
+	public partial class SecondViewController : UIViewController
 	{
-		public ViewController (IntPtr handle) : base (handle)
+		public SecondViewController (IntPtr handle) : base (handle)
 		{
 		}
 
 		public override void ViewDidLoad ()
 		{
-			base.ViewDidLoad ();
+			base.ViewDidLoad ();	
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
