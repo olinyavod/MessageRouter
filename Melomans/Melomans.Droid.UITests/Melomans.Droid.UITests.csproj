@@ -3,10 +3,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0A29875D-1401-471C-9399-2CBAC4A29073}</ProjectGuid>
+    <ProjectGuid>{33FA9320-FF6A-4B0B-914A-8F64CCE8B007}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Melomans.iOS.UITests</RootNamespace>
-    <AssemblyName>Melomans.iOS.UITests</AssemblyName>
+    <RootNamespace>Melomans.Droid.UITests</RootNamespace>
+    <AssemblyName>Melomans.Droid.UITests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -41,9 +41,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Melomans.iOS\Melomans.iOS.csproj">
-      <Project>{A18416EF-1CF6-4C64-8545-74450D7C681A}</Project>
-      <Name>Melomans.iOS</Name>
+    <ProjectReference Include="..\Melomans.Droid\Melomans.Droid.csproj">
+      <Project>{BE0EA34A-0593-41AF-92F0-CD7BAD6AF32C}</Project>
+      <Name>Melomans.Droid</Name>
       <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
       <Private>False</Private>
     </ProjectReference>
