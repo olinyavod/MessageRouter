@@ -47,7 +47,11 @@
     <Compile Include="Network\AccessGroups.cs" />
     <Compile Include="Network\IMessageeceiverConfig.cs" />
     <Compile Include="Network\IMessageSubscription.cs" />
+    <Compile Include="Network\INetworkClientFactory.cs" />
     <Compile Include="Network\IRemoteClient.cs" />
+    <Compile Include="Network\ITcpClient.cs" />
+    <Compile Include="Network\ITcpListener.cs" />
+    <Compile Include="Network\IUdpMulticastClient.cs" />
     <Compile Include="Network\MessageAttribute.cs" />
     <Compile Include="Network\IMessageSerializer.cs" />
     <Compile Include="Network\INetworkTask.cs" />
@@ -65,20 +69,10 @@
     <Compile Include="Network\NetworkTaskFactory.cs" />
     <Compile Include="Network\ProgressInfo.cs" />
     <Compile Include="Network\TcpAddressTask.cs" />
-    <Compile Include="Network\TcpRemoteClient.cs" />
+    <Compile Include="Network\TcpSocketListenerConnectEventArgs.cs" />
     <Compile Include="Network\UdpMulticastSenderTask.cs" />
+    <Compile Include="Network\UdpSocketMessageReceivedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Sockets.Plugin, Version=1.3.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\rda.SocketsForPCL.1.2.2\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Sockets.Plugin.dll</HintPath>
-    </Reference>
-    <Reference Include="Sockets.Plugin.Abstractions, Version=1.3.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\rda.SocketsForPCL.1.2.2\lib\portable-net45+wp8+wpa81+win8+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Sockets.Plugin.Abstractions.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

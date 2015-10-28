@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http.Headers;
 using System.Reflection;
 using System.ServiceModel.Security;
 using System.Text;
@@ -10,8 +9,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Melomans.Core.Models;
 using Melomans.Core.Message;
-using Sockets.Plugin;
-using Sockets.Plugin.Abstractions;
 
 namespace Melomans.Core.Network
 {
@@ -19,23 +16,23 @@ namespace Melomans.Core.Network
 		where TMessage:class, IMessage
 	{
 		private readonly Meloman _meloman;
+		private readonly INetworkClientFactory _clientFactory;
 		private readonly TMessage _message;
 		private readonly IMessageSerializer _serializer;
 		private readonly IMessageService _messageService;
-		private readonly INetworkSettngs _settngs;
 
 		public TcpAddressTask(Meloman meloman, 
+			INetworkClientFactory clientFactory,
 			TMessage message,
 			IMessageSerializer serializer,
-			IMessageService messageService,
-			INetworkSettngs settngs)
+			IMessageService messageService)
 		{
 			_meloman = meloman;
+			_clientFactory = clientFactory;
 			_message = message;
 			_serializer = serializer;
 			_messageService = messageService;
-			_settngs = settngs;
-
+			
 		}
 
 		public override Meloman For
@@ -81,12 +78,12 @@ namespace Melomans.Core.Network
 
 		protected async override void Run(CancellationToken cancellationToken)
 		{
-			TcpSocketClient client = null;
+			ITcpClient client = null;
 			try
 			{
 				if (!_messageService.CanSend(For.Id, typeof (TMessage)))
 					throw new SecurityAccessDeniedException(string.Format("Access denied for type message {0}", typeof (TMessage)));
-                client = new TcpSocketClient();
+                client = _clientFactory.CreateTcpClient();
 				await client.ConnectAsync(_meloman.IpAddress, _meloman.Port);
 				var definition = _messageService.GetDefinition<TMessage>();
 				var buffer = BitConverter.GetBytes(_messageService.CreateMessageHash(definition));

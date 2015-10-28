@@ -5,33 +5,29 @@ using System.IO;
 using System.Text;
 using Melomans.Core.Message;
 using Melomans.Core.Models;
-using Sockets.Plugin;
-using Sockets.Plugin.Abstractions;
 using System.Threading.Tasks;
 
 namespace Melomans.Core.Network
 {
 	public class NetworkMessagesRouter : INetworkEventAgriggator
 	{
-		private readonly INetworkSettngs _networkSettngs;
 		private readonly IMessageService _messageService;
 		private readonly INetworkTaskFactory _taskFactory;
 		private readonly ConcurrentDictionary<long, IMessageSubscription> _messageSubscrubtions;
-		private readonly UdpSocketMulticastClient _multicastClient;
-		private readonly TcpSocketListener _listener;
+		private readonly IUdpSocketMulticastClient _multicastClient;
+		private readonly ITcpListener _listener;
 
 		public NetworkMessagesRouter(
-			INetworkSettngs networkSettngs,
 			IMessageService messageService,
+			INetworkClientFactory clientFactory,
 			INetworkTaskFactory taskFactory)
 		{
-			_networkSettngs = networkSettngs;
 			_messageService = messageService;
 			_taskFactory = taskFactory;
 			_messageSubscrubtions = new ConcurrentDictionary<long, IMessageSubscription>();
-			_multicastClient = new UdpSocketMulticastClient();
+			_multicastClient = clientFactory.CreateMulticastClient ();
 			_multicastClient.MessageReceived += MessageReceived;
-			_listener = new TcpSocketListener(networkSettngs.BufferSize);
+			_listener = clientFactory.CreateListener();
 			_listener.ConnectionReceived += ConnectionReceived;
 
 		}
@@ -41,7 +37,7 @@ namespace Melomans.Core.Network
 			MemoryStream stream = null;
 			try
 			{
-				stream = new MemoryStream(e.ByteData);
+				stream = new MemoryStream(e.Data);
 				var value = await GetSubscrubtion(e.RemoteAddress, stream);
 				if (value != null)
 				{
@@ -69,21 +65,21 @@ namespace Melomans.Core.Network
 
 		private async void ConnectionReceived(object sender, TcpSocketListenerConnectEventArgs e)
 		{
-			var value = await GetSubscrubtion(e.SocketClient.RemoteAddress, e.SocketClient.ReadStream);
+			var value = await GetSubscrubtion(e.RemoteAddress, e.RemoteClient.ReadStream);
 			if (value != null)
 			{
 				var buffer = Encoding.UTF8.GetBytes(NetworkState.Ok.ToString());
-				await e.SocketClient.WriteStream.WriteAsync(buffer, 0, buffer.Length);
-				await e.SocketClient.WriteStream.FlushAsync();
-				value.ReceivedMessage(null, new TcpRemoteClient(e.SocketClient));
+				await e.RemoteClient.WriteStream.WriteAsync(buffer, 0, buffer.Length);
+				await e.RemoteClient.WriteStream.FlushAsync();
+				value.ReceivedMessage(null, e.RemoteClient);
 			}
 			else
 			{
 				var buffer = Encoding.UTF8.GetBytes(NetworkState.AccessDenied.ToString());
-				await e.SocketClient.WriteStream.WriteAsync(buffer, 0, buffer.Length);
-				await e.SocketClient.WriteStream.FlushAsync();
-				await e.SocketClient.DisconnectAsync();
-				e.SocketClient.Dispose();
+				await e.RemoteClient.WriteStream.WriteAsync(buffer, 0, buffer.Length);
+				await e.RemoteClient.WriteStream.FlushAsync();
+				await e.RemoteClient.DisconnectAsync();
+				e.RemoteClient.Dispose();
 			}
 		}
 
@@ -95,9 +91,8 @@ namespace Melomans.Core.Network
 
 		public void Start()
 		{
-			_listener.StartListeningAsync(_networkSettngs.ListenPort);
-			_multicastClient.TTL = _networkSettngs.TTL;
-			_multicastClient.JoinMulticastGroupAsync(_networkSettngs.MulticastAddress, _networkSettngs.MulticastPort);
+			_listener.StartListeningAsync();
+			_multicastClient.JoinMulticastGroupAsync();
 		}
 
 		public INetworkTask<TMessage> Publish<TMessage>(TMessage message) 

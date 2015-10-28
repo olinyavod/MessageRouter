@@ -1,33 +1,32 @@
 ﻿using System;
 using Melomans.Core.Message;
 using Melomans.Core.Models;
-using Sockets.Plugin;
 
 namespace Melomans.Core.Network
 {
 	public class NetworkTaskFactory : INetworkTaskFactory
 	{
+		private readonly INetworkClientFactory _clientFactory;
 		private readonly IMessageService _messageService;
 		private readonly IMessageSerializer _messageSerializer;
-		private readonly INetworkSettngs _networkSettngs;
 
 		public NetworkTaskFactory(
+			INetworkClientFactory clientFactory,
 			IMessageService messageService,
-			IMessageSerializer messageSerializer,
-			INetworkSettngs networkSettngs)
+			IMessageSerializer messageSerializer)
 		{
+			_clientFactory = clientFactory;
 			_messageService = messageService;
 			_messageSerializer = messageSerializer;
-			_networkSettngs = networkSettngs;
 		}
 
 		public INetworkTask<TMessage> CreateAddressTask<TMessage>(Meloman meloman, TMessage message)
 			where TMessage : class, IMessage
 		{
-			return new TcpAddressTask<TMessage>(meloman, message, _messageSerializer, _messageService, _networkSettngs);
+			return new TcpAddressTask<TMessage>(meloman, _clientFactory, message, _messageSerializer, _messageService);
 		}
 
-		public INetworkTask<TMessage> CreateMulticastTask<TMessage>(TMessage message, UdpSocketMulticastClient client) where TMessage : class, IMessage
+		public INetworkTask<TMessage> CreateMulticastTask<TMessage>(TMessage message, IUdpSocketMulticastClient client) where TMessage : class, IMessage
 		{
 			return new UdpMulticastSenderTask<TMessage>(message, _messageSerializer, _messageService, client);
 		}

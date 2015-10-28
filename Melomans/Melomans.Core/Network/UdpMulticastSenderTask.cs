@@ -1,12 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
 using System.Threading;
 using Melomans.Core.Models;
 using Melomans.Core.Message;
-using Sockets.Plugin.Abstractions;
 
 namespace Melomans.Core.Network
 {
