@@ -1,9 +1,9 @@
-﻿using Sockets.Plugin.Abstractions;
-using System.IO;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Melomans.Core.Network;
+using Sockets.Plugin.Abstractions;
 
-namespace Melomans.Droid.Networks
+namespace Melomans.Desktop.Network
 {
 	class TcpRemoteClient : IRemoteClient
 	{

@@ -14,7 +14,7 @@ namespace Melomans.Core.Network
 		private readonly IMessageService _messageService;
 		private readonly INetworkTaskFactory _taskFactory;
 		private readonly ConcurrentDictionary<long, IMessageSubscription> _messageSubscrubtions;
-		private readonly IUdpSocketMulticastClient _multicastClient;
+		private readonly IMulticastClient _multicastClient;
 		private readonly ITcpListener _listener;
 
 		public NetworkMessagesRouter(
@@ -32,7 +32,7 @@ namespace Melomans.Core.Network
 
 		}
 
-		private async void MessageReceived(object sender, UdpSocketMessageReceivedEventArgs e)
+		private async void MessageReceived(object sender, DatagramReceivedEventArgs e)
 		{
 			MemoryStream stream = null;
 			try

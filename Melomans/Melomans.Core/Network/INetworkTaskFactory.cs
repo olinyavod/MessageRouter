@@ -6,7 +6,7 @@ namespace Melomans.Core.Network
 {
 	public interface INetworkTaskFactory
 	{
-		INetworkTask<TMessage> CreateMulticastTask<TMessage>(TMessage message, IUdpSocketMulticastClient client)
+		INetworkTask<TMessage> CreateMulticastTask<TMessage>(TMessage message, IMulticastClient client)
 			where TMessage: class, IMessage;
 
 		INetworkTask<TMessage> CreateAddressTask<TMessage>(Meloman meloman, TMessage message)

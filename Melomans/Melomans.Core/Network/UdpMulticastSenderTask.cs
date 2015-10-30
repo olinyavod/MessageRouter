@@ -12,12 +12,12 @@ namespace Melomans.Core.Network
 		private readonly TMessage _message;
 		private readonly IMessageSerializer _serializer;
 		private readonly IMessageService _messageService;
-		private readonly IUdpSocketMulticastClient _client;
+		private readonly IMulticastClient _client;
 
 		public UdpMulticastSenderTask(TMessage message, 
 			IMessageSerializer serializer,
 			IMessageService messageService,
-			IUdpSocketMulticastClient client)
+			IMulticastClient client)
 		{
 			_message = message;
 			_serializer = serializer;

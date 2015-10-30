@@ -26,7 +26,7 @@ namespace Melomans.Core.Network
 			return new TcpAddressTask<TMessage>(meloman, _clientFactory, message, _messageSerializer, _messageService);
 		}
 
-		public INetworkTask<TMessage> CreateMulticastTask<TMessage>(TMessage message, IUdpSocketMulticastClient client) where TMessage : class, IMessage
+		public INetworkTask<TMessage> CreateMulticastTask<TMessage>(TMessage message, IMulticastClient client) where TMessage : class, IMessage
 		{
 			return new UdpMulticastSenderTask<TMessage>(message, _messageSerializer, _messageService, client);
 		}

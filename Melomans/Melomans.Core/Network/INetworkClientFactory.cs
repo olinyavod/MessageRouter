@@ -2,7 +2,7 @@
 {
 	public interface INetworkClientFactory
 	{
-		IUdpSocketMulticastClient CreateMulticastClient();
+		IMulticastClient CreateMulticastClient();
 
 		ITcpListener CreateListener();
 

@@ -3,6 +3,14 @@
 
 public partial class MainWindow
 {
+	private global::Gtk.Table table2;
+	
+	private global::Gtk.Button btnFind;
+	
+	private global::Gtk.ScrolledWindow GtkScrolledWindow;
+	
+	private global::Gtk.NodeView nodeview2;
+
 	protected virtual void Build ()
 	{
 		global::Stetic.Gui.Initialize (this);
@@ -10,6 +18,37 @@ public partial class MainWindow
 		this.Name = "MainWindow";
 		this.Title = global::Mono.Unix.Catalog.GetString ("MainWindow");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
+		// Container child MainWindow.Gtk.Container+ContainerChild
+		this.table2 = new global::Gtk.Table (((uint)(2)), ((uint)(1)), false);
+		this.table2.Name = "table2";
+		this.table2.RowSpacing = ((uint)(6));
+		this.table2.ColumnSpacing = ((uint)(6));
+		// Container child table2.Gtk.Table+TableChild
+		this.btnFind = new global::Gtk.Button ();
+		this.btnFind.CanFocus = true;
+		this.btnFind.Events = ((global::Gdk.EventMask)(256));
+		this.btnFind.Name = "btnFind";
+		this.btnFind.UseUnderline = true;
+		this.btnFind.Label = global::Mono.Unix.Catalog.GetString ("_Find");
+		global::Gtk.Image w1 = new global::Gtk.Image ();
+		this.btnFind.Image = w1;
+		this.table2.Add (this.btnFind);
+		global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table2 [this.btnFind]));
+		w2.TopAttach = ((uint)(1));
+		w2.BottomAttach = ((uint)(2));
+		w2.XOptions = ((global::Gtk.AttachOptions)(4));
+		w2.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table2.Gtk.Table+TableChild
+		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
+		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
+		this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
+		// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
+		this.nodeview2 = new global::Gtk.NodeView ();
+		this.nodeview2.CanFocus = true;
+		this.nodeview2.Name = "nodeview2";
+		this.GtkScrolledWindow.Add (this.nodeview2);
+		this.table2.Add (this.GtkScrolledWindow);
+		this.Add (this.table2);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}

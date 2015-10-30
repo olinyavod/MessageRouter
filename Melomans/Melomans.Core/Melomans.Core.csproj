@@ -71,7 +71,7 @@
     <Compile Include="Network\TcpAddressTask.cs" />
     <Compile Include="Network\TcpSocketListenerConnectEventArgs.cs" />
     <Compile Include="Network\UdpMulticastSenderTask.cs" />
-    <Compile Include="Network\UdpSocketMessageReceivedEventArgs.cs" />
+    <Compile Include="Network\DatagramReceivedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

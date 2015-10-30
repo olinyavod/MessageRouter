@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace Melomans.Core.Network
 {
-	public interface IUdpSocketMulticastClient : IDisposable
+	public interface IMulticastClient : IDisposable
 	{
-		EventHandler<UdpSocketMessageReceivedEventArgs> MessageReceived { get; set; }
+		event EventHandler<DatagramReceivedEventArgs> MessageReceived { get; set; }
 
 		Task JoinMulticastGroupAsync();
 

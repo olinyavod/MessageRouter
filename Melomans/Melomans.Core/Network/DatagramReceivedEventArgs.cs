@@ -1,8 +1,8 @@
 ﻿namespace Melomans.Core.Network
 {
-	public class UdpSocketMessageReceivedEventArgs
+	public class DatagramReceivedEventArgs
 	{
-		public UdpSocketMessageReceivedEventArgs(string remoteAddress, int port, byte[] data)
+		public DatagramReceivedEventArgs(string remoteAddress, int port, byte[] data)
 		{
 			RemoteAddress = remoteAddress;
 			Port = port;
