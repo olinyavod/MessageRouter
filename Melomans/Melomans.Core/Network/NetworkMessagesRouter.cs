@@ -108,7 +108,7 @@ namespace Melomans.Core.Network
 				yield return _taskFactory.CreateAddressTask(meloman, message);
 		}
 
-		public IMessageeceiverConfig<TMessage> Subscribe<TMessage>() 
+		public IMessageReceiverConfig<TMessage> Subscribe<TMessage>() 
 			where TMessage : class, IMessage
 		{
 			var definition = _messageService.GetDefinition<TMessage>();

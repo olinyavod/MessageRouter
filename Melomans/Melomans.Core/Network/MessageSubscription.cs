@@ -111,14 +111,14 @@ namespace Melomans.Core.Network
 		#endregion
 
 
-		public IMessageeceiverConfig<TMessage> New()
+		public IMessageReceiverConfig<TMessage> New()
 		{
 			var receiver = new MessageReceiveConfig(this, _receivers);
 			_receivers.Add(receiver);
 			return receiver;
 		}
 
-		private class MessageReceiveConfig : IMessageeceiverConfig<TMessage>
+		private class MessageReceiveConfig : IMessageReceiverConfig<TMessage>
 		{
 			private Action<Meloman, TMessage> _onCancelled;
 
@@ -211,85 +211,85 @@ namespace Melomans.Core.Network
 					_onReport(meloman, info);
 			}
 
-			public IMessageeceiverConfig<TMessage> OnException(Action<Exception> onException)
+			public IMessageReceiverConfig<TMessage> OnException(Action<Exception> onException)
 			{
 				_onException = (meloman, exception) => onException(exception);
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnException(Action<Meloman, Exception> onException)
+			public IMessageReceiverConfig<TMessage> OnException(Action<Meloman, Exception> onException)
 			{
 				_onException = onException;
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnFinally(Action<TMessage> onFinnally)
+			public IMessageReceiverConfig<TMessage> OnFinally(Action<TMessage> onFinnally)
 			{
 				_onFinally = (meloman, message) => onFinnally(message);
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnFinally(Action<Meloman, TMessage> onFinally)
+			public IMessageReceiverConfig<TMessage> OnFinally(Action<Meloman, TMessage> onFinally)
 			{
 				_onFinally = onFinally;
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnGetWriter(Func<TMessage, Stream> onGetWriter)
+			public IMessageReceiverConfig<TMessage> OnGetWriter(Func<TMessage, Stream> onGetWriter)
 			{
 				_onGetWriter = (meloman, message) => onGetWriter(message);
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnGetWriter(Func<Meloman, TMessage, Stream> onGetWriter)
+			public IMessageReceiverConfig<TMessage> OnGetWriter(Func<Meloman, TMessage, Stream> onGetWriter)
 			{
 				_onGetWriter = onGetWriter;
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnReport(Action<ProgressInfo<TMessage>> onReport)
+			public IMessageReceiverConfig<TMessage> OnReport(Action<ProgressInfo<TMessage>> onReport)
 			{
 				_onReport = (meloman, info) => onReport(info);
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnReport(Action<Meloman, ProgressInfo<TMessage>> onReport)
+			public IMessageReceiverConfig<TMessage> OnReport(Action<Meloman, ProgressInfo<TMessage>> onReport)
 			{
 				_onReport = onReport;
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnStart(Action onStart)
+			public IMessageReceiverConfig<TMessage> OnStart(Action onStart)
 			{
 				_onStart = meloman => onStart();
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnStart(Action<Meloman> onStart)
+			public IMessageReceiverConfig<TMessage> OnStart(Action<Meloman> onStart)
 			{
 				_onStart = onStart;
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnSuccess(Action<TMessage> onSuccess)
+			public IMessageReceiverConfig<TMessage> OnSuccess(Action<TMessage> onSuccess)
 			{
 				_onSuccess = (meloman, message) => onSuccess(message);
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnSuccess(Action<Meloman, TMessage> onSuccess)
+			public IMessageReceiverConfig<TMessage> OnSuccess(Action<Meloman, TMessage> onSuccess)
 			{
 				_onSuccess = onSuccess;
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnCancelled(Action<TMessage> onCancelled)
+			public IMessageReceiverConfig<TMessage> OnCancelled(Action<TMessage> onCancelled)
 			{
 				_onCancelled = (meloman, message) => onCancelled(message);
 				return this;
 			}
 
-			public IMessageeceiverConfig<TMessage> OnCancelled(Action<Meloman, TMessage> onCancelled)
+			public IMessageReceiverConfig<TMessage> OnCancelled(Action<Meloman, TMessage> onCancelled)
 			{
 				_onCancelled = onCancelled;
 				return this;

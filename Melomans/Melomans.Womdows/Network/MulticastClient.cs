@@ -4,7 +4,7 @@ using Melomans.Core.Network;
 using Sockets.Plugin;
 using Sockets.Plugin.Abstractions;
 
-namespace Melomans.Desktop.Network
+namespace Melomans.Windows.Network
 {
     class MulticastClient:IMulticastClient
     {

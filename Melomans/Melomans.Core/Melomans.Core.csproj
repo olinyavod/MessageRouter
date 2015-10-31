@@ -45,7 +45,7 @@
     <Compile Include="Message\MessageService.cs" />
     <Compile Include="Models\Meloman.cs" />
     <Compile Include="Network\AccessGroups.cs" />
-    <Compile Include="Network\IMessageeceiverConfig.cs" />
+    <Compile Include="Network\IMessageReceiverConfig.cs" />
     <Compile Include="Network\IMessageSubscription.cs" />
     <Compile Include="Network\INetworkClientFactory.cs" />
     <Compile Include="Network\IRemoteClient.cs" />

@@ -17,7 +17,7 @@ namespace Melomans.Core.Network
 		IEnumerable<INetworkTask<TMessage>> PublishFor<TMessage>(IEnumerable<Meloman> melomans, TMessage message)
 			where TMessage: class, IMessage;
 
-		IMessageeceiverConfig<TMessage> Subscribe<TMessage>()
+		IMessageReceiverConfig<TMessage> Subscribe<TMessage>()
 			where TMessage : class, IMessage;
 	}
 }

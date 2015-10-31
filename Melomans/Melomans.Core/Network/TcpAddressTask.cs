@@ -95,6 +95,7 @@ namespace Melomans.Core.Network
 					throw new OperationCanceledException();
 				
 				await _serializer.WriteMessage(_message, client.WriteStream);
+			    await client.WriteStream.FlushAsync(cancellationToken);
 				if (IsCancellationRequested)
 					throw new OperationCanceledException();
 				

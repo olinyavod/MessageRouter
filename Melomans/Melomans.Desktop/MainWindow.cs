@@ -15,7 +15,7 @@ public partial class MainWindow: Gtk.Window
 {
     private readonly IContainer _container;
     private readonly INetworkMessageRouter _router;
-    private IMessageeceiverConfig<EchoMessage> _echoToken;
+    private IMessageReceiverConfig<EchoMessage> _echoToken;
     private ListStore _adaptersStore;
     private IEnumerable<CommsInterface> _commsInterfaces;
 
@@ -30,15 +30,21 @@ public partial class MainWindow: Gtk.Window
 	        
 	    });
 	    Build ();
-        btnStart.ButtonPressEvent += BtnStartOnButtonPressEvent;
+        btnStart.Clicked += BtnStartOnButtonPressEvent;
         _adaptersStore = new ListStore(typeof(string));
-	    cmbAdapters.Model = _adaptersStore;
-        btnRefresh.ButtonPressEvent += BtnRefreshOnButtonPressEvent;
+        cmbAdapters.Model = _adaptersStore;
+        btnRefresh.Clicked += BtnRefreshOnButtonPressEvent;
+        this.Shown += OnShown;
         Initialize();
         
 	}
 
-    private void BtnRefreshOnButtonPressEvent(object o, ButtonPressEventArgs args)
+    private void OnShown(object sender, EventArgs eventArgs)
+    {
+        Initialize();
+    }
+
+    private void BtnRefreshOnButtonPressEvent(object o, EventArgs args)
     {
         var selected = _commsInterfaces.FirstOrDefault(i => i.Name == cmbAdapters.ActiveText);
         _router.Publish(new HelloMessage
@@ -53,22 +59,26 @@ public partial class MainWindow: Gtk.Window
 			}).Run();
     }
 
-    private void BtnStartOnButtonPressEvent(object o, ButtonPressEventArgs args)
+    private void BtnStartOnButtonPressEvent(object o, EventArgs args)
     {
         var networkSettings = _container.Resolve<NetworkSettings>();
         networkSettings.Adaptes = _commsInterfaces.FirstOrDefault(i => i.Name == cmbAdapters.ActiveText);
+        networkSettings.MulticastAddress = "224.0.0.0";
         networkSettings.MulticastPort = 30303;
         networkSettings.ListenPort = 30303;
-        networkSettings.TTL = 10;
+        networkSettings.TTL = 1;
         btnStart.Label = "Stop";
         _router.Start();
     }
 
     async void Initialize()
     {
-        _commsInterfaces = await CommsInterface.GetAllInterfacesAsync();
+        _commsInterfaces = await CommsInterface.GetAllInterfacesAsync()
+            .ConfigureAwait(false);
+
         
-       foreach (var i in _commsInterfaces.ToList())
+       
+       foreach (var i in _commsInterfaces)
             _adaptersStore.AppendValues(i.Name);
     }
 

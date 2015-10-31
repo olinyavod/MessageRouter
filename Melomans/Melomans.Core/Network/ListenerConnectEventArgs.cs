@@ -1,6 +1,8 @@
-﻿namespace Melomans.Core.Network
+﻿using System;
+
+namespace Melomans.Core.Network
 {
-	public class ListenerConnectEventArgs
+	public class ListenerConnectEventArgs:EventArgs
 	{
 		public ListenerConnectEventArgs(string remoteAddress, int remotePort, IRemoteClient remoteClient)
 		{

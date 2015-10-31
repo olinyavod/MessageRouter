@@ -1,6 +1,8 @@
-﻿namespace Melomans.Core.Network
+﻿using System;
+
+namespace Melomans.Core.Network
 {
-	public class DatagramReceivedEventArgs
+	public class DatagramReceivedEventArgs:EventArgs
 	{
 		public DatagramReceivedEventArgs(string remoteAddress, string remotePort, byte[] data)
 		{
