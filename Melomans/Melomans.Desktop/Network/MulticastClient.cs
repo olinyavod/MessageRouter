@@ -18,35 +18,39 @@ namespace Melomans.Desktop.Network
             {
                 TTL = settings.TTL
             };
-            _client.MessageReceived += MessageReceived;
+            _client.MessageReceived += OnMessageReceived;
 
         }
 
-        private void MessageReceived(object sender, Sockets.Plugin.Abstractions.UdpSocketMessageReceivedEventArgs udpSocketMessageReceivedEventArgs)
+        private void OnMessageReceived(object sender, UdpSocketMessageReceivedEventArgs e)
         {
-            throw new NotImplementedException();
+            if(MessageReceived != null)
+                MessageReceived(sender, new DatagramReceivedEventArgs(e.RemoteAddress, e.RemotePort, e.ByteData));
         }
 
         public void Dispose()
         {
-            _client.MessageReceived -= MessageReceived;
+            _client.MessageReceived -= OnMessageReceived;
             _client.Dispose();
         }
 
-       
+
+        public event EventHandler<DatagramReceivedEventArgs> MessageReceived;
+
         public Task JoinMulticastGroupAsync()
         {
-            throw new NotImplementedException();
+            return _client.JoinMulticastGroupAsync(_settings.Adaptes.BroadcastAddress, _settings.MulticastPort,
+                _settings.Adaptes);
         }
 
         public Task DisconnectAsync()
         {
-            throw new NotImplementedException();
+           return _client.DisconnectAsync();
         }
 
         public Task SendMulticastAsync(byte[] data)
         {
-            throw new NotImplementedException();
+			return _client.SendMulticastAsync (data);
         }
     }
 }

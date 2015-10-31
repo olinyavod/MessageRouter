@@ -5,7 +5,7 @@ namespace Melomans.Core.Network
 {
 	public interface IMulticastClient : IDisposable
 	{
-		event EventHandler<DatagramReceivedEventArgs> MessageReceived { get; set; }
+		event EventHandler<DatagramReceivedEventArgs> MessageReceived;
 
 		Task JoinMulticastGroupAsync();
 

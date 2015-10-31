@@ -68,7 +68,11 @@
     <Compile Include="MainWindow.cs" />
     <Compile Include="gtk-gui\MainWindow.cs" />
     <Compile Include="Network\MulticastClient.cs" />
+    <Compile Include="Network\NetworkClientFactory.cs" />
+    <Compile Include="Network\NetworkModule.cs" />
     <Compile Include="Network\NetworkSettings.cs" />
+    <Compile Include="Network\TcpClient.cs" />
+    <Compile Include="Network\TcpListener.cs" />
     <Compile Include="Network\TcpRemoteClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

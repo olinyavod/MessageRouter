@@ -5,7 +5,7 @@ namespace Melomans.Core.Network
 {
 	public interface ITcpListener:IDisposable
 	{
-		EventHandler<TcpSocketListenerConnectEventArgs> ConnectionReceived { get; set; }
+	    event EventHandler<ListenerConnectEventArgs> ConnectionReceived;
 		
 		Task StartListeningAsync();
 

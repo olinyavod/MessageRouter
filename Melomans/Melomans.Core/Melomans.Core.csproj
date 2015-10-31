@@ -55,7 +55,7 @@
     <Compile Include="Network\MessageAttribute.cs" />
     <Compile Include="Network\IMessageSerializer.cs" />
     <Compile Include="Network\INetworkTask.cs" />
-    <Compile Include="Network\INetworkEventAgriggator.cs" />
+    <Compile Include="Network\INetworkMessageRouter.cs" />
     <Compile Include="Network\INetworkSettngs.cs" />
     <Compile Include="Network\INetworkTaskFactory.cs" />
     <Compile Include="Network\ISession.cs" />
@@ -69,7 +69,7 @@
     <Compile Include="Network\NetworkTaskFactory.cs" />
     <Compile Include="Network\ProgressInfo.cs" />
     <Compile Include="Network\TcpAddressTask.cs" />
-    <Compile Include="Network\TcpSocketListenerConnectEventArgs.cs" />
+    <Compile Include="Network\ListenerConnectEventArgs.cs" />
     <Compile Include="Network\UdpMulticastSenderTask.cs" />
     <Compile Include="Network\DatagramReceivedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

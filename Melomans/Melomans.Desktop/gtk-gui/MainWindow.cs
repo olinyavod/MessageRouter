@@ -5,11 +5,19 @@ public partial class MainWindow
 {
 	private global::Gtk.Table table2;
 	
-	private global::Gtk.Button btnFind;
+	private global::Gtk.Button btnRefresh;
 	
 	private global::Gtk.ScrolledWindow GtkScrolledWindow;
 	
-	private global::Gtk.NodeView nodeview2;
+	private global::Gtk.TreeView treeview1;
+	
+	private global::Gtk.Table table1;
+	
+	private global::Gtk.Button btnStart;
+	
+	private global::Gtk.Button button3;
+	
+	private global::Gtk.ComboBox cmbAdapters;
 
 	protected virtual void Build ()
 	{
@@ -19,35 +27,77 @@ public partial class MainWindow
 		this.Title = global::Mono.Unix.Catalog.GetString ("MainWindow");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 		// Container child MainWindow.Gtk.Container+ContainerChild
-		this.table2 = new global::Gtk.Table (((uint)(2)), ((uint)(1)), false);
+		this.table2 = new global::Gtk.Table (((uint)(3)), ((uint)(1)), false);
 		this.table2.Name = "table2";
 		this.table2.RowSpacing = ((uint)(6));
 		this.table2.ColumnSpacing = ((uint)(6));
 		// Container child table2.Gtk.Table+TableChild
-		this.btnFind = new global::Gtk.Button ();
-		this.btnFind.CanFocus = true;
-		this.btnFind.Events = ((global::Gdk.EventMask)(256));
-		this.btnFind.Name = "btnFind";
-		this.btnFind.UseUnderline = true;
-		this.btnFind.Label = global::Mono.Unix.Catalog.GetString ("_Find");
-		global::Gtk.Image w1 = new global::Gtk.Image ();
-		this.btnFind.Image = w1;
-		this.table2.Add (this.btnFind);
-		global::Gtk.Table.TableChild w2 = ((global::Gtk.Table.TableChild)(this.table2 [this.btnFind]));
-		w2.TopAttach = ((uint)(1));
-		w2.BottomAttach = ((uint)(2));
-		w2.XOptions = ((global::Gtk.AttachOptions)(4));
-		w2.YOptions = ((global::Gtk.AttachOptions)(4));
+		this.btnRefresh = new global::Gtk.Button ();
+		this.btnRefresh.CanFocus = true;
+		this.btnRefresh.Events = ((global::Gdk.EventMask)(256));
+		this.btnRefresh.Name = "btnRefresh";
+		this.btnRefresh.UseStock = true;
+		this.btnRefresh.UseUnderline = true;
+		this.btnRefresh.Label = "gtk-refresh";
+		this.table2.Add (this.btnRefresh);
+		global::Gtk.Table.TableChild w1 = ((global::Gtk.Table.TableChild)(this.table2 [this.btnRefresh]));
+		w1.TopAttach = ((uint)(2));
+		w1.BottomAttach = ((uint)(3));
+		w1.YOptions = ((global::Gtk.AttachOptions)(4));
 		// Container child table2.Gtk.Table+TableChild
 		this.GtkScrolledWindow = new global::Gtk.ScrolledWindow ();
 		this.GtkScrolledWindow.Name = "GtkScrolledWindow";
 		this.GtkScrolledWindow.ShadowType = ((global::Gtk.ShadowType)(1));
 		// Container child GtkScrolledWindow.Gtk.Container+ContainerChild
-		this.nodeview2 = new global::Gtk.NodeView ();
-		this.nodeview2.CanFocus = true;
-		this.nodeview2.Name = "nodeview2";
-		this.GtkScrolledWindow.Add (this.nodeview2);
+		this.treeview1 = new global::Gtk.TreeView ();
+		this.treeview1.CanFocus = true;
+		this.treeview1.Name = "treeview1";
+		this.GtkScrolledWindow.Add (this.treeview1);
 		this.table2.Add (this.GtkScrolledWindow);
+		global::Gtk.Table.TableChild w3 = ((global::Gtk.Table.TableChild)(this.table2 [this.GtkScrolledWindow]));
+		w3.TopAttach = ((uint)(1));
+		w3.BottomAttach = ((uint)(2));
+		w3.XOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table2.Gtk.Table+TableChild
+		this.table1 = new global::Gtk.Table (((uint)(1)), ((uint)(3)), false);
+		this.table1.Name = "table1";
+		this.table1.RowSpacing = ((uint)(6));
+		this.table1.ColumnSpacing = ((uint)(6));
+		// Container child table1.Gtk.Table+TableChild
+		this.btnStart = new global::Gtk.Button ();
+		this.btnStart.CanFocus = true;
+		this.btnStart.Name = "btnStart";
+		this.btnStart.UseStock = true;
+		this.btnStart.UseUnderline = true;
+		this.btnStart.Label = "gtk-ok";
+		this.table1.Add (this.btnStart);
+		global::Gtk.Table.TableChild w4 = ((global::Gtk.Table.TableChild)(this.table1 [this.btnStart]));
+		w4.LeftAttach = ((uint)(1));
+		w4.RightAttach = ((uint)(2));
+		w4.XOptions = ((global::Gtk.AttachOptions)(4));
+		w4.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table1.Gtk.Table+TableChild
+		this.button3 = new global::Gtk.Button ();
+		this.button3.CanFocus = true;
+		this.button3.Name = "button3";
+		this.button3.UseUnderline = true;
+		this.button3.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+		this.table1.Add (this.button3);
+		global::Gtk.Table.TableChild w5 = ((global::Gtk.Table.TableChild)(this.table1 [this.button3]));
+		w5.LeftAttach = ((uint)(2));
+		w5.RightAttach = ((uint)(3));
+		w5.XOptions = ((global::Gtk.AttachOptions)(4));
+		w5.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table1.Gtk.Table+TableChild
+		this.cmbAdapters = global::Gtk.ComboBox.NewText ();
+		this.cmbAdapters.Name = "cmbAdapters";
+		this.table1.Add (this.cmbAdapters);
+		global::Gtk.Table.TableChild w6 = ((global::Gtk.Table.TableChild)(this.table1 [this.cmbAdapters]));
+		w6.YOptions = ((global::Gtk.AttachOptions)(4));
+		this.table2.Add (this.table1);
+		global::Gtk.Table.TableChild w7 = ((global::Gtk.Table.TableChild)(this.table2 [this.table1]));
+		w7.XOptions = ((global::Gtk.AttachOptions)(4));
+		w7.YOptions = ((global::Gtk.AttachOptions)(4));
 		this.Add (this.table2);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();

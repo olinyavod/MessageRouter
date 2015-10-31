@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Melomans.Core.Network
 {
-	public class NetworkMessagesRouter : INetworkEventAgriggator
+	public class NetworkMessagesRouter : INetworkMessageRouter
 	{
 		private readonly IMessageService _messageService;
 		private readonly INetworkTaskFactory _taskFactory;
@@ -63,7 +63,7 @@ namespace Melomans.Core.Network
 			return null;
 		}
 
-		private async void ConnectionReceived(object sender, TcpSocketListenerConnectEventArgs e)
+		private async void ConnectionReceived(object sender, ListenerConnectEventArgs e)
 		{
 			var value = await GetSubscrubtion(e.RemoteAddress, e.RemoteClient.ReadStream);
 			if (value != null)

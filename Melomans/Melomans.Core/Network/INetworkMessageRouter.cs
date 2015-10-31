@@ -5,7 +5,7 @@ using Melomans.Core.Message;
 
 namespace Melomans.Core.Network
 {
-	public interface INetworkEventAgriggator : IDisposable
+	public interface INetworkMessageRouter : IDisposable
 	{
 		void Start();
 

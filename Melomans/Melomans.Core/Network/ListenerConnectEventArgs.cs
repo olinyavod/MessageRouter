@@ -1,8 +1,8 @@
 ﻿namespace Melomans.Core.Network
 {
-	public class TcpSocketListenerConnectEventArgs
+	public class ListenerConnectEventArgs
 	{
-		public TcpSocketListenerConnectEventArgs(string remoteAddress, int remotePort, IRemoteClient remoteClient)
+		public ListenerConnectEventArgs(string remoteAddress, int remotePort, IRemoteClient remoteClient)
 		{
 			RemoteAddress = remoteAddress;
 			RemotePort = remotePort;
