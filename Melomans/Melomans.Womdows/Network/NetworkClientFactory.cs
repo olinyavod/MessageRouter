@@ -13,17 +13,17 @@ namespace Melomans.Windows.Network
 
         public IMulticastClient CreateMulticastClient()
         {
-            return new MulticastClient(_networkSettings);
+            return new SystemMulticastClient(_networkSettings);
         }
 
         public ITcpListener CreateListener()
         {
-            return new TcpListener(_networkSettings);
+            return new SystemTcpListener(_networkSettings);
         }
 
         public ITcpClient CreateTcpClient()
         {
-            return new TcpClient();
+            return new SystemTcpClient();
         }
     }
 }

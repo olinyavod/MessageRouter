@@ -33,8 +33,8 @@ namespace Melomans.Windows.ViewModel
             _helloMessageToken = _router.Subscribe<HelloMessage>()
                 .OnSuccess(m =>
                 {
-                    //Melomans.Add(m.Meloman);
-                    _router.PublishFor(new [] {m.Meloman}, new EchoMessage
+                    Melomans.Add(m.Meloman);
+                   /* _router.PublishFor(new [] {m.Meloman}, new EchoMessage
                     {
                         Meloman = new Meloman
                         {
@@ -43,7 +43,7 @@ namespace Melomans.Windows.ViewModel
                             Port = _settings.ListenPort,
                             Title = Environment.MachineName
                         }
-                    }).First().Run();
+                    }).First().Run();*/
                 });
             _echoMessageToken = _router.Subscribe<EchoMessage>()
                 .OnSuccess(m =>
@@ -72,8 +72,8 @@ namespace Melomans.Windows.ViewModel
             if (!IsRunning)
             {
                 _settings.Adaptes = SelectedInterface;
-                _settings.TTL = 5;
-                _settings.MulticastAddress = "238.192.0.1";
+                _settings.TTL = 1;
+                _settings.MulticastAddress = "224.0.0.1";
                 IsRunning = true;
                 _router.Start();
             }

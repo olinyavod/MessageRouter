@@ -12,6 +12,7 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using System.Runtime.InteropServices;
 using Autofac;
 using Autofac.Extras.CommonServiceLocator;
 using Melomans.Windows.Network;
@@ -38,6 +39,10 @@ namespace Melomans.Windows.ViewModel
                 builder.RegisterModule<NetworkModule>();
                 builder.RegisterType<MainViewModel>().SingleInstance();
                 _container = builder.Build();
+                builder = new ContainerBuilder();
+                builder.RegisterInstance(_container)
+                    .ExternallyOwned();
+                builder.Update(_container);
                 _serviceLocator = new AutofacServiceLocator(_container);
 
             }

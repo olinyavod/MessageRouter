@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using Melomans.Core.Network;
 using Sockets.Plugin.Abstractions;
@@ -7,31 +8,28 @@ namespace Melomans.Windows.Network
 {
 	class TcpRemoteClient : IRemoteClient
 	{
-		private readonly ITcpSocketClient _client;
+		private readonly TcpClient _client;
 
-		public TcpRemoteClient(ITcpSocketClient client)
+		public TcpRemoteClient(TcpClient client)
 		{
 			_client = client;
+		    var stream = _client.GetStream();
+		    WriteStream = stream;
+		    ReadStream = stream;
 		}
 
-		public Stream ReadStream
-		{
-			get { return _client.ReadStream; }
-		}
+		public Stream ReadStream { get; private set; }
 
-		public Stream WriteStream
-		{
-			get { return _client.WriteStream; }
-		}
+		public Stream WriteStream { get; private set; }
 
 		public Task DisconnectAsync()
 		{
-			return _client.DisconnectAsync();
+		    return Task.Run(() => _client.Close());
 		}
 
 		public void Dispose()
 		{
-			_client.Dispose();
+			
 		}
 	}
 }

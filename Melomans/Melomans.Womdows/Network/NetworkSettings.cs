@@ -6,7 +6,7 @@ namespace Melomans.Windows.Network
     {
         public NetworkSettings()
         {
-            MulticastPort = 30303;
+            MulticastPort = 30307;
             ListenPort = 30303;
         }
         public int TTL { get; set; }
