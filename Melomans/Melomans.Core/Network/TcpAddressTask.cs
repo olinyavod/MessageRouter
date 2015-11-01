@@ -76,7 +76,7 @@ namespace Melomans.Core.Network
 			}
 		}
 
-		protected async override void Run(CancellationToken cancellationToken)
+		protected async override Task Run(CancellationToken cancellationToken)
 		{
 			ITcpClient client = null;
 			try

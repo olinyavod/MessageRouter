@@ -15,6 +15,7 @@
 using System.Runtime.InteropServices;
 using Autofac;
 using Autofac.Extras.CommonServiceLocator;
+using GalaSoft.MvvmLight.Messaging;
 using Melomans.Windows.Network;
 using Microsoft.Practices.ServiceLocation;
 
@@ -38,6 +39,9 @@ namespace Melomans.Windows.ViewModel
                 ContainerBuilder builder = new ContainerBuilder();
                 builder.RegisterModule<NetworkModule>();
                 builder.RegisterType<MainViewModel>().SingleInstance();
+                builder.RegisterType<Messenger>()
+                    .As<IMessenger>()
+                    .SingleInstance();
                 _container = builder.Build();
                 builder = new ContainerBuilder();
                 builder.RegisterInstance(_container)

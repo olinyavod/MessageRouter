@@ -34,7 +34,7 @@ namespace Melomans.Windows.ViewModel
                 .OnSuccess(m =>
                 {
                     Melomans.Add(m.Meloman);
-                   /* _router.PublishFor(new [] {m.Meloman}, new EchoMessage
+                    _router.PublishFor(new [] {m.Meloman}, new EchoMessage
                     {
                         Meloman = new Meloman
                         {
@@ -43,7 +43,7 @@ namespace Melomans.Windows.ViewModel
                             Port = _settings.ListenPort,
                             Title = Environment.MachineName
                         }
-                    }).First().Run();*/
+                    }).First().Run();
                 });
             _echoMessageToken = _router.Subscribe<EchoMessage>()
                 .OnSuccess(m =>

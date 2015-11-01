@@ -2,6 +2,7 @@ using System;
 using System.Dynamic;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using Melomans.Core.Message;
 using Melomans.Core.Models;
 
@@ -110,12 +111,12 @@ namespace Melomans.Core.Network
 			return this;
 		}
 
-		public void Run()
+		public async void Run()
 		{
 			try
 			{
 				RaiseStart(Message);
-				Run(_cancellationTokenSource.Token);
+				await Run(_cancellationTokenSource.Token);
 			}
 			catch (OperationCanceledException)
 			{
@@ -142,7 +143,7 @@ namespace Melomans.Core.Network
 
 		protected abstract TMessage Message { get; }
 
-		protected abstract void Run(CancellationToken cancellationToken);
+		protected abstract Task Run(CancellationToken cancellationToken);
 
 		public virtual INetworkTask<TMessage> OnStart(Action<TMessage> onStart)
 		{

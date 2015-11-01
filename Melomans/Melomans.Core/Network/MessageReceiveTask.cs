@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Melomans.Core.Message;
 using Melomans.Core.Models;
 
@@ -26,7 +27,7 @@ namespace Melomans.Core.Network
 
 		protected override TMessage Message { get { return _message; } }
 
-		protected override async void Run(CancellationToken cancellationToken)
+		protected override async Task Run(CancellationToken cancellationToken)
 		{
 			Stream stream = null;
 			try

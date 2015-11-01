@@ -32,27 +32,17 @@ namespace Melomans.Core.Network
 
 		}
 
-		private async void MessageReceived(object sender, DatagramReceivedEventArgs e)
-		{
-			MemoryStream stream = null;
-			try
-			{
-				stream = new MemoryStream(e.Data);
-				var value = await GetSubscrubtion(e.RemoteAddress, stream);
-				if (value != null)
-				{
-					value.ReceivedMessage(null, new MulticastRemoteClient(stream));
-				}
+	    private async void MessageReceived(object sender, DatagramReceivedEventArgs e)
+	    {
+	        var stream = new MemoryStream(e.Data);
+	        var value = await GetSubscrubtion(e.RemoteAddress, stream);
+	        if (value != null)
+	        {
+	            value.ReceivedMessage(null, new MulticastRemoteClient(stream));
+	        }
+	    }
 
-			}
-			finally
-			{
-				if(stream != null)
-					stream.Dispose();
-			}
-		}
-
-		async Task<IMessageSubscription> GetSubscrubtion(string senderAddress, Stream stream)
+	    async Task<IMessageSubscription> GetSubscrubtion(string senderAddress, Stream stream)
 		{
 			var buffer = new byte[8];
 			var readeCount = await stream.ReadAsync(buffer, 0, buffer.Length);
@@ -71,7 +61,7 @@ namespace Melomans.Core.Network
 				var buffer = Encoding.UTF8.GetBytes(NetworkState.Ok.ToString());
 				await e.RemoteClient.WriteStream.WriteAsync(buffer, 0, buffer.Length);
 				await e.RemoteClient.WriteStream.FlushAsync();
-				value.ReceivedMessage(null, e.RemoteClient);
+			    value.ReceivedMessage(null, e.RemoteClient);
 			}
 			else
 			{

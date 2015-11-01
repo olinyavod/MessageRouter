@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Melomans.Core.Message;
 using Melomans.Core.Models;
 
@@ -34,42 +35,45 @@ namespace Melomans.Core.Network
 		{
 			var receivedTask = _taskFactory.CreateReceivedTask<TMessage>(meloman, client);
 			receivedTask
-				.OnStart(m =>
+				.OnStart(delegate
 				{
-					foreach (var r in _receivers)
-					{
-						r.CurrentTask = receivedTask;
-						r.RaiseOnStart(meloman);
-					}
+				    foreach (var r in _receivers)
+				    {
+				        r.CurrentTask = receivedTask;
+				        r.RaiseOnStart(meloman);
+				    }
 				})
-				.OnFinally(m =>
+				.OnFinally(delegate(TMessage m)
 				{
-					foreach (var r in _receivers)
-					{
-						r.CurrentTask = null;
-						r.RaiseOnFinally(meloman, m);
-					}
+				    foreach (var r in _receivers)
+				    {
+				        r.CurrentTask = null;
+				        r.RaiseOnFinally(meloman, m);
+				    }
 				})
 				.OnException(ex =>
 				{
 					foreach (var r in _receivers)
 						r.RaiseOnException(meloman, ex);
-				}).GetStream(m => _receivers.Select(i => i.OnGetWriter(meloman, m)).FirstOrDefault(i => i != null))
-				.OnCancelled(m =>
+				}).GetStream(
+				    delegate(TMessage m)
+				    {
+				        return _receivers.Select(i => i.OnGetWriter(meloman, m)).FirstOrDefault(i => i != null);
+				    })
+				.OnCancelled(delegate(TMessage m)
 				{
-					foreach (var r in _receivers)
-						r.RaiseOnCancelled(meloman, m);
-
+				    foreach (var r in _receivers)
+				        r.RaiseOnCancelled(meloman, m);
 				})
-				.OnSuccess(m =>
+				.OnSuccess(delegate(TMessage m)
 				{
-					foreach(var r in _receivers)
-						r.RaiseSuccess(meloman, m);
+				    foreach (var r in _receivers)
+				        r.RaiseSuccess(meloman, m);
 				})
-				.OnReport(m =>
+				.OnReport(delegate(ProgressInfo<TMessage> m)
 				{
-					foreach(var r in _receivers)
-						r.RaisenReport(meloman, m);
+				    foreach (var r in _receivers)
+				        r.RaisenReport(meloman, m);
 				}).Run();
 		}
 

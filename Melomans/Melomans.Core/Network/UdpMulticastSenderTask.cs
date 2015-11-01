@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 using Melomans.Core.Models;
 using Melomans.Core.Message;
 
@@ -28,7 +29,7 @@ namespace Melomans.Core.Network
 		public override Meloman For { get { throw new NotSupportedException(); } }
 
 
-		protected async override void Run(CancellationToken cancellationToken)
+		protected async override Task Run(CancellationToken cancellationToken)
 		{
 			MemoryStream stream = null;
 			try

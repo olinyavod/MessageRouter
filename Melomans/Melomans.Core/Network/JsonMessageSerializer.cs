@@ -10,7 +10,7 @@ namespace Melomans.Core.Network
 		public async Task<TMessage> ReadMessage<TMessage>(Stream stream)
 		{
 			var serializer = new DataContractJsonSerializer(typeof(TMessage));
-		    return  ((TMessage) serializer.ReadObject(stream));
+		    return await Task.Run(()=> ((TMessage) serializer.ReadObject(stream)));
 		}
 
 		public Task WriteMessage<TMessage>(TMessage message, Stream stream)
