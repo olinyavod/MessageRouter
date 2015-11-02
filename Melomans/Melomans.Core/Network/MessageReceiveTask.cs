@@ -27,18 +27,22 @@ namespace Melomans.Core.Network
 
 		protected override TMessage Message { get { return _message; } }
 
+	    
+
 		protected override async Task Run(CancellationToken cancellationToken)
 		{
 			Stream stream = null;
 			try
 			{
-				_message = await _messageSerializer.ReadMessage<TMessage>(_client.ReadStream);
-				byte[] buffer;
+                var buffer = Encoding.UTF8.GetBytes(NetworkState.Ok.ToString());
+			    await Send(cancellationToken, _client.WriteStream, buffer);
+			    using (var bufferStream = await ToMemoryStream(cancellationToken, _client.ReadStream))
+			        _message = await _messageSerializer.ReadMessage<TMessage>(bufferStream);
+			 
 				if (Message != null && _client.WriteStream.CanWrite)
 				{
 					buffer = Encoding.UTF8.GetBytes(NetworkState.Ok.ToString());
-					await _client.WriteStream.WriteAsync(buffer, 0, buffer.Length, cancellationToken);
-					await _client.WriteStream.FlushAsync(cancellationToken);
+				    await Send(cancellationToken, _client.WriteStream, buffer);
 				}
 				if (IsCancellationRequested)
 					throw new OperationCanceledException();
@@ -72,5 +76,7 @@ namespace Melomans.Core.Network
 			}
 
 		}
+
+	    
 	}
 }

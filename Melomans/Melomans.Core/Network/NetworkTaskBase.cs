@@ -1,5 +1,4 @@
 using System;
-using System.Dynamic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,6 +18,36 @@ namespace Melomans.Core.Network
 		private Action<ProgressInfo<TMessage>> _onReport;
 		private CancellationTokenSource _cancellationTokenSource;
 		private Func<TMessage, Stream> _getStream;
+
+        protected async Task<MemoryStream> ToMemoryStream(CancellationToken cancellationToken, Stream stream)
+        {
+            var result = new MemoryStream();
+            try
+            { 
+                var buffer = new byte[4];
+                await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+                var len = BitConverter.ToInt32(buffer, 0);
+                buffer = new byte[len];
+                await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+                await result.WriteAsync(buffer, 0, buffer.Length, cancellationToken);
+                result.Flush();
+                result.Seek(0, SeekOrigin.Begin);
+                return result;
+            }
+            catch (Exception)
+            {
+                result.Dispose();
+                return null;
+            }
+           
+        }
+
+        protected async Task Send(CancellationToken cancellationToken, Stream stream, byte[] buffer)
+        {
+            await stream.WriteAsync(BitConverter.GetBytes(buffer.Length), 0, 4, cancellationToken);
+            await stream.WriteAsync(buffer, 0, buffer.Length, cancellationToken);
+            await stream.FlushAsync(cancellationToken);
+        }
 
 		protected bool IsCancellationRequested
 		{

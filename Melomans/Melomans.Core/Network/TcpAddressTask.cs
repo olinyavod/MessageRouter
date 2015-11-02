@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.ServiceModel.Security;
 using System.Text;
@@ -46,13 +47,7 @@ namespace Melomans.Core.Network
 			try
 			{
 				var buffer = new byte[1024];
-				memoryBuffer = new MemoryStream();
-				int readedCount = 0;
-				do
-				{
-					readedCount = await readStream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
-					await memoryBuffer.WriteAsync(buffer, 0, readedCount);
-				} while (readedCount > 0);
+			    memoryBuffer = await ToMemoryStream(cancellationToken, readStream);
 				if (IsCancellationRequested)
 					throw new OperationCanceledException();
 
@@ -87,15 +82,18 @@ namespace Melomans.Core.Network
 				await client.ConnectAsync(_meloman.IpAddress, _meloman.Port);
 				var definition = _messageService.GetDefinition<TMessage>();
 				var buffer = BitConverter.GetBytes(_messageService.CreateMessageHash(definition));
-				await client.WriteStream.WriteAsync(buffer, 0, buffer.Length);
+				await client.WriteStream.WriteAsync(buffer, 0, buffer.Length, cancellationToken);
 				await client.WriteStream.FlushAsync(cancellationToken);
 				if(!await GetResponse(client.ReadStream, cancellationToken))
 					return;
 				if (IsCancellationRequested)
 					throw new OperationCanceledException();
+			    using (var memoryBuffer = new MemoryStream())
+			    {
+                    await _serializer.WriteMessage(_message, memoryBuffer);
+			        await Send(cancellationToken, client.WriteStream, memoryBuffer.ToArray());
+			    }
 				
-				await _serializer.WriteMessage(_message, client.WriteStream);
-			    await client.WriteStream.FlushAsync(cancellationToken);
 				if (IsCancellationRequested)
 					throw new OperationCanceledException();
 				

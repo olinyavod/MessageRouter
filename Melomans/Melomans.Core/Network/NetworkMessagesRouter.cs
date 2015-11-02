@@ -58,10 +58,7 @@ namespace Melomans.Core.Network
 			var value = await GetSubscrubtion(e.RemoteAddress, e.RemoteClient.ReadStream);
 			if (value != null)
 			{
-				var buffer = Encoding.UTF8.GetBytes(NetworkState.Ok.ToString());
-				await e.RemoteClient.WriteStream.WriteAsync(buffer, 0, buffer.Length);
-				await e.RemoteClient.WriteStream.FlushAsync();
-			    value.ReceivedMessage(null, e.RemoteClient);
+				value.ReceivedMessage(null, e.RemoteClient);
 			}
 			else
 			{
