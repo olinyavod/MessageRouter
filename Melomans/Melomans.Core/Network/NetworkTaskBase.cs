@@ -65,7 +65,7 @@ namespace Melomans.Core.Network
 				_onFinally(message);
 		}
 
-		protected void RaiseCacth(Exception ex)
+		protected void RaiseCatch(Exception ex)
 		{
 			if (_onCatch != null)
 				_onCatch(ex);
@@ -153,7 +153,7 @@ namespace Melomans.Core.Network
 			}
 			catch (Exception ex)
 			{
-				RaiseCacth(ex);
+				RaiseCatch(ex);
 			}
 			finally
 			{
