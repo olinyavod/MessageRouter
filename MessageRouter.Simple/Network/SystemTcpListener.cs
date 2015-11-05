@@ -1,20 +1,20 @@
 ﻿using System;
-using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using MessageRouter.Network;
+using IPEndPoint = System.Net.IPEndPoint;
 
 namespace MessageRouter.Simple.Network
 {
     class SystemTcpListener : ITcpListener
     {
         private readonly NetworkSettings _settings;
-        private TcpListener _listener;
+        private readonly TcpListener _listener;
 
         public SystemTcpListener(NetworkSettings settings)
         {
             _settings = settings;
-            _listener = new TcpListener(settings.ListenPort);
+            _listener = new TcpListener(0);
         }
 
         private void OnConnectionReceived(object sender, ListenerConnectEventArgs e)
@@ -33,6 +33,7 @@ namespace MessageRouter.Simple.Network
         public async Task StartListeningAsync()
         {
             _listener.Start();
+            _settings.ListenPort = ((IPEndPoint) _listener.LocalEndpoint).Port;
             while (true)
             {
                 var r = await _listener.AcceptTcpClientAsync();

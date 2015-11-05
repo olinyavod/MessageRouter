@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using MessageRouter.Message;
-using MessageRouter.Models;
 
 namespace MessageRouter.Network
 {
@@ -9,8 +8,6 @@ namespace MessageRouter.Network
 		where TMessage: class, IMessage
 	{
 		void Run();
-
-		Meloman For { get; }
 
 		INetworkTask<TMessage> OnStart(Action<TMessage> onStart);
 

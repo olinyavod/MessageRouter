@@ -2,19 +2,22 @@
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using MessageRouter.Network;
+using MessageRouter.Simple.Service;
 
 namespace MessageRouter.Simple.Network
 {
     class SystemTcpClient:ITcpClient
     {
+        private readonly UsersService _usersService;
         private readonly TcpClient _client;
 
-        public SystemTcpClient():this(new TcpClient())
+        public SystemTcpClient(UsersService usersService):this(usersService, new TcpClient())
         {
         }
 
-        public SystemTcpClient(TcpClient client)
+        public SystemTcpClient(UsersService usersService, TcpClient client)
         {
+            _usersService = usersService;
             _client = client;
         }
 
@@ -28,15 +31,12 @@ namespace MessageRouter.Simple.Network
 
         public Stream WriteStream { get; private set; }
 
-        public string RemoteAddress { get; private set; }
-
-        public int RemotePort { get; private set; }
-
-        public async Task ConnectAsync(string address, int port)
+        public async Task ConnectAsync(string userId)
         {
-            RemoteAddress = address;
-            RemotePort = port;
-            await _client.ConnectAsync(address, port);
+            var user = _usersService.Get(userId);
+            if (user == null)
+                return;
+            await _client.ConnectAsync(user.IpAddress, user.Port);
             ReadStream = _client.GetStream();
             WriteStream = ReadStream;
         }

@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using MessageRouter.Network;
+using IPEndPoint = System.Net.IPEndPoint;
 
 namespace MessageRouter.Simple.Network
 {
@@ -42,7 +43,7 @@ namespace MessageRouter.Simple.Network
                 var result = await _client.ReceiveAsync();
                 OnMessageReceived(_client,
                     new DatagramReceivedEventArgs(result.RemoteEndPoint.Address.ToString(),
-                        result.RemoteEndPoint.Port.ToString(), result.Buffer));
+                        result.RemoteEndPoint.Port, result.Buffer));
             }
             
         }

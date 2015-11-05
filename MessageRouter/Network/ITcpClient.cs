@@ -10,11 +10,7 @@ namespace MessageRouter.Network
 
 		Stream WriteStream { get; }
 
-		string RemoteAddress { get; }
-
-		int RemotePort { get; }
-
-		Task ConnectAsync(string address, int port);
+	    Task ConnectAsync(string userId);
 
 		Task DisconnectAsync();
 	}

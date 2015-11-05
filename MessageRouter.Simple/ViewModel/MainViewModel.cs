@@ -4,10 +4,11 @@ using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using MessageRouter.Message;
-using MessageRouter.Models;
 using MessageRouter.Network;
+using MessageRouter.Simple.Messages;
+using MessageRouter.Simple.Model;
 using MessageRouter.Simple.Network;
+using MessageRouter.Simple.Service;
 using Sockets.Plugin;
 
 namespace MessageRouter.Simple.ViewModel
@@ -22,20 +23,21 @@ namespace MessageRouter.Simple.ViewModel
         private IMessageReceiverConfig<HelloMessage> _helloMessageToken;
         private IMessageReceiverConfig<EchoMessage> _echoMessageToken;
 
-        public MainViewModel(INetworkMessageRouter router, NetworkSettings settings)
+        public MainViewModel(INetworkMessageRouter router, NetworkSettings settings, UsersService usersService)
         {
             _router = router;
             _settings = settings;
             StartCommand = new RelayCommand(OnStart, () => SelectedInterface != null);
             RefreshCommand = new RelayCommand(OnRefresh, () => IsRunning);
-            Melomans = new ObservableCollection<Meloman>();
+            Users = new ObservableCollection<User>();
             _helloMessageToken = _router.Subscribe<HelloMessage>()
                 .OnSuccess(m =>
                 {
-                    Melomans.Add(m.Meloman);
-                    _router.PublishFor(new [] {m.Meloman}, new EchoMessage
+                    Users.Add(m.User);
+                    usersService.Add(m.User);
+                    _router.PublishFor(new [] {m.User.Id}, new EchoMessage
                     {
-                        Meloman = new Meloman
+                        User = new User
                         {
                             Id = _settings.Adaptes.NativeInterfaceId,
                             IpAddress = _settings.Adaptes.IpAddress,
@@ -47,7 +49,8 @@ namespace MessageRouter.Simple.ViewModel
             _echoMessageToken = _router.Subscribe<EchoMessage>()
                 .OnSuccess(m =>
                 {
-                    Melomans.Add(m.Meloman);
+                    Users.Add(m.User);
+                    usersService.Add(m.User);
                 });
             Initialize();
         }
@@ -56,7 +59,7 @@ namespace MessageRouter.Simple.ViewModel
         {
             _router.Publish(new HelloMessage
             {
-                Meloman = new Meloman
+                User = new User
                 {
                     Id = _settings.Adaptes.NativeInterfaceId,
                     IpAddress = _settings.Adaptes.IpAddress,
@@ -115,7 +118,7 @@ namespace MessageRouter.Simple.ViewModel
             }
         }
 
-        public ObservableCollection<Meloman> Melomans { get; private set; }
+        public ObservableCollection<User> Users { get; private set; }
 
         public ICommand StartCommand { get; private set; }
 

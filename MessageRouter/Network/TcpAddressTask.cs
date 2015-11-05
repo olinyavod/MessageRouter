@@ -5,36 +5,30 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MessageRouter.Message;
-using MessageRouter.Models;
 
 namespace MessageRouter.Network
 {
 	public class TcpAddressTask<TMessage> : NetworkTaskBase<TMessage>, INetworkTask<TMessage>
 		where TMessage:class, IMessage
 	{
-		private readonly Meloman _meloman;
+		private readonly string _userId;
 		private readonly INetworkClientFactory _clientFactory;
 		private readonly TMessage _message;
 		private readonly IMessageSerializer _serializer;
 		private readonly IMessageService _messageService;
 
-		public TcpAddressTask(Meloman meloman, 
+		public TcpAddressTask(string userId, 
 			INetworkClientFactory clientFactory,
 			TMessage message,
 			IMessageSerializer serializer,
 			IMessageService messageService)
 		{
-			_meloman = meloman;
+		    _userId = userId;
 			_clientFactory = clientFactory;
 			_message = message;
 			_serializer = serializer;
 			_messageService = messageService;
 			
-		}
-
-		public override Meloman For
-		{
-			get { return _meloman; }
 		}
 
 		private async Task<bool> GetResponse(Stream readStream, CancellationToken cancellationToken)
@@ -72,10 +66,10 @@ namespace MessageRouter.Network
 			ITcpClient client = null;
 			try
 			{
-				if (!_messageService.CanSend(For.Id, typeof (TMessage)))
+				if (!_messageService.CanSend(_userId, typeof (TMessage)))
 					throw new SecurityAccessDeniedException(string.Format("Access denied for type message {0}", typeof (TMessage)));
                 client = _clientFactory.CreateTcpClient();
-				await client.ConnectAsync(_meloman.IpAddress, _meloman.Port);
+				await client.ConnectAsync(_userId);
 				var definition = _messageService.GetDefinition<TMessage>();
 				var buffer = BitConverter.GetBytes(_messageService.CreateMessageHash(definition));
 				await client.WriteStream.WriteAsync(buffer, 0, buffer.Length, cancellationToken);

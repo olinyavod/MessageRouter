@@ -4,7 +4,7 @@ namespace MessageRouter.Network
 {
 	public class DatagramReceivedEventArgs:EventArgs
 	{
-		public DatagramReceivedEventArgs(string remoteAddress, string remotePort, byte[] data)
+		public DatagramReceivedEventArgs(string remoteAddress, int remotePort, byte[] data)
 		{
 			RemoteAddress = remoteAddress;
 			RemotePort = remotePort;
@@ -13,7 +13,7 @@ namespace MessageRouter.Network
 
 		public string RemoteAddress { get; private set; }
 
-		public string RemotePort { get; private set; }
+		public int RemotePort { get; private set; }
 
 		public byte[] Data { get; private set; }
 	}

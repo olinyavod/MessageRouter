@@ -35,16 +35,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Message\DisconnectMessage.cs" />
-    <Compile Include="Message\EchoMessage.cs" />
-    <Compile Include="Message\HelloMessage.cs" />
     <Compile Include="Message\IMessage.cs" />
     <Compile Include="Message\IMessageService.cs" />
     <Compile Include="Message\IStremingMessage.cs" />
     <Compile Include="Message\MessageDefinition.cs" />
     <Compile Include="Message\MessageService.cs" />
-    <Compile Include="Models\Meloman.cs" />
     <Compile Include="Network\AccessGroups.cs" />
+    <Compile Include="Network\IEndPoint.cs" />
     <Compile Include="Network\IMessageReceiverConfig.cs" />
     <Compile Include="Network\IMessageSubscription.cs" />
     <Compile Include="Network\INetworkClientFactory.cs" />
@@ -58,7 +55,6 @@
     <Compile Include="Network\INetworkMessageRouter.cs" />
     <Compile Include="Network\INetworkSettngs.cs" />
     <Compile Include="Network\INetworkTaskFactory.cs" />
-    <Compile Include="Network\ISession.cs" />
     <Compile Include="Network\JsonMessageSerializer.cs" />
     <Compile Include="Network\MessageReceiveTask.cs" />
     <Compile Include="Network\MessageSubscription.cs" />
@@ -73,6 +69,9 @@
     <Compile Include="Network\UdpMulticastSenderTask.cs" />
     <Compile Include="Network\DatagramReceivedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

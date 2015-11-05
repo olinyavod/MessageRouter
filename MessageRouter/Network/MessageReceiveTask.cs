@@ -4,26 +4,22 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MessageRouter.Message;
-using MessageRouter.Models;
 
 namespace MessageRouter.Network
 {
 	public class MessageReceiveTask<TMessage> : NetworkTaskBase<TMessage>
 		where TMessage: class, IMessage
 	{
-		private readonly Meloman _meloman;
+		
 		private readonly IRemoteClient _client;
 		private readonly IMessageSerializer _messageSerializer;
 		private TMessage _message;
 
-		public MessageReceiveTask(Meloman meloman, IRemoteClient client, IMessageSerializer messageSerializer)
+		public MessageReceiveTask(IRemoteClient client, IMessageSerializer messageSerializer)
 		{
-			_meloman = meloman;
 			_client = client;
 			_messageSerializer = messageSerializer;
 		}
-
-		public override Meloman For { get { return _meloman; } }
 
 		protected override TMessage Message { get { return _message; } }
 

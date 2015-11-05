@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.IO;
+using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace MessageRouter.Network
@@ -9,6 +11,8 @@ namespace MessageRouter.Network
 		Stream ReadStream { get; }
 
 		Stream WriteStream { get; }
+
+        RemotePoint RemotePoint { get; }
 
 		Task DisconnectAsync();
 	}

@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using MessageRouter.Message;
-using MessageRouter.Models;
 
 namespace MessageRouter.Network
 {
@@ -26,7 +25,7 @@ namespace MessageRouter.Network
 			_client = client;
 		}
 
-		public override Meloman For { get { throw new NotSupportedException(); } }
+		
 
 
 		protected async override Task Run(CancellationToken cancellationToken)

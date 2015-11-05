@@ -6,8 +6,9 @@ namespace MessageRouter.Simple.Network
     {
         public NetworkSettings()
         {
-            MulticastPort = 30307;
+            MulticastPort = 30304;
             ListenPort = 30303;
+            TTL = 5;
         }
         public int TTL { get; set; }
 

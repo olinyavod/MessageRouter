@@ -5,7 +5,6 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using MessageRouter.Message;
-using MessageRouter.Models;
 
 namespace MessageRouter.Network
 {
@@ -38,7 +37,7 @@ namespace MessageRouter.Network
 	        var value = await GetSubscrubtion(e.RemoteAddress, stream);
 	        if (value != null)
 	        {
-	            value.ReceivedMessage(null, new MulticastRemoteClient(stream));
+                value.ReceivedMessage(new MulticastRemoteClient(new RemotePoint(e.RemotePort, e.RemoteAddress), stream));
 	        }
 	    }
 
@@ -58,7 +57,7 @@ namespace MessageRouter.Network
 			var value = await GetSubscrubtion(e.RemoteAddress, e.RemoteClient.ReadStream);
 			if (value != null)
 			{
-				value.ReceivedMessage(null, e.RemoteClient);
+				value.ReceivedMessage(e.RemoteClient);
 			}
 			else
 			{
@@ -88,11 +87,11 @@ namespace MessageRouter.Network
 			return _taskFactory.CreateMulticastTask(message, _multicastClient);
 		}
 
-		public IEnumerable<INetworkTask<TMessage>> PublishFor<TMessage>(IEnumerable<Meloman> melomans, TMessage message)
+		public IEnumerable<INetworkTask<TMessage>> PublishFor<TMessage>(IEnumerable<string> usersId, TMessage message)
 			where TMessage : class, IMessage
 		{
-			foreach (var meloman in melomans)
-				yield return _taskFactory.CreateAddressTask(meloman, message);
+			foreach (var u in usersId)
+				yield return _taskFactory.CreateAddressTask(u, message);
 		}
 
 		public IMessageReceiverConfig<TMessage> Subscribe<TMessage>() 

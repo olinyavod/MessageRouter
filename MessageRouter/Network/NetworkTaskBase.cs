@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using MessageRouter.Message;
-using MessageRouter.Models;
 
 namespace MessageRouter.Network
 {
@@ -101,8 +100,6 @@ namespace MessageRouter.Network
 				return _getStream(message);
 			return null;
 		}
-
-		public abstract Meloman For { get; }
 
 		public virtual void Cancel()
 		{

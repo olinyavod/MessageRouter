@@ -1,5 +1,4 @@
 ﻿using MessageRouter.Message;
-using MessageRouter.Models;
 
 namespace MessageRouter.Network
 {
@@ -19,10 +18,10 @@ namespace MessageRouter.Network
 			_messageSerializer = messageSerializer;
 		}
 
-		public INetworkTask<TMessage> CreateAddressTask<TMessage>(Meloman meloman, TMessage message)
+		public INetworkTask<TMessage> CreateAddressTask<TMessage>(string userId, TMessage message)
 			where TMessage : class, IMessage
 		{
-			return new TcpAddressTask<TMessage>(meloman, _clientFactory, message, _messageSerializer, _messageService);
+			return new TcpAddressTask<TMessage>(userId, _clientFactory, message, _messageSerializer, _messageService);
 		}
 
 		public INetworkTask<TMessage> CreateMulticastTask<TMessage>(TMessage message, IMulticastClient client) where TMessage : class, IMessage
@@ -30,9 +29,9 @@ namespace MessageRouter.Network
 			return new UdpMulticastSenderTask<TMessage>(message, _messageSerializer, _messageService, client);
 		}
 
-		public INetworkTask<TMessage> CreateReceivedTask<TMessage>(Meloman meloman, IRemoteClient client) where TMessage : class, IMessage
+		public INetworkTask<TMessage> CreateReceivedTask<TMessage>(IRemoteClient client) where TMessage : class, IMessage
 		{
-			return new MessageReceiveTask<TMessage>(meloman, client, _messageSerializer);
+			return new MessageReceiveTask<TMessage>(client, _messageSerializer);
 		}
 	}
 }

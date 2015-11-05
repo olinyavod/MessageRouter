@@ -1,5 +1,4 @@
 ﻿using MessageRouter.Message;
-using MessageRouter.Models;
 
 namespace MessageRouter.Network
 {
@@ -8,10 +7,10 @@ namespace MessageRouter.Network
 		INetworkTask<TMessage> CreateMulticastTask<TMessage>(TMessage message, IMulticastClient client)
 			where TMessage: class, IMessage;
 
-		INetworkTask<TMessage> CreateAddressTask<TMessage>(Meloman meloman, TMessage message)
+		INetworkTask<TMessage> CreateAddressTask<TMessage>(string address, TMessage message)
 			where TMessage : class, IMessage;
 
-		INetworkTask<TMessage> CreateReceivedTask<TMessage>(Meloman meloman, IRemoteClient client)
+		INetworkTask<TMessage> CreateReceivedTask<TMessage>(IRemoteClient client)
 			where TMessage: class, IMessage;
 	}
 }

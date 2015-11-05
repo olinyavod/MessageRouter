@@ -4,7 +4,7 @@
         xmlns:plugin="clr-namespace:Sockets.Plugin;assembly=Sockets.Plugin"
         xmlns:simple="clr-namespace:MessageRouter.Simple"
         xmlns:props="clr-namespace:MessageRouter.Simple.Properties"
-        xmlns:models="clr-namespace:MessageRouter.Models;assembly=MessageRouter"
+        xmlns:model="clr-namespace:MessageRouter.Simple.Model"
         Title="MainWindow" Height="350" Width="525" DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         Padding="10">
     <Window.Resources>
@@ -17,7 +17,7 @@
                (<Run Text="{Binding IpAddress, Mode=OneWay}"/>)
            </TextBlock>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type models:Meloman}">
+        <DataTemplate DataType="{x:Type model:User}">
             <TextBlock>
                 <Run Text="{Binding Title, Mode=OneWay}"/>
                 (<Run Text="{Binding IpAddress, Mode=OneWay}"/>:<Run Text="{Binding Port, Mode=OneWay}"/>
@@ -47,7 +47,7 @@
                  Grid.ColumnSpan="2"
                  Grid.Row="1"
                  Margin="5"
-                 ItemsSource="{Binding Melomans}"/>
+                 ItemsSource="{Binding Users}"/>
         <Button Command="{Binding RefreshCommand}"
                 Content="{x:Static props:Resources.btnRefresh}"
                 Grid.Row="2"

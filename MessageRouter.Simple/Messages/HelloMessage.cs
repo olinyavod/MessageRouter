@@ -1,14 +1,15 @@
 ﻿using System.Runtime.Serialization;
-using MessageRouter.Models;
+using MessageRouter.Message;
 using MessageRouter.Network;
+using MessageRouter.Simple.Model;
 
-namespace MessageRouter.Message
+namespace MessageRouter.Simple.Messages
 {
 	[DataContract]
 	[Message(AccessGroups.System)]
 	public class HelloMessage : IMessage
 	{
 		[DataMember]
-		public Meloman Meloman { get; set; }
+		public User User { get; set; }
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using MessageRouter.Message;
-using MessageRouter.Models;
 
 namespace MessageRouter.Network
 {
@@ -8,6 +7,6 @@ namespace MessageRouter.Network
 	{
 		MessageDefinition Definition { get; }
 
-		void ReceivedMessage(Meloman meloman, IRemoteClient client);
+		void ReceivedMessage(IRemoteClient client);
 	}
 }

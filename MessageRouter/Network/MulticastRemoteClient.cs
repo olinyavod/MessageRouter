@@ -7,10 +7,11 @@ namespace MessageRouter.Network
 	{
 		private Stream _stream;
 
-		public MulticastRemoteClient(Stream stream)
+		public MulticastRemoteClient(RemotePoint point, Stream stream)
 		{
 			_stream = stream;
 			WriteStream = Stream.Null;
+            RemotePoint = point;
 		}
 
 		public Stream ReadStream
@@ -19,8 +20,9 @@ namespace MessageRouter.Network
 		}
 
 		public Stream WriteStream { get; private set; }
+	    public RemotePoint RemotePoint { get; private set; }
 
-		public Task DisconnectAsync()
+	    public Task DisconnectAsync()
 		{
 			return Task.Delay(0);
 		}

@@ -16,6 +16,7 @@ using Autofac;
 using Autofac.Extras.CommonServiceLocator;
 using GalaSoft.MvvmLight.Messaging;
 using MessageRouter.Simple.Network;
+using MessageRouter.Simple.Service;
 using Microsoft.Practices.ServiceLocation;
 
 namespace MessageRouter.Simple.ViewModel
@@ -40,6 +41,8 @@ namespace MessageRouter.Simple.ViewModel
                 builder.RegisterType<MainViewModel>().SingleInstance();
                 builder.RegisterType<Messenger>()
                     .As<IMessenger>()
+                    .SingleInstance();
+                builder.RegisterType<UsersService>()
                     .SingleInstance();
                 _container = builder.Build();
                 builder = new ContainerBuilder();

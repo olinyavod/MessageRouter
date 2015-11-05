@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MessageRouter.Message;
-using MessageRouter.Models;
 
 namespace MessageRouter.Network
 {
@@ -30,16 +29,17 @@ namespace MessageRouter.Network
 
 		public MessageDefinition Definition { get; private set; }
 
-		public void ReceivedMessage(Meloman meloman, IRemoteClient client)
+		public void ReceivedMessage(IRemoteClient client)
 		{
-			var receivedTask = _taskFactory.CreateReceivedTask<TMessage>(meloman, client);
+			var receivedTask = _taskFactory.CreateReceivedTask<TMessage>(client);
+		    var remotePoint = client.RemotePoint;
 			receivedTask
 				.OnStart(delegate
 				{
 				    foreach (var r in _receivers)
 				    {
 				        r.CurrentTask = receivedTask;
-				        r.RaiseOnStart(meloman);
+				        r.RaiseOnStart(remotePoint);
 				    }
 				})
 				.OnFinally(delegate(TMessage m)
@@ -47,32 +47,32 @@ namespace MessageRouter.Network
 				    foreach (var r in _receivers)
 				    {
 				        r.CurrentTask = null;
-				        r.RaiseOnFinally(meloman, m);
+				        r.RaiseOnFinally(remotePoint, m);
 				    }
 				})
 				.OnException(ex =>
 				{
 					foreach (var r in _receivers)
-						r.RaiseOnException(meloman, ex);
+						r.RaiseOnException(remotePoint, ex);
 				}).GetStream(
 				    delegate(TMessage m)
 				    {
-				        return _receivers.Select(i => i.OnGetWriter(meloman, m)).FirstOrDefault(i => i != null);
+				        return _receivers.Select(i => i.OnGetWriter(remotePoint, m)).FirstOrDefault(i => i != null);
 				    })
 				.OnCancelled(delegate(TMessage m)
 				{
 				    foreach (var r in _receivers)
-				        r.RaiseOnCancelled(meloman, m);
+				        r.RaiseOnCancelled(remotePoint, m);
 				})
 				.OnSuccess(delegate(TMessage m)
 				{
 				    foreach (var r in _receivers)
-				        r.RaiseSuccess(meloman, m);
+				        r.RaiseSuccess(remotePoint, m);
 				})
 				.OnReport(delegate(ProgressInfo<TMessage> m)
 				{
 				    foreach (var r in _receivers)
-				        r.RaisenReport(meloman, m);
+				        r.RaisenReport(remotePoint, m);
 				}).Run();
 		}
 
@@ -123,19 +123,19 @@ namespace MessageRouter.Network
 
 		private class MessageReceiveConfig : IMessageReceiverConfig<TMessage>
 		{
-			private Action<Meloman, TMessage> _onCancelled;
+			private Action<RemotePoint, TMessage> _onCancelled;
 
-			private Action<Meloman, Exception> _onException;
+			private Action<RemotePoint, Exception> _onException;
 
-			private Action<Meloman, TMessage> _onFinally;
+			private Action<RemotePoint, TMessage> _onFinally;
 
-			private Action<Meloman, TMessage> _onSuccess;
+			private Action<RemotePoint, TMessage> _onSuccess;
 
-			private Func<Meloman, TMessage, Stream> _onGetWriter;
+			private Func<RemotePoint, TMessage, Stream> _onGetWriter;
 
-			private Action<Meloman> _onStart;
+			private Action<RemotePoint> _onStart;
 
-			private Action<Meloman, ProgressInfo<TMessage>> _onReport;
+			private Action<RemotePoint, ProgressInfo<TMessage>> _onReport;
 
 			private readonly IDisposable _parent;
 			private readonly IList<MessageReceiveConfig> _receivers;
@@ -171,56 +171,56 @@ namespace MessageRouter.Network
 				_onCancelled = null;
 			}
 
-			public void RaiseOnCancelled(Meloman meloman, TMessage message)
+			public void RaiseOnCancelled(RemotePoint point, TMessage message)
 			{
 				if (_onCancelled != null)
-					_onCancelled(meloman, message);
+					_onCancelled(point, message);
 			}
 
-			public void RaiseOnException(Meloman meloman, Exception ex)
+			public void RaiseOnException(RemotePoint point, Exception ex)
 			{
 				if (_onException != null)
-					_onException(meloman, ex);
+					_onException(point, ex);
 			}
 
-			public void RaiseOnFinally(Meloman meloman, TMessage message)
+			public void RaiseOnFinally(RemotePoint point, TMessage message)
 			{
 				if (_onFinally != null)
-					_onFinally(meloman, message);
+					_onFinally(point, message);
 			}
 
-			public void RaiseOnStart(Meloman meloman)
+			public void RaiseOnStart(RemotePoint point)
 			{
 				if (_onStart != null)
-					_onStart(meloman);
+					_onStart(point);
 			}
 
-			public void RaiseSuccess(Meloman meloman, TMessage message)
+			public void RaiseSuccess(RemotePoint point, TMessage message)
 			{
 				if (_onSuccess != null)
-					_onSuccess(meloman, message);
+					_onSuccess(point, message);
 			}
 
-			public Stream OnGetWriter(Meloman meloman, TMessage message)
+			public Stream OnGetWriter(RemotePoint point, TMessage message)
 			{
 				if (_onGetWriter != null)
-					return _onGetWriter(meloman, message);
+					return _onGetWriter(point, message);
 				return null;
 			}
 
-			public void RaisenReport(Meloman meloman, ProgressInfo<TMessage> info)
+			public void RaisenReport(RemotePoint point, ProgressInfo<TMessage> info)
 			{
 				if (_onReport != null)
-					_onReport(meloman, info);
+					_onReport(point, info);
 			}
 
 			public IMessageReceiverConfig<TMessage> OnException(Action<Exception> onException)
 			{
-				_onException = (meloman, exception) => onException(exception);
+				_onException = (point, exception) => onException(exception);
 				return this;
 			}
 
-			public IMessageReceiverConfig<TMessage> OnException(Action<Meloman, Exception> onException)
+			public IMessageReceiverConfig<TMessage> OnException(Action<RemotePoint, Exception> onException)
 			{
 				_onException = onException;
 				return this;
@@ -228,11 +228,11 @@ namespace MessageRouter.Network
 
 			public IMessageReceiverConfig<TMessage> OnFinally(Action<TMessage> onFinnally)
 			{
-				_onFinally = (meloman, message) => onFinnally(message);
+				_onFinally = (point, message) => onFinnally(message);
 				return this;
 			}
 
-			public IMessageReceiverConfig<TMessage> OnFinally(Action<Meloman, TMessage> onFinally)
+			public IMessageReceiverConfig<TMessage> OnFinally(Action<RemotePoint, TMessage> onFinally)
 			{
 				_onFinally = onFinally;
 				return this;
@@ -240,11 +240,11 @@ namespace MessageRouter.Network
 
 			public IMessageReceiverConfig<TMessage> OnGetWriter(Func<TMessage, Stream> onGetWriter)
 			{
-				_onGetWriter = (meloman, message) => onGetWriter(message);
+				_onGetWriter = (point, message) => onGetWriter(message);
 				return this;
 			}
 
-			public IMessageReceiverConfig<TMessage> OnGetWriter(Func<Meloman, TMessage, Stream> onGetWriter)
+			public IMessageReceiverConfig<TMessage> OnGetWriter(Func<RemotePoint, TMessage, Stream> onGetWriter)
 			{
 				_onGetWriter = onGetWriter;
 				return this;
@@ -252,11 +252,11 @@ namespace MessageRouter.Network
 
 			public IMessageReceiverConfig<TMessage> OnReport(Action<ProgressInfo<TMessage>> onReport)
 			{
-				_onReport = (meloman, info) => onReport(info);
+				_onReport = (point, info) => onReport(info);
 				return this;
 			}
 
-			public IMessageReceiverConfig<TMessage> OnReport(Action<Meloman, ProgressInfo<TMessage>> onReport)
+			public IMessageReceiverConfig<TMessage> OnReport(Action<RemotePoint, ProgressInfo<TMessage>> onReport)
 			{
 				_onReport = onReport;
 				return this;
@@ -264,11 +264,11 @@ namespace MessageRouter.Network
 
 			public IMessageReceiverConfig<TMessage> OnStart(Action onStart)
 			{
-				_onStart = meloman => onStart();
+				_onStart = point => onStart();
 				return this;
 			}
 
-			public IMessageReceiverConfig<TMessage> OnStart(Action<Meloman> onStart)
+			public IMessageReceiverConfig<TMessage> OnStart(Action<RemotePoint> onStart)
 			{
 				_onStart = onStart;
 				return this;
@@ -276,11 +276,11 @@ namespace MessageRouter.Network
 
 			public IMessageReceiverConfig<TMessage> OnSuccess(Action<TMessage> onSuccess)
 			{
-				_onSuccess = (meloman, message) => onSuccess(message);
+				_onSuccess = (point, message) => onSuccess(message);
 				return this;
 			}
 
-			public IMessageReceiverConfig<TMessage> OnSuccess(Action<Meloman, TMessage> onSuccess)
+			public IMessageReceiverConfig<TMessage> OnSuccess(Action<RemotePoint, TMessage> onSuccess)
 			{
 				_onSuccess = onSuccess;
 				return this;
@@ -288,11 +288,11 @@ namespace MessageRouter.Network
 
 			public IMessageReceiverConfig<TMessage> OnCancelled(Action<TMessage> onCancelled)
 			{
-				_onCancelled = (meloman, message) => onCancelled(message);
+				_onCancelled = (point, message) => onCancelled(message);
 				return this;
 			}
 
-			public IMessageReceiverConfig<TMessage> OnCancelled(Action<Meloman, TMessage> onCancelled)
+			public IMessageReceiverConfig<TMessage> OnCancelled(Action<RemotePoint, TMessage> onCancelled)
 			{
 				_onCancelled = onCancelled;
 				return this;
