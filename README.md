@@ -1,2 +1,2 @@
-# Melomans
-Music chat
+# MessageRouter
+Cross-platform network library, based on dublex comunications
