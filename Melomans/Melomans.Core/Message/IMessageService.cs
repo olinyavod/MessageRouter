@@ -1,6 +1,6 @@
 using System;
 
-namespace Melomans.Core.Message
+namespace MessageRouter.Message
 {
 	public interface IMessageService
 	{

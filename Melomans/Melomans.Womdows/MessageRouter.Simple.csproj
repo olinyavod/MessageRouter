@@ -7,7 +7,7 @@
     <ProjectGuid>{43AB3F0C-6017-4BD8-9492-A952B7A8FE02}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Melomans.Windows</RootNamespace>
+    <RootNamespace>MessageRouter.Simple</RootNamespace>
     <AssemblyName>Melomans.Womdows</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -140,9 +140,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Melomans.Core\Melomans.Core.csproj">
+    <ProjectReference Include="..\Melomans.Core\MessageRouter.csproj">
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
-      <Name>Melomans.Core</Name>
+      <Name>MessageRouter</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

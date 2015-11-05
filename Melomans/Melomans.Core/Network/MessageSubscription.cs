@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Melomans.Core.Message;
-using Melomans.Core.Models;
+using MessageRouter.Message;
+using MessageRouter.Models;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	class MessageSubscription<TMessage> : IMessageSubscription
 		where TMessage : class, IMessage

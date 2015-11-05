@@ -1,6 +1,6 @@
 ﻿using Sockets.Plugin.Abstractions;
 
-namespace Melomans.Windows.Network
+namespace MessageRouter.Simple.Network
 {
     public class NetworkSettings
     {

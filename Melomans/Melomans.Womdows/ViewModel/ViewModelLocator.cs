@@ -12,14 +12,13 @@
   See http://www.galasoft.ch/mvvm
 */
 
-using System.Runtime.InteropServices;
 using Autofac;
 using Autofac.Extras.CommonServiceLocator;
 using GalaSoft.MvvmLight.Messaging;
-using Melomans.Windows.Network;
+using MessageRouter.Simple.Network;
 using Microsoft.Practices.ServiceLocation;
 
-namespace Melomans.Windows.ViewModel
+namespace MessageRouter.Simple.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the

@@ -1,4 +1,4 @@
-namespace Melomans.Core.Message
+namespace MessageRouter.Message
 {
 	public interface IMessage
 	{

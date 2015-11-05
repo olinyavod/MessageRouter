@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	public class ListenerConnectEventArgs:EventArgs
 	{

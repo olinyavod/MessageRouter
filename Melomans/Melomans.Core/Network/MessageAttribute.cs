@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	[AttributeUsage(AttributeTargets.Class)]
 	public class MessageAttribute:Attribute

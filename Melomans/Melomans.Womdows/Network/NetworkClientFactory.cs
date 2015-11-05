@@ -1,6 +1,6 @@
-﻿using Melomans.Core.Network;
+﻿using MessageRouter.Network;
 
-namespace Melomans.Windows.Network
+namespace MessageRouter.Simple.Network
 {
     class NetworkClientFactory:INetworkClientFactory
     {

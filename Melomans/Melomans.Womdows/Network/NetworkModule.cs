@@ -1,8 +1,8 @@
 ﻿using Autofac;
-using Melomans.Core.Message;
-using Melomans.Core.Network;
+using MessageRouter.Message;
+using MessageRouter.Network;
 
-namespace Melomans.Windows.Network
+namespace MessageRouter.Simple.Network
 {
     class NetworkModule:Module
     {

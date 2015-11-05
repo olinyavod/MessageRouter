@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	public interface IMulticastClient : IDisposable
 	{

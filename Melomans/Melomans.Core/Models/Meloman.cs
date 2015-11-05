@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Melomans.Core.Network;
+using MessageRouter.Network;
 
-namespace Melomans.Core.Models
+namespace MessageRouter.Models
 {
 	/// <summary>Модель участника</summary>
 	[DataContract]

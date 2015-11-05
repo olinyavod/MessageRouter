@@ -1,9 +1,9 @@
 ﻿using System;
-using Melomans.Core.Models;
 using System.Collections.Generic;
-using Melomans.Core.Message;
+using MessageRouter.Message;
+using MessageRouter.Models;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	public interface INetworkMessageRouter : IDisposable
 	{

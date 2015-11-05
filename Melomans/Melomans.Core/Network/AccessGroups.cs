@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	/// <summary>Группы функций</summary>
 	[DataContract]

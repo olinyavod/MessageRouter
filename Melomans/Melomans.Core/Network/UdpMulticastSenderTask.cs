@@ -2,10 +2,10 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Melomans.Core.Models;
-using Melomans.Core.Message;
+using MessageRouter.Message;
+using MessageRouter.Models;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	public class UdpMulticastSenderTask<TMessage> : NetworkTaskBase<TMessage>
 		where TMessage:class, IMessage

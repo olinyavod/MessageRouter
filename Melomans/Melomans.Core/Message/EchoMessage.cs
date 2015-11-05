@@ -1,8 +1,8 @@
 ﻿using System.Runtime.Serialization;
-using Melomans.Core.Models;
-using Melomans.Core.Network;
+using MessageRouter.Models;
+using MessageRouter.Network;
 
-namespace Melomans.Core.Message
+namespace MessageRouter.Message
 {
 	[DataContract]
 	[Message(AccessGroups.System)]

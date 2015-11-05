@@ -2,12 +2,9 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight.Threading;
-using Melomans.Core.Network;
-using Sockets.Plugin;
-using Sockets.Plugin.Abstractions;
+using MessageRouter.Network;
 
-namespace Melomans.Windows.Network
+namespace MessageRouter.Simple.Network
 {
     class SystemMulticastClient:IMulticastClient
     {

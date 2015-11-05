@@ -3,10 +3,10 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Melomans.Core.Message;
-using Melomans.Core.Models;
+using MessageRouter.Message;
+using MessageRouter.Models;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	public class MessageReceiveTask<TMessage> : NetworkTaskBase<TMessage>
 		where TMessage: class, IMessage

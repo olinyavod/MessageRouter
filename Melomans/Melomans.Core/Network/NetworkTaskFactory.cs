@@ -1,8 +1,7 @@
-﻿using System;
-using Melomans.Core.Message;
-using Melomans.Core.Models;
+﻿using MessageRouter.Message;
+using MessageRouter.Models;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	public class NetworkTaskFactory : INetworkTaskFactory
 	{

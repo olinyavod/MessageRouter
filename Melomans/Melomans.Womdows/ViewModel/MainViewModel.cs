@@ -1,17 +1,16 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using Melomans.Core.Message;
-using Melomans.Core.Models;
-using Melomans.Core.Network;
-using Melomans.Windows.Network;
+using MessageRouter.Message;
+using MessageRouter.Models;
+using MessageRouter.Network;
+using MessageRouter.Simple.Network;
 using Sockets.Plugin;
 
-namespace Melomans.Windows.ViewModel
+namespace MessageRouter.Simple.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {

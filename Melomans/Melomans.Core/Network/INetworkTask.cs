@@ -1,9 +1,9 @@
-﻿using Melomans.Core.Models;
-using System;
-using Melomans.Core.Message;
+﻿using System;
 using System.IO;
+using MessageRouter.Message;
+using MessageRouter.Models;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	public interface INetworkTask<TMessage>
 		where TMessage: class, IMessage

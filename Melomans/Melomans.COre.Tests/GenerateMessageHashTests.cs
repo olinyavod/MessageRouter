@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Melomans.Core.Message;
+using MessageRouter.Message;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Melomans.Core.Tests
+namespace MessageRouter.Tests
 {
 	[TestClass]
 	public class GenerateMessageHashTests

@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Melomans.Core.Network;
-using Sockets.Plugin.Abstractions;
+using MessageRouter.Network;
 
-namespace Melomans.Windows.Network
+namespace MessageRouter.Simple.Network
 {
 	class TcpRemoteClient : IRemoteClient
 	{

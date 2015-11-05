@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Melomans.Core.Network
+﻿namespace MessageRouter.Network
 {
 	/// <summary>Информация о процессе</summary>
 	/// <typeparam name="TMessage">Тип сообщения</typeparam>

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization;
 
-namespace Melomans.Core.Message
+namespace MessageRouter.Message
 {
 	public interface IStreamingMessage
 	{

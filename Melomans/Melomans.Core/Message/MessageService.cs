@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using Melomans.Core.Network;
+using MessageRouter.Network;
 
-namespace Melomans.Core.Message
+namespace MessageRouter.Message
 {
 	public class MessageService : IMessageService
 	{

@@ -1,6 +1,6 @@
-﻿using Melomans.Core.Models;
+﻿using MessageRouter.Models;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	public interface ISession
 	{

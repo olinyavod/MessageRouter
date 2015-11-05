@@ -1,15 +1,14 @@
-﻿<Window x:Class="Melomans.Womdows.MainWindow"
+﻿<Window x:Class="MessageRouter.Simple.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:viewModel="clr-namespace:Melomans.Windows.ViewModel"
         xmlns:plugin="clr-namespace:Sockets.Plugin;assembly=Sockets.Plugin"
-        xmlns:windows="clr-namespace:Melomans.Windows"
-        xmlns:props="clr-namespace:Melomans.Windows.Properties"
-        xmlns:models="clr-namespace:Melomans.Core.Models;assembly=Melomans.Core"
+        xmlns:simple="clr-namespace:MessageRouter.Simple"
+        xmlns:props="clr-namespace:MessageRouter.Simple.Properties"
+        xmlns:models="clr-namespace:MessageRouter.Models;assembly=MessageRouter"
         Title="MainWindow" Height="350" Width="525" DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         Padding="10">
     <Window.Resources>
-        <windows:BooleanToValueConverter x:Key="RunningToStringConverter" 
+        <simple:BooleanToValueConverter x:Key="RunningToStringConverter" 
                                          TrueValue="{x:Static props:Resources.btnStop}"
                                          FalseValue="{x:Static props:Resources.btnStart}"/>
         <DataTemplate x:Key="InterfaceTemplate" DataType="{x:Type plugin:CommsInterface}">

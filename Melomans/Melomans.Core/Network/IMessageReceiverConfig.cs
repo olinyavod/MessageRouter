@@ -1,9 +1,9 @@
 ﻿using System;
-using Melomans.Core.Message;
-using Melomans.Core.Models;
 using System.IO;
+using MessageRouter.Message;
+using MessageRouter.Models;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	public interface IMessageReceiverConfig<TMessage>:IDisposable
 		where TMessage:class, IMessage

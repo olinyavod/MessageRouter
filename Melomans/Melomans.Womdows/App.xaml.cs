@@ -3,7 +3,7 @@ using Autofac;
 using GalaSoft.MvvmLight.Threading;
 using Microsoft.Practices.ServiceLocation;
 
-namespace Melomans.Windows
+namespace MessageRouter.Simple
 {
     /// <summary>
     /// Логика взаимодействия для App.xaml

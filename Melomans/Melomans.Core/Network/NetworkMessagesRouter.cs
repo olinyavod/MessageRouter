@@ -3,11 +3,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Melomans.Core.Message;
-using Melomans.Core.Models;
 using System.Threading.Tasks;
+using MessageRouter.Message;
+using MessageRouter.Models;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	public class NetworkMessagesRouter : INetworkMessageRouter
 	{

@@ -1,4 +1,4 @@
-﻿namespace Melomans.Core.Network
+﻿namespace MessageRouter.Network
 {
 	public interface INetworkClientFactory
 	{

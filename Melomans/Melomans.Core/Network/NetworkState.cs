@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Melomans.Core.Network
+namespace MessageRouter.Network
 {
 	[DataContract]
 	public enum NetworkState
