@@ -140,7 +140,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Melomans.Core\MessageRouter.csproj">
+    <ProjectReference Include="..\MessageRouter\MessageRouter.csproj">
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>MessageRouter</Name>
     </ProjectReference>
