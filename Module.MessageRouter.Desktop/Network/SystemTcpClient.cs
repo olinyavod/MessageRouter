@@ -1,12 +1,11 @@
 ﻿using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Hubl.Core.Service;
 using MessageRouter.Network;
 
-namespace Hubl.Daemon.Network
+namespace Module.MessageRouter.Desktop.Network
 {
-	class SystemTcpClient:ITcpClient
+    internal class SystemTcpClient:ITcpClient
 	{
 		private readonly UsersService _usersService;
 		private readonly TcpClient _client;
@@ -26,7 +25,7 @@ namespace Hubl.Daemon.Network
 		{
 			_client.Close();
 		}
-
+        
 		public Stream ReadStream { get; private set; }
 
 		public Stream WriteStream { get; private set; }

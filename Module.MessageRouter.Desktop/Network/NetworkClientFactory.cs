@@ -1,5 +1,5 @@
-﻿using Hubl.Core.Service;
-using MessageRouter.Network;
+﻿using MessageRouter.Network;
+using Module.MessageRouter.Desktop.Network;
 
 namespace Hubl.Daemon.Network
 {

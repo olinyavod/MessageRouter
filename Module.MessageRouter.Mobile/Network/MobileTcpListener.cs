@@ -1,10 +1,10 @@
 ﻿using System;
-using MessageRouter.Network;
 using System.Threading.Tasks;
+using Hubl.Mobile;
+using MessageRouter.Network;
 using Sockets.Plugin;
-using Hubl.Core.Service;
 
-namespace Hubl.Mobile
+namespace Module.MessageRouter.Mobile.Network
 {
 	public class MobileTcpListener : ITcpListener
 	{

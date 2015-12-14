@@ -4,9 +4,9 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using MessageRouter.Network;
 
-namespace Hubl.Daemon.Network
+namespace Module.MessageRouter.Desktop.Network
 {
-	class TcpRemoteClient : IRemoteClient
+    internal class TcpRemoteClient : IRemoteClient
 	{
 		private readonly TcpClient _client;
 

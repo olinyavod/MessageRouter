@@ -1,10 +1,11 @@
 ﻿using Autofac;
+using Hubl.Mobile;
 using MessageRouter.Message;
 using MessageRouter.Network;
 
-namespace Hubl.Mobile
+namespace Module.MessageRouter.Mobile.Network
 {
-	class NetworkModule:Module
+    internal class NetworkModule:Autofac.Module
 	{
 		protected override void Load(ContainerBuilder builder)
 		{

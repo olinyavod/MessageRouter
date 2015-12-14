@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Hubl.Mobile;
 using MessageRouter.Network;
-using Hubl.Core.Service;
 
-namespace Hubl.Mobile
+namespace Module.MessageRouter.Mobile.Network
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
 	public class MobileNetworkClientFactory: INetworkClientFactory
 	{
 

@@ -4,9 +4,9 @@ using System.Net.Sockets;
 using System.Threading.Tasks;
 using MessageRouter.Network;
 
-namespace Hubl.Daemon.Network
+namespace Module.MessageRouter.Desktop.Network
 {
-    class SystemMulticastClient:IMulticastClient
+    internal class SystemMulticastClient:IMulticastClient
     {
         private readonly NetworkSettings _settings;
         private readonly UdpClient _client;
@@ -15,14 +15,16 @@ namespace Hubl.Daemon.Network
         {
             
             _settings = settings;
-            _client = new UdpClient(settings.MulticastPort, AddressFamily.InterNetwork) {Ttl = ((short) _settings.TTL)};
-            _client.MulticastLoopback = true;
+            _client = new UdpClient(settings.MulticastPort, AddressFamily.InterNetwork)
+            {
+                Ttl = ((short) _settings.TTL),
+                MulticastLoopback = true
+            };
         }
 
         private void OnMessageReceived(object sender, DatagramReceivedEventArgs e)
         {
-            if(MessageReceived != null)
-                MessageReceived(sender, e);
+            MessageReceived?.Invoke(sender, e);
         }
 
         public void Dispose()

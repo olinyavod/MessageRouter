@@ -1,6 +1,5 @@
-﻿using System.Net;
-
-namespace Hubl.Daemon.Network
+﻿
+namespace Module.MessageRouter.Desktop.Network
 {
     public class NetworkSettings
     {

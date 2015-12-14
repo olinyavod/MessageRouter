@@ -2,9 +2,10 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Hubl.Daemon.Network;
 using MessageRouter.Network;
 
-namespace Hubl.Daemon.Network
+namespace Module.MessageRouter.Desktop.Network
 {
     class SystemTcpListener : ITcpListener
     {
