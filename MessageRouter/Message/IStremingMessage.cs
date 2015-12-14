@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization;
 
-namespace MessageRouter.Message
+namespace Module.MessageRouter.Abstractions.Message
 {
 	public interface IStreamingMessage
 	{

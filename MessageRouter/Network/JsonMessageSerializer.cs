@@ -1,10 +1,11 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
+using MessageRouter.Network;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
-	public class JsonMessageSerializer : IMessageSerializer
+	public abstract class JsonMessageSerializer : IMessageSerializer
 	{
 		public async Task<TMessage> ReadMessage<TMessage>(Stream stream)
 		{

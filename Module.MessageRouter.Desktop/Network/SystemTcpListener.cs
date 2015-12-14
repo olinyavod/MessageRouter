@@ -2,26 +2,20 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using Hubl.Daemon.Network;
 using MessageRouter.Network;
+using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Desktop.Network
 {
-    class SystemTcpListener : ITcpListener
+    internal class SystemTcpListener : ITcpListener
     {
         private readonly NetworkSettings _settings;
-        private TcpListener _listener;
+        private readonly TcpListener _listener;
 
         public SystemTcpListener(NetworkSettings settings)
         {
             _settings = settings;
-            _listener = new TcpListener(settings.ListenPort);
-        }
-
-        private void OnConnectionReceived(object sender, ListenerConnectEventArgs e)
-        {
-            if(ConnectionReceived != null)
-                ConnectionReceived(sender, e);
+            _listener = new TcpListener(_settings.ListenPort);
         }
 
         public void Dispose()
@@ -38,14 +32,21 @@ namespace Module.MessageRouter.Desktop.Network
             {
                 var r = await _listener.AcceptTcpClientAsync();
                 var remoteEndPoint = (IPEndPoint) r.Client.RemoteEndPoint;
-                OnConnectionReceived(_listener, new ListenerConnectEventArgs(remoteEndPoint.Address.ToString(), remoteEndPoint.Port, new TcpRemoteClient(r)));
-               
+                OnConnectionReceived(_listener,
+                    new ListenerConnectEventArgs(remoteEndPoint.Address.ToString(), remoteEndPoint.Port,
+                        new TcpRemoteClient(r)));
             }
         }
 
         public Task StopListeningAsync()
         {
             return Task.Run(() => _listener.Stop());
+        }
+
+        private void OnConnectionReceived(object sender, ListenerConnectEventArgs e)
+        {
+            if (ConnectionReceived != null)
+                ConnectionReceived(sender, e);
         }
     }
 }

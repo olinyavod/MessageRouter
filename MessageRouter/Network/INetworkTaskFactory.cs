@@ -1,4 +1,5 @@
 ﻿using MessageRouter.Message;
+using Module.MessageRouter.Abstractions.Message;
 
 namespace MessageRouter.Network
 {

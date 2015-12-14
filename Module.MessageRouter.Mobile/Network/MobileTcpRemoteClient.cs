@@ -1,12 +1,6 @@
-﻿using System;
-
-namespace Hubl.Mobile
+﻿namespace Hubl.Mobile
 {
-	public class MobileTcpRemoteClient
-	{
-		public MobileTcpRemoteClient ()
-		{
-		}
-	}
+    public class MobileTcpRemoteClient
+    {
+    }
 }
-

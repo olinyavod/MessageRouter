@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Reflection;
+using MessageRouter.Message;
 using MessageRouter.Network;
 
-namespace MessageRouter.Message
+namespace Module.MessageRouter.Abstractions.Message
 {
 	public class MessageService : IMessageService
 	{
@@ -12,11 +13,9 @@ namespace MessageRouter.Message
 		{
 			var result = new MessageDefinition();
 			var messageDefinition = type.GetTypeInfo().GetCustomAttribute<MessageAttribute>();
-			if (messageDefinition != null && !string.IsNullOrWhiteSpace(messageDefinition.MessageId))
-				result.MessageId = messageDefinition.MessageId;
-			else result.MessageId = type.Name;
-			result.AccessGroup = messageDefinition.Group;
-			return result;
+			result.MessageId = !string.IsNullOrWhiteSpace(messageDefinition?.MessageId) ? messageDefinition.MessageId : type.Name;
+		    if (messageDefinition != null) result.AccessGroup = messageDefinition.Group;
+		    return result;
 		}
 
 

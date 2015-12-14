@@ -2,9 +2,10 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using MessageRouter.Message;
+using MessageRouter.Network;
+using Module.MessageRouter.Abstractions.Message;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	public abstract class NetworkTaskBase<TMessage> : INetworkTask<TMessage>
 		where TMessage : class, IMessage

@@ -1,63 +1,52 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using MessageRouter;
 using MessageRouter.Network;
+using Module.MessageRouter.Abstractions;
 using Sockets.Plugin;
 
 namespace Module.MessageRouter.Mobile.Network
 {
-	public class MobileTcpClient : ITcpClient
-	{
+    public class MobileTcpClient : ITcpClient
+    {
+        private readonly TcpSocketClient _client;
+        private readonly UsersService _usersService;
 
-		private readonly UsersService _usersService;
-		private readonly TcpSocketClient _client;
+        public MobileTcpClient(UsersService usersService) : this(usersService, new TcpSocketClient())
+        {
+        }
 
-		public MobileTcpClient(UsersService usersService) : this(usersService, new TcpSocketClient())
-		{
-		}
+        private MobileTcpClient(UsersService usersService, TcpSocketClient client)
+        {
+            _usersService = usersService;
+            _client = client;
+        }
 
-		public MobileTcpClient(UsersService usersService, TcpSocketClient client)
-		{
-			_usersService = usersService;
-			_client = client;
-		}
+        #region IDisposable implementation
 
-		#region ITcpClient implementation
+        public void Dispose()
+        {
+            _client.Dispose();
+        }
 
-		public Task ConnectAsync (string userId)
-		{
-			var user = _usersService.Get (userId);
-			return _client.ConnectAsync(user.IpAddress, user.Port, false);
-		}
+        #endregion
 
-		public Task DisconnectAsync ()
-		{
-			return _client.DisconnectAsync ();
-		}
+        #region ITcpClient implementation
 
-		public Stream ReadStream {
-			get {	
-				return _client.ReadStream;
-			}
-		}
+        public Task ConnectAsync(string userId)
+        {
+            var user = _usersService.Get(userId);
+            return _client.ConnectAsync(user.IpAddress, user.Port);
+        }
 
-		public Stream WriteStream {
-			get {
-				return _client.WriteStream;
-			}
-		}
+        public Task DisconnectAsync()
+        {
+            return _client.DisconnectAsync();
+        }
 
-		#endregion
+        public Stream ReadStream => _client.ReadStream;
 
-		#region IDisposable implementation
+        public Stream WriteStream => _client.WriteStream;
 
-		public void Dispose ()
-		{
-			_client.Dispose ();
-		}
-
-		#endregion
-
-	}
+        #endregion
+    }
 }
-

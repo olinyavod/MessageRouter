@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MessageRouter.Message;
+using MessageRouter.Network;
+using Module.MessageRouter.Abstractions.Message;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	class MessageSubscription<TMessage> : IMessageSubscription
 		where TMessage : class, IMessage
@@ -77,7 +79,8 @@ namespace MessageRouter.Network
 		}
 
 		#region IDisposable Support
-		private bool disposedValue = false; // To detect redundant calls
+
+	    private bool disposedValue;
 
 		protected virtual void Dispose(bool disposing)
 		{

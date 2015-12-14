@@ -1,5 +1,4 @@
-﻿
-namespace Module.MessageRouter.Desktop.Network
+﻿namespace Module.MessageRouter.Desktop.Network
 {
     public class NetworkSettings
     {
@@ -7,8 +6,9 @@ namespace Module.MessageRouter.Desktop.Network
         {
             MulticastPort = 30307;
             ListenPort = 30303;
-			MulticastAddress = "224.0.0.1";
+            MulticastAddress = "224.0.0.1";
         }
+
         public int TTL { get; set; }
 
         // public ICommsInterface Adaptes { get; set; }

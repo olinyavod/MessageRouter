@@ -6,25 +6,19 @@ using MessageRouter.Network;
 
 namespace Module.MessageRouter.Desktop.Network
 {
-    internal class SystemMulticastClient:IMulticastClient
+    internal class SystemMulticastClient : IMulticastClient
     {
-        private readonly NetworkSettings _settings;
         private readonly UdpClient _client;
+        private readonly NetworkSettings _settings;
 
         public SystemMulticastClient(NetworkSettings settings)
         {
-            
             _settings = settings;
             _client = new UdpClient(settings.MulticastPort, AddressFamily.InterNetwork)
             {
-                Ttl = ((short) _settings.TTL),
+                Ttl = (short) _settings.TTL,
                 MulticastLoopback = true
             };
-        }
-
-        private void OnMessageReceived(object sender, DatagramReceivedEventArgs e)
-        {
-            MessageReceived?.Invoke(sender, e);
         }
 
         public void Dispose()
@@ -43,10 +37,9 @@ namespace Module.MessageRouter.Desktop.Network
             {
                 var result = await _client.ReceiveAsync();
                 OnMessageReceived(_client,
-					new DatagramReceivedEventArgs(result.RemoteEndPoint.Address.ToString (),
+                    new DatagramReceivedEventArgs(result.RemoteEndPoint.Address.ToString(),
                         result.RemoteEndPoint.Port, result.Buffer));
             }
-            
         }
 
         public Task DisconnectAsync()
@@ -56,7 +49,13 @@ namespace Module.MessageRouter.Desktop.Network
 
         public Task SendMulticastAsync(byte[] data)
         {
-            return _client.SendAsync(data, data.Length, new IPEndPoint(IPAddress.Parse(_settings.MulticastAddress), _settings.MulticastPort));
+            return _client.SendAsync(data, data.Length,
+                new IPEndPoint(IPAddress.Parse(_settings.MulticastAddress), _settings.MulticastPort));
+        }
+
+        private void OnMessageReceived(object sender, DatagramReceivedEventArgs e)
+        {
+            MessageReceived?.Invoke(sender, e);
         }
     }
 }
