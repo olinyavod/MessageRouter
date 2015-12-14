@@ -39,6 +39,7 @@
     <Compile Include="Network\MobileTcpClient.cs" />
     <Compile Include="Network\MobileTcpListener.cs" />
     <Compile Include="Network\MobileTcpRemoteClient.cs" />
+    <Compile Include="Network\UsersService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">

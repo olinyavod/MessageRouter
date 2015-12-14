@@ -8,8 +8,8 @@
     <ProjectGuid>{67F9D3A8-F71E-4428-913F-C37AE82CDB24}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MessageRouter</RootNamespace>
-    <AssemblyName>MessageRouter</AssemblyName>
+    <RootNamespace>Module.MessageRouter.Abstractions</RootNamespace>
+    <AssemblyName>Module.MessageRouter..Abstractions</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -69,6 +69,8 @@
     <Compile Include="Network\UdpMulticastSenderTask.cs" />
     <Compile Include="Network\DatagramReceivedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User.cs" />
+    <Compile Include="UsersService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
