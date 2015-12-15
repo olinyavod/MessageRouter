@@ -1,8 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Module.MessageRouter.Abstractions.Network;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	class MulticastRemoteClient : IRemoteClient
 	{

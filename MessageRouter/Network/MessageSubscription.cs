@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MessageRouter.Message;
 using MessageRouter.Network;
 using Module.MessageRouter.Abstractions.Message;
 

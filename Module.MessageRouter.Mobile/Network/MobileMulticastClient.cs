@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MessageRouter.Network;
-using Module.MessageRouter.Mobile.Network;
+using Module.MessageRouter.Abstractions.Network;
 using Sockets.Plugin;
 using Sockets.Plugin.Abstractions;
 
-namespace Hubl.Mobile
+namespace Module.MessageRouter.Mobile.Network
 {
     public class MobileMulticastClient : IMulticastClient
     {

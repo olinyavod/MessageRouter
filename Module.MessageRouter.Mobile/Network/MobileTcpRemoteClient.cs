@@ -1,4 +1,4 @@
-﻿namespace Hubl.Mobile
+﻿namespace Module.MessageRouter.Mobile.Network
 {
     public class MobileTcpRemoteClient
     {

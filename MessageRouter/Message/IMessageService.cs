@@ -1,7 +1,6 @@
 using System;
-using Module.MessageRouter.Abstractions.Message;
 
-namespace MessageRouter.Message
+namespace Module.MessageRouter.Abstractions.Message
 {
 	public interface IMessageService
 	{

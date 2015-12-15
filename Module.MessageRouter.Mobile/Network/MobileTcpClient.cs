@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using MessageRouter.Network;
 using Module.MessageRouter.Abstractions;
+using Module.MessageRouter.Abstractions.Network;
 using Sockets.Plugin;
 
 namespace Module.MessageRouter.Mobile.Network

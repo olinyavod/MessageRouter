@@ -1,4 +1,6 @@
-﻿namespace MessageRouter.Network
+﻿using MessageRouter.Network;
+
+namespace Module.MessageRouter.Abstractions.Network
 {
 	public interface INetworkClientFactory
 	{

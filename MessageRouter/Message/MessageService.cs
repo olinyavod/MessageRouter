@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
-using MessageRouter.Message;
 using MessageRouter.Network;
+using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Abstractions.Message
 {

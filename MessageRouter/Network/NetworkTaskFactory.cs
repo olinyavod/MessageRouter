@@ -1,8 +1,7 @@
-﻿using MessageRouter.Message;
+﻿using MessageRouter.Network;
 using Module.MessageRouter.Abstractions.Message;
-using Module.MessageRouter.Abstractions.Network;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	public class NetworkTaskFactory : INetworkTaskFactory
 	{

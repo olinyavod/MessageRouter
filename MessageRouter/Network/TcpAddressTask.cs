@@ -4,7 +4,6 @@ using System.ServiceModel.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using MessageRouter.Message;
 using MessageRouter.Network;
 using Module.MessageRouter.Abstractions.Message;
 

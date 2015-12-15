@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Module.MessageRouter.Abstractions.Network;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	public interface ITcpListener:IDisposable
 	{

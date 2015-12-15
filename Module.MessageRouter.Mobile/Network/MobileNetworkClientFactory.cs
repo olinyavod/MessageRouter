@@ -1,6 +1,6 @@
-﻿using Hubl.Mobile;
-using MessageRouter.Network;
+﻿using MessageRouter.Network;
 using Module.MessageRouter.Abstractions;
+using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Mobile.Network
 {

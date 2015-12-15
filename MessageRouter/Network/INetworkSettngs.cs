@@ -1,4 +1,4 @@
-﻿namespace MessageRouter.Network
+﻿namespace Module.MessageRouter.Abstractions.Network
 {
 	public interface INetworkSettngs
 	{
