@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using MessageRouter.Network;
 using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Abstractions
@@ -36,10 +35,7 @@ namespace Module.MessageRouter.Abstractions
 
         public IEnumerable<string> GetUserIds()
         {
-            var list = new List<string>();
-            foreach (var user in _users.Values)
-                list.Add(user.Id);
-            return list;
+            return _users.Values.Select(user => user.Id).ToList();
         }
 
         public User Get(RemotePoint remotePoint)

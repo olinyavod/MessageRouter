@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using Module.MessageRouter.Abstractions.Message;
-using Module.MessageRouter.Abstractions.Network;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	public interface INetworkTask<TMessage>
 		where TMessage: class, IMessage

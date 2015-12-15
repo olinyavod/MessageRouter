@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using MessageRouter.Network;
 using Module.MessageRouter.Abstractions.Message;
 using Module.MessageRouter.Abstractions.Network;
 

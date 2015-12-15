@@ -18,10 +18,7 @@ namespace Module.MessageRouter.Mobile.Network
 
         {
             _settings = settings;
-
-
-            _udpClient = new UdpSocketMulticastClient();
-            _udpClient.TTL = settings.TTL;
+            _udpClient = new UdpSocketMulticastClient {TTL = settings.TTL};
         }
 
         #region IDisposable implementation

@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using MessageRouter.Network;
 using Module.MessageRouter.Abstractions.Message;
 
 namespace Module.MessageRouter.Abstractions.Network

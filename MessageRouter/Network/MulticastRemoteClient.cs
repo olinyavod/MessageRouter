@@ -14,12 +14,9 @@ namespace Module.MessageRouter.Abstractions.Network
             RemotePoint = point;
 		}
 
-		public Stream ReadStream
-		{
-			get { return _stream; }
-		}
+		public Stream ReadStream => _stream;
 
-		public Stream WriteStream { get; private set; }
+	    public Stream WriteStream { get; private set; }
 	    public RemotePoint RemotePoint { get; private set; }
 
 	    public Task DisconnectAsync()

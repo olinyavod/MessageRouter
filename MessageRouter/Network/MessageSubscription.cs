@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MessageRouter.Network;
 using Module.MessageRouter.Abstractions.Message;
 
 namespace Module.MessageRouter.Abstractions.Network
 {
-	class MessageSubscription<TMessage> : IMessageSubscription
+    internal class MessageSubscription<TMessage> : IMessageSubscription
 		where TMessage : class, IMessage
 	{
 		private readonly IList<MessageReceiveConfig> _receivers;
@@ -17,18 +16,18 @@ namespace Module.MessageRouter.Abstractions.Network
 
 		public MessageSubscription(
 			long id,
-			MessageDefinition messageDefinitione,
+			MessageDefinition messageDefinition,
 			INetworkTaskFactory taskFactory,
 			IDictionary<long, IMessageSubscription> subscriptions)
 		{
 			_id = id;
 			_taskFactory = taskFactory;
 			_subscriptions = subscriptions;
-			Definition = messageDefinitione;
+			Definition = messageDefinition;
 			_receivers = new List<MessageReceiveConfig>();
 		}
 
-		public MessageDefinition Definition { get; private set; }
+		public MessageDefinition Definition { get; }
 
 		public void ReceivedMessage(IRemoteClient client)
 		{
@@ -73,7 +72,7 @@ namespace Module.MessageRouter.Abstractions.Network
 				.OnReport(delegate(ProgressInfo<TMessage> m)
 				{
 				    foreach (var r in _receivers)
-				        r.RaisenReport(remotePoint, m);
+				        r.RisingReport(remotePoint, m);
 				}).Run();
 		}
 
@@ -175,29 +174,25 @@ namespace Module.MessageRouter.Abstractions.Network
 
 			public void RaiseOnCancelled(RemotePoint point, TMessage message)
 			{
-				if (_onCancelled != null)
-					_onCancelled(point, message);
+			    _onCancelled?.Invoke(point, message);
 			}
 
-			public void RaiseOnException(RemotePoint point, Exception ex)
-			{
-				if (_onException != null)
-					_onException(point, ex);
-			}
+		    public void RaiseOnException(RemotePoint point, Exception ex)
+		    {
+		        _onException?.Invoke(point, ex);
+		    }
 
-			public void RaiseOnFinally(RemotePoint point, TMessage message)
-			{
-				if (_onFinally != null)
-					_onFinally(point, message);
-			}
+		    public void RaiseOnFinally(RemotePoint point, TMessage message)
+		    {
+		        _onFinally?.Invoke(point, message);
+		    }
 
-			public void RaiseOnStart(RemotePoint point)
-			{
-				if (_onStart != null)
-					_onStart(point);
-			}
+		    public void RaiseOnStart(RemotePoint point)
+		    {
+		        _onStart?.Invoke(point);
+		    }
 
-			public void RaiseSuccess(RemotePoint point, TMessage message)
+		    public void RaiseSuccess(RemotePoint point, TMessage message)
 			{
 				if (_onSuccess != null)
 					_onSuccess(point, message);
@@ -210,13 +205,12 @@ namespace Module.MessageRouter.Abstractions.Network
 				return null;
 			}
 
-			public void RaisenReport(RemotePoint point, ProgressInfo<TMessage> info)
+			public void RisingReport(RemotePoint point, ProgressInfo<TMessage> info)
 			{
-				if (_onReport != null)
-					_onReport(point, info);
+			    _onReport?.Invoke(point, info);
 			}
 
-			public IMessageReceiverConfig<TMessage> OnException(Action<Exception> onException)
+		    public IMessageReceiverConfig<TMessage> OnException(Action<Exception> onException)
 			{
 				_onException = (point, exception) => onException(exception);
 				return this;

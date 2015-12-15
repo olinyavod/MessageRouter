@@ -4,7 +4,6 @@ using System.ServiceModel.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using MessageRouter.Network;
 using Module.MessageRouter.Abstractions.Message;
 
 namespace Module.MessageRouter.Abstractions.Network
@@ -49,8 +48,7 @@ namespace Module.MessageRouter.Abstractions.Network
                 switch (responseCode)
                 {
                     case NetworkState.AccessDenied:
-                        throw new SecurityAccessDeniedException(string.Format("Access denied for type message {0}",
-                            typeof (TMessage)));
+                        throw new SecurityAccessDeniedException($"Access denied for type message {typeof (TMessage)}");
                     case NetworkState.Error:
                         throw new IOException();
                     case NetworkState.Ok:
@@ -74,7 +72,7 @@ namespace Module.MessageRouter.Abstractions.Network
             try
             {
                 if (!_messageService.CanSend(_userId, typeof (TMessage)))
-                    throw new SecurityAccessDeniedException(string.Format("Access denied for type message {0}", typeof (TMessage)));
+                    throw new SecurityAccessDeniedException($"Access denied for type message {typeof (TMessage)}");
                 client = _clientFactory.CreateTcpClient();
                 await client.ConnectAsync(_userId);
                 var definition = _messageService.GetDefinition<TMessage>();

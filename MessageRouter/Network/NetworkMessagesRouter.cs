@@ -2,9 +2,9 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MessageRouter.Network;
 using Module.MessageRouter.Abstractions.Message;
 
 namespace Module.MessageRouter.Abstractions.Network
@@ -34,27 +34,22 @@ namespace Module.MessageRouter.Abstractions.Network
         private async void MessageReceived(object sender, DatagramReceivedEventArgs e)
         {
             var stream = new MemoryStream(e.Data);
-            var value = await GetSubscrubtion(e.RemoteAddress, stream);
-            if (value != null)
-            {
-                value.ReceivedMessage(new MulticastRemoteClient(new RemotePoint(e.RemotePort, e.RemoteAddress), stream));
-            }
+            var value = await GetSubscription(e.RemoteAddress, stream);
+            value?.ReceivedMessage(new MulticastRemoteClient(new RemotePoint(e.RemotePort, e.RemoteAddress), stream));
         }
 
-        private async Task<IMessageSubscription> GetSubscrubtion(string senderAddress, Stream stream)
+        private async Task<IMessageSubscription> GetSubscription(string senderAddress, Stream stream)
         {
             var buffer = new byte[8];
-            var readeCount = await stream.ReadAsync(buffer, 0, buffer.Length);
+            var readerCount = await stream.ReadAsync(buffer, 0, buffer.Length);
             var key = BitConverter.ToInt64(buffer, 0);
             IMessageSubscription value;
-            if (_messageSubscrubtions.TryGetValue(key, out value))
-                return value;
-            return null;
+            return _messageSubscrubtions.TryGetValue(key, out value) ? value : null;
         }
 
         private async void ConnectionReceived(object sender, ListenerConnectEventArgs e)
         {
-            var value = await GetSubscrubtion(e.RemoteAddress, e.RemoteClient.ReadStream);
+            var value = await GetSubscription(e.RemoteAddress, e.RemoteClient.ReadStream);
             if (value != null)
             {
                 value.ReceivedMessage(e.RemoteClient);
@@ -90,8 +85,7 @@ namespace Module.MessageRouter.Abstractions.Network
         public IEnumerable<INetworkTask<TMessage>> PublishFor<TMessage>(IEnumerable<string> usersId, TMessage message)
             where TMessage : class, IMessage
         {
-            foreach (var u in usersId)
-                yield return _taskFactory.CreateAddressTask(u, message);
+            return usersId.Select(u => _taskFactory.CreateAddressTask(u, message));
         }
 
         public IMessageReceiverConfig<TMessage> Subscribe<TMessage>()

@@ -1,5 +1,4 @@
-﻿using MessageRouter.Network;
-using Module.MessageRouter.Abstractions;
+﻿using Module.MessageRouter.Abstractions;
 using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Desktop.Network

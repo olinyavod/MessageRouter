@@ -53,7 +53,7 @@
     <Compile Include="Network\IMessageSerializer.cs" />
     <Compile Include="Network\INetworkTask.cs" />
     <Compile Include="Network\INetworkMessageRouter.cs" />
-    <Compile Include="Network\INetworkSettngs.cs" />
+    <Compile Include="Network\INetworkSettings.cs" />
     <Compile Include="Network\INetworkTaskFactory.cs" />
     <Compile Include="Network\JsonMessageSerializer.cs" />
     <Compile Include="Network\MessageReceiveTask.cs" />

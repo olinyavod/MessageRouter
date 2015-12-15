@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using MessageRouter.Network;
 using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Desktop.Network
@@ -15,7 +14,7 @@ namespace Module.MessageRouter.Desktop.Network
         public SystemTcpListener(NetworkSettings settings)
         {
             _settings = settings;
-            _listener = new TcpListener(_settings.ListenPort);
+            _listener = new TcpListener(IPAddress.Any, _settings.ListenPort);
         }
 
         public void Dispose()
@@ -45,8 +44,7 @@ namespace Module.MessageRouter.Desktop.Network
 
         private void OnConnectionReceived(object sender, ListenerConnectEventArgs e)
         {
-            if (ConnectionReceived != null)
-                ConnectionReceived(sender, e);
+            ConnectionReceived?.Invoke(sender, e);
         }
     }
 }

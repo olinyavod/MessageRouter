@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Reflection;
-using MessageRouter.Network;
 using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Abstractions.Message
 {
 	public class MessageService : IMessageService
 	{
-		private short[] hashTable = new short[] {562, -6578, 334, 367, 990, 776, 6678, 235, 665, -12567, 987, 434, 7783, -7745 };
+		private readonly short[] hashTable = new short[] {562, -6578, 334, 367, 990, 776, 6678, 235, 665, -12567, 987, 434, 7783, -7745 };
 
 		public MessageDefinition GetDefinition(Type type)
 		{
