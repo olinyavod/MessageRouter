@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MessageRouter.Message;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Module.MessageRouter.Abstractions.Message;
 
 namespace MessageRouter.Tests
 {

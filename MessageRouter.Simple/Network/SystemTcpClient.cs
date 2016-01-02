@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using MessageRouter.Network;
+using MessageRouter.Simple.Network;
 using MessageRouter.Simple.Service;
+using Module.MessageRouter.Abstractions.Network;
 
 namespace MessageRouter.Simple.Network
 {

@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using MessageRouter.Network;
+using Module.MessageRouter.Abstractions.Network;
 
 namespace MessageRouter.Simple.Messages
 {

@@ -3,12 +3,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using MessageRouter.Network;
+using GalaSoft.MvvmLight.Command;
+using MessageRouter.Simple.Network;
 using MessageRouter.Simple.Messages;
 using MessageRouter.Simple.Model;
-using MessageRouter.Simple.Network;
 using MessageRouter.Simple.Service;
+using Module.MessageRouter.Abstractions.Network;
 using Sockets.Plugin;
 
 namespace MessageRouter.Simple.ViewModel

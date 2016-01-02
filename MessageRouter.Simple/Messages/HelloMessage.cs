@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
-using MessageRouter.Message;
-using MessageRouter.Network;
 using MessageRouter.Simple.Model;
+using Module.MessageRouter.Abstractions.Message;
+using Module.MessageRouter.Abstractions.Network;
 
 namespace MessageRouter.Simple.Messages
 {
