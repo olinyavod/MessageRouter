@@ -9,13 +9,13 @@ namespace Module.MessageRouter.Desktop.Network
     internal class SystemTcpClient : ITcpClient
     {
         private readonly TcpClient _client;
-        private readonly UsersService _usersService;
+        private readonly IUsersService _usersService;
 
-        public SystemTcpClient(UsersService usersService) : this(usersService, new TcpClient())
+        public SystemTcpClient(IUsersService usersService) : this(usersService, new TcpClient())
         {
         }
 
-        public SystemTcpClient(UsersService usersService, TcpClient client)
+        public SystemTcpClient(IUsersService usersService, TcpClient client)
         {
             _usersService = usersService;
             _client = client;

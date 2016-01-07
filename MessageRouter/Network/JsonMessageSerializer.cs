@@ -4,8 +4,11 @@ using System.Threading.Tasks;
 
 namespace Module.MessageRouter.Abstractions.Network
 {
-	public abstract class JsonMessageSerializer : IMessageSerializer
+	public class JsonMessageSerializer : IMessageSerializer
 	{
+		public JsonMessageSerializer()
+		{ }
+
 		public async Task<TMessage> ReadMessage<TMessage>(Stream stream)
 		{
 			var serializer = new DataContractJsonSerializer(typeof(TMessage));

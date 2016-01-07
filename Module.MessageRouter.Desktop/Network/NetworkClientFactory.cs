@@ -6,10 +6,10 @@ namespace Module.MessageRouter.Desktop.Network
     internal class NetworkClientFactory : INetworkClientFactory
     {
         private readonly NetworkSettings _networkSettings;
-        private readonly UsersService _userService;
+        private readonly IUsersService _userService;
 
         public NetworkClientFactory(
-            UsersService userService,
+            IUsersService userService,
             NetworkSettings networkSettings)
         {
             _userService = userService;

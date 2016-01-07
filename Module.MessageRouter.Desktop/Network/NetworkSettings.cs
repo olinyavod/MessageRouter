@@ -6,7 +6,7 @@
         {
             MulticastPort = 30307;
             ListenPort = 30303;
-            MulticastAddress = "224.0.0.1";
+            MulticastAddress = "239.0.0.222";
         }
 
         public int TTL { get; set; }

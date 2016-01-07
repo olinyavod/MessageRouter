@@ -4,7 +4,7 @@ using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Desktop.Network
 {
-    internal class NetworkModule : Autofac.Module
+    public class NetworkModule : Autofac.Module
     {
         protected override void Load(ContainerBuilder builder)
         {

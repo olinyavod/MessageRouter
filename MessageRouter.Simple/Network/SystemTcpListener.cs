@@ -14,13 +14,12 @@ namespace MessageRouter.Simple.Network
 		public SystemTcpListener(NetworkSettings settings)
 		{
 			_settings = settings;
-			_listener = new TcpListener(0);
+			_listener = new TcpListener(IPAddress.Any, 0);
 		}
 
 		private void OnConnectionReceived(object sender, ListenerConnectEventArgs e)
 		{
-			if (ConnectionReceived != null)
-				ConnectionReceived(sender, e);
+			ConnectionReceived?.Invoke(sender, e);
 		}
 
 		public void Dispose()
