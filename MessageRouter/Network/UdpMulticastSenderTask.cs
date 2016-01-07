@@ -12,13 +12,14 @@ namespace Module.MessageRouter.Abstractions.Network
 	    private readonly IMessageSerializer _serializer;
 		private readonly IMessageService _messageService;
 		private readonly IMulticastClient _client;
+		private TMessage _message;
 
 		public UdpMulticastSenderTask(TMessage message, 
 			IMessageSerializer serializer,
 			IMessageService messageService,
 			IMulticastClient client)
 		{
-			Message = message;
+			_message = message;
 			_serializer = serializer;
 			_messageService = messageService;
 			_client = client;
@@ -65,6 +66,7 @@ namespace Module.MessageRouter.Abstractions.Network
 			throw new NotSupportedException();
 		}
 
-		protected override TMessage Message { get; }
+		protected override TMessage Message { get { return _message; } 
+		}
 	}
 }
