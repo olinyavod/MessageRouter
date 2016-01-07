@@ -4,7 +4,7 @@ using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Abstractions
 {
-	public class UsersService<TUser> where TUser:IUser
+	public class UsersService<TUser> :IUsersService where TUser:IUser
 	{
 		private readonly Dictionary<string, TUser> _users = new Dictionary<string, TUser>();
 
