@@ -9,13 +9,13 @@ namespace Module.MessageRouter.Mobile.Network
     public class MobileTcpClient : ITcpClient
     {
         private readonly TcpSocketClient _client;
-        private readonly UsersService _usersService;
+        private readonly IUsersService _usersService;
 
-        public MobileTcpClient(UsersService usersService) : this(usersService, new TcpSocketClient())
+        public MobileTcpClient(IUsersService usersService) : this(usersService, new TcpSocketClient())
         {
         }
 
-        private MobileTcpClient(UsersService usersService, TcpSocketClient client)
+        private MobileTcpClient(IUsersService usersService, TcpSocketClient client)
         {
             _usersService = usersService;
             _client = client;
