@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using MessageRouter.Message;
+using Module.MessageRouter.Abstractions.Message;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	public interface IMessageReceiverConfig<TMessage>:IDisposable
 		where TMessage:class, IMessage

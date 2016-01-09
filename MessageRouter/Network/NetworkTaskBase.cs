@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using MessageRouter.Message;
+using Module.MessageRouter.Abstractions.Message;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	public abstract class NetworkTaskBase<TMessage> : INetworkTask<TMessage>
 		where TMessage : class, IMessage
@@ -48,66 +48,54 @@ namespace MessageRouter.Network
             await stream.FlushAsync(cancellationToken);
         }
 
-		protected bool IsCancellationRequested
-		{
-			get { return _cancellationTokenSource != null && _cancellationTokenSource.IsCancellationRequested; }
-		}
+		protected bool IsCancellationRequested => _cancellationTokenSource != null && _cancellationTokenSource.IsCancellationRequested;
 
-		public NetworkTaskBase()
+	    public NetworkTaskBase()
 		{
 			_cancellationTokenSource = new CancellationTokenSource();
 		}
 
 		protected void RaiseFinally(TMessage message)
 		{
-			if (_onFinally != null)
-				_onFinally(message);
+		    _onFinally?.Invoke(message);
 		}
 
-		protected void RaiseCatch(Exception ex)
-		{
-			if (_onCatch != null)
-				_onCatch(ex);
-		}
+	    protected void RaiseCatch(Exception ex)
+	    {
+	        _onCatch?.Invoke(ex);
+	    }
 
-		protected void RaiseSuccess(TMessage message)
-		{
-			if (_onSuccess != null)
-				_onSuccess(message);
-		}
+	    protected void RaiseSuccess(TMessage message)
+	    {
+	        _onSuccess?.Invoke(message);
+	    }
 
-		protected void RaiseStart(TMessage message)
-		{
-			if (_onStart != null)
-				_onStart(message);
-		}
+	    protected void RaiseStart(TMessage message)
+	    {
+	        _onStart?.Invoke(message);
+	    }
 
-		protected void RaiseCancelled(TMessage message)
-		{
-			if (_onCancelled != null)
-				_onCancelled(message);
-		}
+	    protected void RaiseCancelled(TMessage message)
+	    {
+	        _onCancelled?.Invoke(message);
+	    }
 
-		protected void RaiseReport(ProgressInfo<TMessage> info)
-		{
-			if (_onReport != null)
-				_onReport(info);
-		}
+	    protected void RaiseReport(ProgressInfo<TMessage> info)
+	    {
+	        _onReport?.Invoke(info);
+	    }
 
-		protected Stream RaiseGetStream(TMessage message)
+	    protected Stream RaiseGetStream(TMessage message)
 		{
-			if (_getStream != null)
-				return _getStream(message);
-			return null;
+	        return _getStream?.Invoke(message);
 		}
 
 		public virtual void Cancel()
 		{
-			if(_cancellationTokenSource != null)
-				_cancellationTokenSource.Cancel();
+		    _cancellationTokenSource?.Cancel();
 		}
 
-		public virtual INetworkTask<TMessage> OnFinally(Action<TMessage> onFinally)
+	    public virtual INetworkTask<TMessage> OnFinally(Action<TMessage> onFinally)
 		{
 			_onFinally = onFinally;
 			return this;
@@ -154,9 +142,8 @@ namespace MessageRouter.Network
 			}
 			finally
 			{
-				if(_cancellationTokenSource != null)
-					_cancellationTokenSource.Dispose();
-				RaiseFinally(Message);
+			    _cancellationTokenSource?.Dispose();
+			    RaiseFinally(Message);
 				_onCatch = null;
 				_onCancelled = null;
 				_onFinally = null;

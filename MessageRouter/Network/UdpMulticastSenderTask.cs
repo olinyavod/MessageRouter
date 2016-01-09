@@ -2,17 +2,17 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using MessageRouter.Message;
+using Module.MessageRouter.Abstractions.Message;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	public class UdpMulticastSenderTask<TMessage> : NetworkTaskBase<TMessage>
 		where TMessage:class, IMessage
 	{
-		private readonly TMessage _message;
-		private readonly IMessageSerializer _serializer;
+	    private readonly IMessageSerializer _serializer;
 		private readonly IMessageService _messageService;
 		private readonly IMulticastClient _client;
+		private TMessage _message;
 
 		public UdpMulticastSenderTask(TMessage message, 
 			IMessageSerializer serializer,
@@ -28,7 +28,7 @@ namespace MessageRouter.Network
 		
 
 
-		protected async override Task Run(CancellationToken cancellationToken)
+		protected override async Task Run(CancellationToken cancellationToken)
 		{
 			MemoryStream stream = null;
 			try
@@ -47,10 +47,8 @@ namespace MessageRouter.Network
 			}
 			finally
 			{
-				if (stream != null)
-					stream.Dispose();
+			    stream?.Dispose();
 			}
-
 		}
 
 		public override void Cancel()
@@ -68,9 +66,7 @@ namespace MessageRouter.Network
 			throw new NotSupportedException();
 		}
 
-		protected override TMessage Message
-		{
-			get { return _message; }
+		protected override TMessage Message { get { return _message; } 
 		}
 	}
 }

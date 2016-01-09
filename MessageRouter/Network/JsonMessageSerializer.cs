@@ -2,10 +2,13 @@
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	public class JsonMessageSerializer : IMessageSerializer
 	{
+		public JsonMessageSerializer()
+		{ }
+
 		public async Task<TMessage> ReadMessage<TMessage>(Stream stream)
 		{
 			var serializer = new DataContractJsonSerializer(typeof(TMessage));

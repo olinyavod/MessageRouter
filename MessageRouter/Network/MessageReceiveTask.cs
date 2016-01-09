@@ -3,9 +3,9 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using MessageRouter.Message;
+using Module.MessageRouter.Abstractions.Message;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	public class MessageReceiveTask<TMessage> : NetworkTaskBase<TMessage>
 		where TMessage: class, IMessage
@@ -21,8 +21,7 @@ namespace MessageRouter.Network
 			_messageSerializer = messageSerializer;
 		}
 
-		protected override TMessage Message { get { return _message; } }
-
+		protected override TMessage Message => _message;
 
 
 	    protected override async Task Run(CancellationToken cancellationToken)
@@ -42,6 +41,7 @@ namespace MessageRouter.Network
 	            }
 	            if (IsCancellationRequested)
 	                throw new OperationCanceledException();
+                //TODO:  Check this for proper work
 	            var streaming = _message as IStreamingMessage;
 	            if (streaming != null)
 	            {

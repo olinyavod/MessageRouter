@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	[AttributeUsage(AttributeTargets.Class)]
 	public class MessageAttribute:Attribute

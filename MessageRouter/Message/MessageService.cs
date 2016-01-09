@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Reflection;
-using MessageRouter.Network;
+using Module.MessageRouter.Abstractions.Network;
 
-namespace MessageRouter.Message
+namespace Module.MessageRouter.Abstractions.Message
 {
 	public class MessageService : IMessageService
 	{
-		private short[] hashTable = new short[] {562, -6578, 334, 367, 990, 776, 6678, 235, 665, -12567, 987, 434, 7783, -7745 };
+		private readonly short[] hashTable = new short[] {562, -6578, 334, 367, 990, 776, 6678, 235, 665, -12567, 987, 434, 7783, -7745 };
 
 		public MessageDefinition GetDefinition(Type type)
 		{
 			var result = new MessageDefinition();
 			var messageDefinition = type.GetTypeInfo().GetCustomAttribute<MessageAttribute>();
-			if (messageDefinition != null && !string.IsNullOrWhiteSpace(messageDefinition.MessageId))
-				result.MessageId = messageDefinition.MessageId;
-			else result.MessageId = type.Name;
-			result.AccessGroup = messageDefinition.Group;
-			return result;
+			result.MessageId = !string.IsNullOrWhiteSpace(messageDefinition?.MessageId) ? messageDefinition.MessageId : type.Name;
+		    if (messageDefinition != null) result.AccessGroup = messageDefinition.Group;
+		    return result;
 		}
 
 

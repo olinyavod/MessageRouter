@@ -1,4 +1,6 @@
-﻿namespace MessageRouter.Network
+﻿// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
+namespace Module.MessageRouter.Abstractions.Network
 {
 	/// <summary>Информация о процессе</summary>
 	/// <typeparam name="TMessage">Тип сообщения</typeparam>

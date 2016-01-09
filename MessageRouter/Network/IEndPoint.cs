@@ -1,4 +1,4 @@
-﻿namespace MessageRouter.Network
+﻿namespace Module.MessageRouter.Abstractions.Network
 {
     public class RemotePoint
     {
@@ -8,6 +8,8 @@
             Address = address;
         }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // ReSharper disable once MemberCanBePrivate.Global
        public int Port { get; private set; }
 
        public string Address { get; private set; }

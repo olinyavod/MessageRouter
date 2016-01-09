@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	public class ListenerConnectEventArgs:EventArgs
 	{
@@ -12,6 +12,8 @@ namespace MessageRouter.Network
 		}
 	    public string RemoteAddress { get; private set; }
 
+	    // ReSharper disable once UnusedAutoPropertyAccessor.Global
+	    // ReSharper disable once MemberCanBePrivate.Global
 		public int RemotePort { get; private set; }
 
 		public IRemoteClient RemoteClient { get; private set; }

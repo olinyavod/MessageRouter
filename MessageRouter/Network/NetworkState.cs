@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	[DataContract]
 	public enum NetworkState

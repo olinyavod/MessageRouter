@@ -2,7 +2,8 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
-using MessageRouter.Network;
+using MessageRouter.Simple.Network;
+using Module.MessageRouter.Abstractions.Network;
 using IPEndPoint = System.Net.IPEndPoint;
 
 namespace MessageRouter.Simple.Network

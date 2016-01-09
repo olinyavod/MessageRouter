@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-namespace MessageRouter.Network
+namespace Module.MessageRouter.Abstractions.Network
 {
 	class MulticastRemoteClient : IRemoteClient
 	{
@@ -14,12 +14,9 @@ namespace MessageRouter.Network
             RemotePoint = point;
 		}
 
-		public Stream ReadStream
-		{
-			get { return _stream; }
-		}
+		public Stream ReadStream => _stream;
 
-		public Stream WriteStream { get; private set; }
+	    public Stream WriteStream { get; private set; }
 	    public RemotePoint RemotePoint { get; private set; }
 
 	    public Task DisconnectAsync()

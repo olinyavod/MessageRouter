@@ -55,9 +55,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MessageRouter\MessageRouter.csproj">
+    <ProjectReference Include="..\MessageRouter\Module.MessageRouter.Abstractions.csproj">
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
-      <Name>MessageRouter</Name>
+      <Name>Module.MessageRouter.Abstractions</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

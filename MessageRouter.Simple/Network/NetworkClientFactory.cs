@@ -1,5 +1,5 @@
-﻿using MessageRouter.Network;
-using MessageRouter.Simple.Service;
+﻿using MessageRouter.Simple.Service;
+using Module.MessageRouter.Abstractions.Network;
 
 namespace MessageRouter.Simple.Network
 {
