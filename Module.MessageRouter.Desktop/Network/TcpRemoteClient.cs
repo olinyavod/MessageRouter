@@ -33,6 +33,6 @@ namespace Module.MessageRouter.Desktop.Network
         {
         }
 
-        public RemotePoint RemotePoint { get; }
+		public RemotePoint RemotePoint { get; private set; }
     }
 }
