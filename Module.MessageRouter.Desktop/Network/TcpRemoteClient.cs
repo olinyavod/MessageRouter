@@ -20,9 +20,9 @@ namespace Module.MessageRouter.Desktop.Network
             ReadStream = stream;
         }
 
-        public Stream ReadStream { get; }
+		public Stream ReadStream { get; private set; }
 
-        public Stream WriteStream { get; }
+		public Stream WriteStream { get; private set; }
 
         public Task DisconnectAsync()
         {

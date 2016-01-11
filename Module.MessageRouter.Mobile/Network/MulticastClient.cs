@@ -6,15 +6,15 @@ using Sockets.Plugin.Abstractions;
 
 namespace Module.MessageRouter.Mobile.Network
 {
-    public class MobileMulticastClient : IMulticastClient
+    public class MulticastClient : IMulticastClient
     {
-        private readonly MobileNetworkSettings _settings;
+        private readonly NetworkSettings _settings;
 
 
         private readonly IUdpSocketMulticastClient _udpClient;
 
 
-        public MobileMulticastClient(MobileNetworkSettings settings)
+        public MulticastClient(NetworkSettings settings)
 
         {
             _settings = settings;

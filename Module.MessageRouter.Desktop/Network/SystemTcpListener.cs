@@ -44,7 +44,9 @@ namespace Module.MessageRouter.Desktop.Network
 
         private void OnConnectionReceived(object sender, ListenerConnectEventArgs e)
         {
-            ConnectionReceived?.Invoke(sender, e);
+			if (ConnectionReceived != null) {
+				ConnectionReceived.Invoke(sender, e);
+			}
         }
     }
 }

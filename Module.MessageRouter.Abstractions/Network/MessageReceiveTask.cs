@@ -21,7 +21,7 @@ namespace Module.MessageRouter.Abstractions.Network
 			_messageSerializer = messageSerializer;
 		}
 
-		protected override TMessage Message => _message;
+		protected override TMessage Message { get { return  _message; } }
 
 
 	    protected override async Task Run(CancellationToken cancellationToken)

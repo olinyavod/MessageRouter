@@ -6,16 +6,16 @@ using Sockets.Plugin;
 
 namespace Module.MessageRouter.Mobile.Network
 {
-    public class MobileTcpClient : ITcpClient
+    public class TcpClient : ITcpClient
     {
         private readonly TcpSocketClient _client;
         private readonly IUsersService _usersService;
 
-        public MobileTcpClient(IUsersService usersService) : this(usersService, new TcpSocketClient())
+        public TcpClient(IUsersService usersService) : this(usersService, new TcpSocketClient())
         {
         }
 
-        private MobileTcpClient(IUsersService usersService, TcpSocketClient client)
+        private TcpClient(IUsersService usersService, TcpSocketClient client)
         {
             _usersService = usersService;
             _client = client;
@@ -43,9 +43,9 @@ namespace Module.MessageRouter.Mobile.Network
             return _client.DisconnectAsync();
         }
 
-        public Stream ReadStream => _client.ReadStream;
+		public Stream ReadStream { get { return  _client.ReadStream; } }
 
-        public Stream WriteStream => _client.WriteStream;
+		public Stream WriteStream { get { return  _client.WriteStream; } }
 
         #endregion
     }

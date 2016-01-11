@@ -31,13 +31,13 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Network\MobileMulticastClient.cs" />
-    <Compile Include="Network\MobileNetworkClientFactory.cs" />
-    <Compile Include="Network\MobileNetworkModule.cs" />
-    <Compile Include="Network\MobileNetworkSettings.cs" />
-    <Compile Include="Network\MobileTcpClient.cs" />
-    <Compile Include="Network\MobileTcpListener.cs" />
-    <Compile Include="Network\MobileTcpRemoteClient.cs" />
+    <Compile Include="Network\MulticastClient.cs" />
+    <Compile Include="Network\NetworkClientFactory.cs" />
+    <Compile Include="Network\NetworkModule.cs" />
+    <Compile Include="Network\NetworkSettings.cs" />
+    <Compile Include="Network\TcpClient.cs" />
+    <Compile Include="Network\TcpListener.cs" />
+    <Compile Include="Network\TcpRemoteClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

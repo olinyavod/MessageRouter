@@ -55,7 +55,9 @@ namespace Module.MessageRouter.Desktop.Network
 
         private void OnMessageReceived(object sender, DatagramReceivedEventArgs e)
         {
-            MessageReceived?.Invoke(sender, e);
+			if (MessageReceived != null) {
+				MessageReceived.Invoke(sender, e);
+			}
         }
     }
 }

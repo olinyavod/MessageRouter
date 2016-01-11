@@ -12,7 +12,8 @@ namespace Module.MessageRouter.Abstractions.Message
 		{
 			var result = new MessageDefinition();
 			var messageDefinition = type.GetTypeInfo().GetCustomAttribute<MessageAttribute>();
-			result.MessageId = !string.IsNullOrWhiteSpace(messageDefinition?.MessageId) ? messageDefinition.MessageId : type.Name;
+			if(messageDefinition != null)
+				result.MessageId = !string.IsNullOrWhiteSpace(messageDefinition.MessageId) ? messageDefinition.MessageId : type.Name;
 		    if (messageDefinition != null) result.AccessGroup = messageDefinition.Group;
 		    return result;
 		}

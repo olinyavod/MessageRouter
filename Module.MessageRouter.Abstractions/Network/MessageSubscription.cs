@@ -27,7 +27,7 @@ namespace Module.MessageRouter.Abstractions.Network
 			_receivers = new List<MessageReceiveConfig>();
 		}
 
-		public MessageDefinition Definition { get; }
+		public MessageDefinition Definition { get; private set; }
 
 		public void ReceivedMessage(IRemoteClient client)
 		{
@@ -174,22 +174,26 @@ namespace Module.MessageRouter.Abstractions.Network
 
 			public void RaiseOnCancelled(RemotePoint point, TMessage message)
 			{
-				_onCancelled?.Invoke(point, message);
+				if (_onCancelled != null)
+					_onCancelled.Invoke(point, message);
 			}
 
 			public void RaiseOnException(RemotePoint point, Exception ex)
 			{
-				_onException?.Invoke(point, ex);
+				if (_onException != null)
+					_onException.Invoke (point, ex);
 			}
 
 			public void RaiseOnFinally(RemotePoint point, TMessage message)
 			{
-				_onFinally?.Invoke(point, message);
+				if(_onFinally != null)
+					_onFinally.Invoke(point, message);
 			}
 
 			public void RaiseOnStart(RemotePoint point)
 			{
-				_onStart?.Invoke(point);
+				if (_onStart != null)
+					_onStart.Invoke(point);
 			}
 
 			public void RaiseSuccess(RemotePoint point, TMessage message)
@@ -207,7 +211,8 @@ namespace Module.MessageRouter.Abstractions.Network
 
 			public void RisingReport(RemotePoint point, ProgressInfo<TMessage> info)
 			{
-				_onReport?.Invoke(point, info);
+				if(_onReport != null)
+				_onReport.Invoke(point, info);
 			}
 
 			public IMessageReceiverConfig<TMessage> OnException(Action<Exception> onException)
@@ -299,7 +304,5 @@ namespace Module.MessageRouter.Abstractions.Network
 				CurrentTask.Cancel();
 			}
 		}
-
-
 	}
 }

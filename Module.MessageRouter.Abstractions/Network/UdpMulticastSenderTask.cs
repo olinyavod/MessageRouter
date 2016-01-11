@@ -47,7 +47,8 @@ namespace Module.MessageRouter.Abstractions.Network
 			}
 			finally
 			{
-			    stream?.Dispose();
+				if(stream != null)
+				    stream.Dispose();
 			}
 		}
 

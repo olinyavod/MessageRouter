@@ -5,13 +5,13 @@ using Sockets.Plugin;
 
 namespace Module.MessageRouter.Mobile.Network
 {
-    public class MobileTcpListener : ITcpListener
+    public class TcpListener : ITcpListener
     {
         private readonly TcpSocketListener _listener;
-        private readonly MobileNetworkSettings _settings;
+        private readonly NetworkSettings _settings;
 
 
-        public MobileTcpListener(MobileNetworkSettings settings)
+        public TcpListener(NetworkSettings settings)
         {
             _settings = settings;
             _listener = new TcpSocketListener();

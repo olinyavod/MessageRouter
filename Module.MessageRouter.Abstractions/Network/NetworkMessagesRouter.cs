@@ -35,7 +35,8 @@ namespace Module.MessageRouter.Abstractions.Network
         {
             var stream = new MemoryStream(e.Data);
             var value = await GetSubscription(e.RemoteAddress, stream);
-            value?.ReceivedMessage(new MulticastRemoteClient(new RemotePoint(e.RemotePort, e.RemoteAddress), stream));
+			if (value != null)
+				value.ReceivedMessage(new MulticastRemoteClient(new RemotePoint(e.RemotePort, e.RemoteAddress), stream));
         }
 
         private async Task<IMessageSubscription> GetSubscription(string senderAddress, Stream stream)

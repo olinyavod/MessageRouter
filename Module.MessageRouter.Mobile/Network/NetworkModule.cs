@@ -4,15 +4,15 @@ using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Mobile.Network
 {
-    internal class NetworkModule : Autofac.Module
+    public class NetworkModule : Autofac.Module
     {
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-            builder.RegisterType<MobileNetworkSettings>()
+            builder.RegisterType<NetworkSettings>()
                 .SingleInstance();
 
-            builder.RegisterType<MobileNetworkClientFactory>()
+            builder.RegisterType<NetworkClientFactory>()
                 .As<INetworkClientFactory>()
                 .SingleInstance();
 

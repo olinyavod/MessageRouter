@@ -47,7 +47,7 @@ namespace Module.MessageRouter.Abstractions.Network
 				switch (responseCode)
 				{
 					case NetworkState.AccessDenied:
-						throw new SecurityAccessDeniedException($"Access denied for type message {typeof (TMessage)}");
+					throw new SecurityAccessDeniedException(string.Format("Access denied for type message {0}", typeof (TMessage)));
 					case NetworkState.Error:
 						throw new IOException();
 					case NetworkState.Ok:
@@ -61,7 +61,8 @@ namespace Module.MessageRouter.Abstractions.Network
 			}
 			finally
 			{
-				memoryBuffer?.Dispose();
+				if(memoryBuffer != null)
+					memoryBuffer.Dispose();
 			}
 		}
 
@@ -71,7 +72,7 @@ namespace Module.MessageRouter.Abstractions.Network
 			try
 			{
 				if (!_messageService.CanSend(_userId, typeof (TMessage)))
-					throw new SecurityAccessDeniedException($"Access denied for type message {typeof (TMessage)}");
+					throw new SecurityAccessDeniedException(string.Format("Access denied for type message {0}",typeof (TMessage)));
 				client = _clientFactory.CreateTcpClient();
 				await client.ConnectAsync(_userId);
 				var definition = _messageService.GetDefinition<TMessage>();
@@ -119,11 +120,12 @@ namespace Module.MessageRouter.Abstractions.Network
 			}
 			finally
 			{
-				client?.Dispose();
+				if(client != null)
+					client.Dispose();
 			}
 		}
 
-		protected override TMessage Message => _message;
+		protected override TMessage Message {get {return _message; } }
 	}
 	//TODO: https://social.msdn.microsoft.com/Forums/vstudio/en-US/cf6de08e-60b2-4109-97ff-3eba316f3dee/pcl-version-of-systemservicemodel?forum=wcf 
 	// someone have to handle this

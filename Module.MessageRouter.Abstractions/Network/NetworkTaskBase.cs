@@ -48,8 +48,12 @@ namespace Module.MessageRouter.Abstractions.Network
             await stream.FlushAsync(cancellationToken);
         }
 
-		protected bool IsCancellationRequested => _cancellationTokenSource != null && _cancellationTokenSource.IsCancellationRequested;
-
+		protected bool IsCancellationRequested {
+			get { 
+				return _cancellationTokenSource != null &&
+				_cancellationTokenSource.IsCancellationRequested;
+			}
+		}
 	    public NetworkTaskBase()
 		{
 			_cancellationTokenSource = new CancellationTokenSource();
@@ -57,42 +61,51 @@ namespace Module.MessageRouter.Abstractions.Network
 
 		protected void RaiseFinally(TMessage message)
 		{
-		    _onFinally?.Invoke(message);
+			if(_onFinally != null)
+		    	_onFinally.Invoke(message);
 		}
 
 	    protected void RaiseCatch(Exception ex)
 	    {
-	        _onCatch?.Invoke(ex);
+			if(_onCatch != null)
+		        _onCatch.Invoke(ex);
 	    }
 
 	    protected void RaiseSuccess(TMessage message)
 	    {
-	        _onSuccess?.Invoke(message);
+			if( _onSuccess != null)
+	        _onSuccess.Invoke(message);
 	    }
 
 	    protected void RaiseStart(TMessage message)
 	    {
-	        _onStart?.Invoke(message);
+			if( _onStart != null)
+		        _onStart.Invoke(message);
 	    }
 
 	    protected void RaiseCancelled(TMessage message)
 	    {
-	        _onCancelled?.Invoke(message);
+			if( _onCancelled != null)
+				_onCancelled.Invoke(message);
 	    }
 
 	    protected void RaiseReport(ProgressInfo<TMessage> info)
 	    {
-	        _onReport?.Invoke(info);
+			if( _onReport != null)
+		        _onReport.Invoke(info);
 	    }
 
 	    protected Stream RaiseGetStream(TMessage message)
 		{
-	        return _getStream?.Invoke(message);
+			if( _getStream != null)
+		        return _getStream.Invoke(message);
+			return null;
 		}
 
 		public virtual void Cancel()
 		{
-		    _cancellationTokenSource?.Cancel();
+			if (_cancellationTokenSource != null)
+			    _cancellationTokenSource.Cancel();
 		}
 
 	    public virtual INetworkTask<TMessage> OnFinally(Action<TMessage> onFinally)
@@ -142,7 +155,8 @@ namespace Module.MessageRouter.Abstractions.Network
 			}
 			finally
 			{
-			    _cancellationTokenSource?.Dispose();
+				if( _cancellationTokenSource != null)
+				    _cancellationTokenSource.Dispose();
 			    RaiseFinally(Message);
 				_onCatch = null;
 				_onCancelled = null;
