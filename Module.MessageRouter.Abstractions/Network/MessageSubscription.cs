@@ -6,7 +6,7 @@ using Module.MessageRouter.Abstractions.Message;
 
 namespace Module.MessageRouter.Abstractions.Network
 {
-    internal class MessageSubscription<TMessage> : IMessageSubscription
+	internal class MessageSubscription<TMessage> : IMessageSubscription
 		where TMessage : class, IMessage
 	{
 		private readonly IList<MessageReceiveConfig> _receivers;
@@ -32,53 +32,53 @@ namespace Module.MessageRouter.Abstractions.Network
 		public void ReceivedMessage(IRemoteClient client)
 		{
 			var receivedTask = _taskFactory.CreateReceivedTask<TMessage>(client);
-		    var remotePoint = client.RemotePoint;
+			var remotePoint = client.RemotePoint;
 			receivedTask
 				.OnStart(delegate
 				{
-				    foreach (var r in _receivers)
-				    {
-				        r.CurrentTask = receivedTask;
-				        r.RaiseOnStart(remotePoint);
-				    }
+					foreach (var r in _receivers)
+					{
+						r.CurrentTask = receivedTask;
+						r.RaiseOnStart(remotePoint);
+					}
 				})
 				.OnFinally(delegate(TMessage m)
 				{
-				    foreach (var r in _receivers)
-				    {
-				        r.CurrentTask = null;
-				        r.RaiseOnFinally(remotePoint, m);
-				    }
+					foreach (var r in _receivers)
+					{
+						r.CurrentTask = null;
+						r.RaiseOnFinally(remotePoint, m);
+					}
 				})
 				.OnException(ex =>
 				{
 					foreach (var r in _receivers)
 						r.RaiseOnException(remotePoint, ex);
 				}).GetStream(
-				    delegate(TMessage m)
-				    {
-				        return _receivers.Select(i => i.OnGetWriter(remotePoint, m)).FirstOrDefault(i => i != null);
-				    })
+					delegate(TMessage m)
+					{
+						return _receivers.Select(i => i.OnGetWriter(remotePoint, m)).FirstOrDefault(i => i != null);
+					})
 				.OnCancelled(delegate(TMessage m)
 				{
-				    foreach (var r in _receivers)
-				        r.RaiseOnCancelled(remotePoint, m);
+					foreach (var r in _receivers)
+						r.RaiseOnCancelled(remotePoint, m);
 				})
 				.OnSuccess(delegate(TMessage m)
 				{
-				    foreach (var r in _receivers)
-				        r.RaiseSuccess(remotePoint, m);
+					foreach (var r in _receivers)
+						r.RaiseSuccess(remotePoint, m);
 				})
 				.OnReport(delegate(ProgressInfo<TMessage> m)
 				{
-				    foreach (var r in _receivers)
-				        r.RisingReport(remotePoint, m);
+					foreach (var r in _receivers)
+						r.RisingReport(remotePoint, m);
 				}).Run();
 		}
 
 		#region IDisposable Support
 
-	    private bool disposedValue;
+		private bool disposedValue;
 
 		protected virtual void Dispose(bool disposing)
 		{
@@ -174,25 +174,25 @@ namespace Module.MessageRouter.Abstractions.Network
 
 			public void RaiseOnCancelled(RemotePoint point, TMessage message)
 			{
-			    _onCancelled?.Invoke(point, message);
+				_onCancelled?.Invoke(point, message);
 			}
 
-		    public void RaiseOnException(RemotePoint point, Exception ex)
-		    {
-		        _onException?.Invoke(point, ex);
-		    }
+			public void RaiseOnException(RemotePoint point, Exception ex)
+			{
+				_onException?.Invoke(point, ex);
+			}
 
-		    public void RaiseOnFinally(RemotePoint point, TMessage message)
-		    {
-		        _onFinally?.Invoke(point, message);
-		    }
+			public void RaiseOnFinally(RemotePoint point, TMessage message)
+			{
+				_onFinally?.Invoke(point, message);
+			}
 
-		    public void RaiseOnStart(RemotePoint point)
-		    {
-		        _onStart?.Invoke(point);
-		    }
+			public void RaiseOnStart(RemotePoint point)
+			{
+				_onStart?.Invoke(point);
+			}
 
-		    public void RaiseSuccess(RemotePoint point, TMessage message)
+			public void RaiseSuccess(RemotePoint point, TMessage message)
 			{
 				if (_onSuccess != null)
 					_onSuccess(point, message);
@@ -207,10 +207,10 @@ namespace Module.MessageRouter.Abstractions.Network
 
 			public void RisingReport(RemotePoint point, ProgressInfo<TMessage> info)
 			{
-			    _onReport?.Invoke(point, info);
+				_onReport?.Invoke(point, info);
 			}
 
-		    public IMessageReceiverConfig<TMessage> OnException(Action<Exception> onException)
+			public IMessageReceiverConfig<TMessage> OnException(Action<Exception> onException)
 			{
 				_onException = (point, exception) => onException(exception);
 				return this;
