@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Module.MessageRouter.Abstractions.Message;
+using Module.MessageRouter.Abstractions.Network.Interfaces;
 
 namespace Module.MessageRouter.Abstractions.Network
 {

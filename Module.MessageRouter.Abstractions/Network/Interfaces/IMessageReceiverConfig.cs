@@ -2,7 +2,7 @@
 using System.IO;
 using Module.MessageRouter.Abstractions.Message;
 
-namespace Module.MessageRouter.Abstractions.Network
+namespace Module.MessageRouter.Abstractions.Network.Interfaces
 {
 	public interface IMessageReceiverConfig<TMessage>:IDisposable
 		where TMessage:class, IMessage

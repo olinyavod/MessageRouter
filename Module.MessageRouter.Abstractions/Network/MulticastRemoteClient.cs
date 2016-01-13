@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Module.MessageRouter.Abstractions.Network.Interfaces;
 
 namespace Module.MessageRouter.Abstractions.Network
 {

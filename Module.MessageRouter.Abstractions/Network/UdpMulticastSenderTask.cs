@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Module.MessageRouter.Abstractions.Message;
+using Module.MessageRouter.Abstractions.Network.Interfaces;
 
 namespace Module.MessageRouter.Abstractions.Network
 {

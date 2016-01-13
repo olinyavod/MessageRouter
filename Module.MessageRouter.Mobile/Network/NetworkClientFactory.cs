@@ -1,5 +1,6 @@
 ﻿using Module.MessageRouter.Abstractions;
 using Module.MessageRouter.Abstractions.Network;
+using Module.MessageRouter.Abstractions.Network.Interfaces;
 
 namespace Module.MessageRouter.Mobile.Network
 {

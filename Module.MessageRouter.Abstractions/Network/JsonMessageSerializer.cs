@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
+using Module.MessageRouter.Abstractions.Network.Interfaces;
 
 namespace Module.MessageRouter.Abstractions.Network
 {
