@@ -1,9 +1,10 @@
 ﻿using Sockets.Plugin;
 using Sockets.Plugin.Abstractions;
+using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Mobile.Network
 {
-	public class NetworkSettings
+	public class NetworkSettings: INetworkSettings
 	{
 		public int TTL {get;set;}
 

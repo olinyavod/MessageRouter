@@ -6,7 +6,8 @@
 
 		int MulticastPort { get; }
 
-		int BufferSize { get; }
+		// what?
+		// int BufferSize { get; }
 
 		int ListenPort { get; }
 		int TTL { get; set; }

@@ -1,6 +1,8 @@
-﻿namespace Module.MessageRouter.Desktop.Network
+﻿using Module.MessageRouter.Abstractions.Network;
+
+namespace Module.MessageRouter.Desktop.Network
 {
-    public class NetworkSettings
+    public class NetworkSettings: INetworkSettings
     {
         public NetworkSettings()
         {
@@ -14,7 +16,6 @@
         // public ICommsInterface Adaptes { get; set; }
 
         public int MulticastPort { get; private set; }
-
         public int ListenPort { get; set; }
         public string MulticastAddress { get; set; }
     }
