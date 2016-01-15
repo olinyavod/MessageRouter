@@ -1,9 +1,10 @@
 ﻿using Sockets.Plugin;
 using Sockets.Plugin.Abstractions;
+using Module.MessageRouter.Abstractions.Network;
 
 namespace Module.MessageRouter.Mobile.Network
 {
-    public class MobileNetworkSettings
+	public class MobileNetworkSettings: INetworkSettings
     {
         public MobileNetworkSettings(int listenPort)
         {
@@ -13,7 +14,7 @@ namespace Module.MessageRouter.Mobile.Network
             Adapters = new CommsInterface();
         }
 
-        public int TTL { get; private set; }
+        public int TTL { get; set; }
 
         public int ListenPort { get; set; }
 
