@@ -1,12 +1,13 @@
 ﻿using Sockets.Plugin;
 using Sockets.Plugin.Abstractions;
 using Module.MessageRouter.Abstractions.Network;
+using Module.MessageRouter.Abstractions.Network.Interfaces;
 
 namespace Module.MessageRouter.Mobile.Network
 {
 	public class NetworkSettings: INetworkSettings
 	{
-		public int TTL { get; private set; }
+		public int TTL { get; set; }
 
 		public int ListenPort { get; private set; }
 
