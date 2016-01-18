@@ -42,6 +42,9 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Network\NetworkClientFactory.cs" />
@@ -51,6 +54,7 @@
     <Compile Include="Network\SystemTcpClient.cs" />
     <Compile Include="Network\SystemTcpListener.cs" />
     <Compile Include="Network\TcpRemoteClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

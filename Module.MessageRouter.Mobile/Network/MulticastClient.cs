@@ -7,56 +7,54 @@ using Sockets.Plugin.Abstractions;
 
 namespace Module.MessageRouter.Mobile.Network
 {
-    public class MulticastClient : IMulticastClient
-    {
-        private readonly NetworkSettings _settings;
+	public class MulticastClient : IMulticastClient
+	{
+		private readonly NetworkSettings _settings;
 
 
-        private readonly IUdpSocketMulticastClient _udpClient;
+		private readonly IUdpSocketMulticastClient _udpClient;
 
 
-        public MulticastClient(NetworkSettings settings)
+		public MulticastClient(NetworkSettings settings)
 
-        {
-            _settings = settings;
-            _udpClient = new UdpSocketMulticastClient {TTL = settings.TTL};
-        }
+		{
+			_settings = settings;
+			_udpClient = new UdpSocketMulticastClient {TTL = settings.TTL};
+		}
 
-        #region IDisposable implementation
+		#region IDisposable implementation
 
-        public void Dispose()
+		public void Dispose()
+		{
+			_udpClient.Dispose();
+		}
+		#endregion
 
-        {
-            _udpClient.Dispose();
-        }
+		#region IMulticastClient implementation
 
-        #endregion
+		public event EventHandler<DatagramReceivedEventArgs> MessageReceived;
 
-        #region IMulticastClient implementation
+		public Task JoinMulticastGroupAsync()
 
-        public event EventHandler<DatagramReceivedEventArgs> MessageReceived;
-
-        public Task JoinMulticastGroupAsync()
-
-        {
-            return _udpClient.JoinMulticastGroupAsync(_settings.MulticastAddress, _settings.MulticastPort,
-                _settings.Adapters);
-        }
+		{
+			return _udpClient.JoinMulticastGroupAsync(_settings.MulticastAddress, _settings.MulticastPort,
+				_settings.Adapters);
+		}
 
 
-        public Task DisconnectAsync()
+		public Task DisconnectAsync()
 
-        {
-            return _udpClient.DisconnectAsync();
-        }
+		{
+			return _udpClient.DisconnectAsync();
+		}
 
 
-        public Task SendMulticastAsync(byte[] data)
+		public Task SendMulticastAsync(byte[] data)
 
-        {
-            return _udpClient.SendMulticastAsync(data);
-        }
+		{
+			return _udpClient.SendMulticastAsync(data);
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

@@ -1,12 +1,13 @@
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Module.MessageRouter.Abstractions.Message;
 
 namespace Module.MessageRouter.Abstractions.Network
 {
-	public abstract class NetworkTaskBase<TMessage> : INetworkTask<TMessage>
+	public abstract class NetworkTaskBase<TMessage> : INetworkTask<TMessage>, IDisposable
 		where TMessage : class, IMessage
 	{
 		private Action<TMessage> _onFinally;
@@ -18,35 +19,35 @@ namespace Module.MessageRouter.Abstractions.Network
 		private CancellationTokenSource _cancellationTokenSource;
 		private Func<TMessage, Stream> _getStream;
 
-        protected async Task<MemoryStream> ToMemoryStream(CancellationToken cancellationToken, Stream stream)
-        {
-            var result = new MemoryStream();
-            try
-            { 
-                var buffer = new byte[4];
-                await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
-                var len = BitConverter.ToInt32(buffer, 0);
-                buffer = new byte[len];
-                await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
-                await result.WriteAsync(buffer, 0, buffer.Length, cancellationToken);
-                result.Flush();
-                result.Seek(0, SeekOrigin.Begin);
-                return result;
-            }
-            catch (Exception)
-            {
-                result.Dispose();
-                return null;
-            }
-           
-        }
+		protected async Task<MemoryStream> ToMemoryStream(CancellationToken cancellationToken, Stream stream)
+		{
+			var result = new MemoryStream();
+			try
+			{ 
+				var buffer = new byte[4];
+				await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+				var len = BitConverter.ToInt32(buffer, 0);
+				buffer = new byte[len];
+				await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken);
+				await result.WriteAsync(buffer, 0, buffer.Length, cancellationToken);
+				result.Flush();
+				result.Seek(0, SeekOrigin.Begin);
+				return result;
+			}
+			catch (Exception)
+			{
+				result.Dispose();
+				return null;
+			}
+		   
+		}
 
-        protected async Task Send(CancellationToken cancellationToken, Stream stream, byte[] buffer)
-        {
-            await stream.WriteAsync(BitConverter.GetBytes(buffer.Length), 0, 4, cancellationToken);
-            await stream.WriteAsync(buffer, 0, buffer.Length, cancellationToken);
-            await stream.FlushAsync(cancellationToken);
-        }
+		protected async Task Send(CancellationToken cancellationToken, Stream stream, byte[] buffer)
+		{
+			await stream.WriteAsync(BitConverter.GetBytes(buffer.Length), 0, 4, cancellationToken);
+			await stream.WriteAsync(buffer, 0, buffer.Length, cancellationToken);
+			await stream.FlushAsync(cancellationToken);
+		}
 
 		protected bool IsCancellationRequested {
 			get { 
@@ -54,7 +55,7 @@ namespace Module.MessageRouter.Abstractions.Network
 				_cancellationTokenSource.IsCancellationRequested;
 			}
 		}
-	    public NetworkTaskBase()
+		public NetworkTaskBase()
 		{
 			_cancellationTokenSource = new CancellationTokenSource();
 		}
@@ -62,53 +63,53 @@ namespace Module.MessageRouter.Abstractions.Network
 		protected void RaiseFinally(TMessage message)
 		{
 			if(_onFinally != null)
-		    	_onFinally.Invoke(message);
+				_onFinally.Invoke(message);
 		}
 
-	    protected void RaiseCatch(Exception ex)
-	    {
+		protected void RaiseCatch(Exception ex)
+		{
 			if(_onCatch != null)
-		        _onCatch.Invoke(ex);
-	    }
+				_onCatch.Invoke(ex);
+		}
 
-	    protected void RaiseSuccess(TMessage message)
-	    {
+		protected void RaiseSuccess(TMessage message)
+		{
 			if( _onSuccess != null)
-	        _onSuccess.Invoke(message);
-	    }
+			_onSuccess.Invoke(message);
+		}
 
-	    protected void RaiseStart(TMessage message)
-	    {
+		protected void RaiseStart(TMessage message)
+		{
 			if( _onStart != null)
-		        _onStart.Invoke(message);
-	    }
+				_onStart.Invoke(message);
+		}
 
-	    protected void RaiseCancelled(TMessage message)
-	    {
+		protected void RaiseCancelled(TMessage message)
+		{
 			if( _onCancelled != null)
 				_onCancelled.Invoke(message);
-	    }
+		}
 
-	    protected void RaiseReport(ProgressInfo<TMessage> info)
-	    {
+		protected void RaiseReport(ProgressInfo<TMessage> info)
+		{
 			if( _onReport != null)
-		        _onReport.Invoke(info);
-	    }
+				_onReport.Invoke(info);
+		}
 
-	    protected Stream RaiseGetStream(TMessage message)
+		protected Stream RaiseGetStream(TMessage message)
 		{
 			if( _getStream != null)
-		        return _getStream.Invoke(message);
+				return _getStream.Invoke(message);
 			return null;
 		}
 
 		public virtual void Cancel()
 		{
 			if (_cancellationTokenSource != null)
-			    _cancellationTokenSource.Cancel();
+				_cancellationTokenSource.Cancel();
 		}
 
-	    public virtual INetworkTask<TMessage> OnFinally(Action<TMessage> onFinally)
+		public virtual INetworkTask<TMessage> OnFinally(Action<TMessage> onFinally)
 		{
 			_onFinally = onFinally;
 			return this;
@@ -156,8 +157,8 @@ namespace Module.MessageRouter.Abstractions.Network
 			finally
 			{
 				if( _cancellationTokenSource != null)
-				    _cancellationTokenSource.Dispose();
-			    RaiseFinally(Message);
+					_cancellationTokenSource.Dispose();
+				RaiseFinally(Message);
 				_onCatch = null;
 				_onCancelled = null;
 				_onFinally = null;
@@ -182,6 +183,24 @@ namespace Module.MessageRouter.Abstractions.Network
 		{
 			_onCancelled = onCancelled;
 			return this;
+		}
+
+		public void Dispose()
+		{
+			Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+		// NOTE: Leave out the finalizer altogether if this class doesn't 
+		// own unmanaged resources itself, but leave the other methods
+		// exactly as they are. 
+		~NetworkTaskBase()
+		{
+			// Finalizer calls Dispose(false)
+			Dispose(false);
+		}
+		// The bulk of the clean-up code is implemented in Dispose(bool)
+		protected virtual void Dispose(bool disposing)
+		{
 		}
 	}
 }
